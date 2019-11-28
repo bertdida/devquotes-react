@@ -5,6 +5,7 @@ import Container from "@material-ui/core/Container";
 import { Quote } from "../Quote";
 import Pagination from "./Pagination";
 import quotes from "./quotes";
+import Skeleton from "../Quote/Skeleton";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -21,6 +22,7 @@ function Feed() {
 
   return (
     <Container maxWidth="sm" className={classes.container}>
+      <Skeleton />
       {quotes.map(quote => (
         <Quote key={quote.id} quote={quote} />
       ))}
