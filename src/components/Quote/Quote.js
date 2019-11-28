@@ -9,7 +9,11 @@ import Actions from "./Actions";
 const useStyles = makeStyles(theme => ({
   container: {
     padding: theme.spacing(2),
-    margin: 0
+    margin: theme.spacing(2),
+    [theme.breakpoints.up("sm")]: {
+      padding: theme.spacing(3),
+      margin: theme.spacing(3)
+    }
   },
   quote: {
     display: "flex",

@@ -8,9 +8,11 @@ import quotes from "./quotes";
 
 const useStyles = makeStyles(theme => ({
   container: {
-    display: "grid",
-    gridTemplateRows: `${theme.spacing(7)}px auto`,
-    gridRowGap: theme.spacing(2.5)
+    paddingTop: theme.spacing(7),
+    paddingBottom: theme.spacing(2),
+    [theme.breakpoints.up("sm")]: {
+      paddingTop: theme.spacing(8)
+    }
   }
 }));
 
@@ -18,7 +20,7 @@ function Feed() {
   const classes = useStyles();
 
   return (
-    <Container maxWidth="md" className={classes.container}>
+    <Container maxWidth="sm" className={classes.container}>
       {quotes.map(quote => (
         <Quote key={quote.id} quote={quote} />
       ))}
