@@ -2,6 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
+import CardActionArea from "@material-ui/core/CardActionArea";
 import Typography from "@material-ui/core/Typography";
 
 import Actions from "./Actions";
@@ -13,6 +14,9 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up("sm")]: {
       padding: theme.spacing(3),
       margin: theme.spacing(3)
+    },
+    "&:hover": {
+      boxShadow: theme.shadows[8]
     }
   },
   quote: {
@@ -23,8 +27,7 @@ const useStyles = makeStyles(theme => ({
   author: {
     fontStyle: "normal",
     marginBottom: theme.spacing(2)
-  },
-  phrase: {}
+  }
 }));
 
 function Quote({ quote }) {
