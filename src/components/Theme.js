@@ -3,6 +3,8 @@ import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { teal, deepPurple } from "@material-ui/core/colors";
 
+const defaultTheme = createMuiTheme();
+
 const darkTheme = {
   palette: {
     type: "dark",
@@ -34,9 +36,10 @@ const lightTheme = {
   }
 };
 
-const defaultTheme = {
+const appTheme = {
   breakpoints: {
     values: {
+      ...defaultTheme.breakpoints.values,
       md: 800
     }
   },
@@ -61,7 +64,7 @@ function ThemeProvider({ children }) {
       : true
   );
 
-  const theme = isDarkTheme ? defaultTheme : { ...defaultTheme, ...lightTheme };
+  const theme = isDarkTheme ? appTheme : { ...appTheme, ...lightTheme };
   const muiTheme = createMuiTheme(theme);
 
   function toggleTheme() {
