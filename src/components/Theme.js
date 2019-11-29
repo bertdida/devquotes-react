@@ -14,7 +14,7 @@ const darkTheme = {
     },
     background: {
       paper: "#333",
-      default: "#121212"
+      default: "#292929"
     }
   }
 };
