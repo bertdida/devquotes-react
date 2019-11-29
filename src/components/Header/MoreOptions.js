@@ -1,4 +1,4 @@
-import React, { useState, forwardRef } from "react";
+import React, { useState, forwardRef, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import MoreIcon from "@material-ui/icons/MoreVert";
@@ -9,6 +9,8 @@ import Typography from "@material-ui/core/Typography";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import Brightness4Icon from "@material-ui/icons/Brightness4";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
+
+import { ThemeContext } from "../Theme";
 
 const useStyles = makeStyles(theme => ({
   menuIcon: {
@@ -32,7 +34,7 @@ const Option = forwardRef(({ text, icon: Icon, ...props }, ref) => {
 function MoreOptions({ user }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const [isDarkTheme, setisDarkTheme] = useState(true);
+  const [isDarkTheme, toggleTheme] = useContext(ThemeContext);
 
   function show(event) {
     setAnchorEl(event.currentTarget);
@@ -42,8 +44,8 @@ function MoreOptions({ user }) {
     setAnchorEl(null);
   }
 
-  function toggleDarkTheme() {
-    setisDarkTheme(!isDarkTheme);
+  function _toggleTheme() {
+    toggleTheme();
     hide();
   }
 
@@ -68,7 +70,7 @@ function MoreOptions({ user }) {
       >
         {user && <Option onClick={hide} text="Sign Out" icon={ExitToAppIcon} />}
         <Option
-          onClick={toggleDarkTheme}
+          onClick={_toggleTheme}
           text={"Dark Theme: " + (isDarkTheme ? "On" : "Off")}
           icon={isDarkTheme ? Brightness4Icon : Brightness7Icon}
         />
