@@ -21,7 +21,7 @@ function Feed() {
   const classes = useStyles();
 
   return (
-    <Container maxWidth="sm" className={classes.container}>
+    <Container maxWidth="md" className={classes.container}>
       <Skeleton />
       {quotes.map(quote => (
         <Quote key={quote.id} quote={quote} />

@@ -33,7 +33,7 @@ function Header() {
   return (
     <HideOnScroll>
       <AppBar>
-        <Container maxWidth="sm">
+        <Container maxWidth="md">
           <Toolbar>
             <Typography variant="h6" className={classes.title}>
               Devquotes
