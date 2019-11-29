@@ -35,6 +35,11 @@ const lightTheme = {
 };
 
 const defaultTheme = {
+  breakpoints: {
+    values: {
+      md: 800
+    }
+  },
   typography: {
     fontFamily: ["Poppins", "sans-serif"].join(","),
     fontWeightRegular: 500,
