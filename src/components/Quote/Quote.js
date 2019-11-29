@@ -36,7 +36,7 @@ function Quote({ quote }) {
   return (
     <Card component="blockquote" className={classes.container}>
       <CardContent className={classes.quote}>
-        <Typography variant="h5" component="p" className={classes.phrase}>
+        <Typography variant="h5" component="p">
           {quote.phrase}
         </Typography>
         <Typography
