@@ -2,7 +2,6 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import CardActionArea from "@material-ui/core/CardActionArea";
 import Typography from "@material-ui/core/Typography";
 
 import Actions from "./Actions";
@@ -30,7 +29,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function Quote({ quote }) {
+function Quote({ quote, handleLike }) {
   const classes = useStyles();
 
   return (
@@ -47,7 +46,7 @@ function Quote({ quote }) {
           {quote.author}
         </Typography>
       </CardContent>
-      <Actions />
+      <Actions handleLike={handleLike} />
     </Card>
   );
 }

@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function Actions() {
+function Actions({ handleLike }) {
   const classes = useStyles();
 
   return (
@@ -29,6 +29,7 @@ function Actions() {
         variant="extended"
         color="secondary"
         className={classes.like}
+        onClick={handleLike}
       >
         <FavoriteIcon className={classes.likeIcon} />
         22
