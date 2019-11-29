@@ -1,4 +1,4 @@
-import React, { createContext, useState, useMemo, useEffect } from "react";
+import React, { createContext, useState } from "react";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { teal, deepPurple } from "@material-ui/core/colors";
