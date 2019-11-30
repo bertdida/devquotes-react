@@ -11,6 +11,7 @@ import Brightness4Icon from "@material-ui/icons/Brightness4";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
 
 import { ThemeContext } from "../Theme";
+import { app } from "../Signin/firebase";
 
 const useStyles = makeStyles(theme => ({
   menuIcon: {
@@ -49,6 +50,11 @@ function MoreOptions({ user }) {
     hide();
   }
 
+  async function signOut() {
+    await app.auth().signOut();
+    hide();
+  }
+
   return (
     <React.Fragment>
       <IconButton color="inherit" onClick={show}>
@@ -68,7 +74,9 @@ function MoreOptions({ user }) {
           horizontal: "right"
         }}
       >
-        {user && <Option onClick={hide} text="Sign Out" icon={ExitToAppIcon} />}
+        {user && (
+          <Option onClick={signOut} text="Sign Out" icon={ExitToAppIcon} />
+        )}
         <Option
           onClick={_toggleTheme}
           text={"Dark Theme: " + (isDarkTheme ? "On" : "Off")}

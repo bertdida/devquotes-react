@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -10,6 +10,7 @@ import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import Slide from "@material-ui/core/Slide";
 
 import MoreOptions from "./MoreOptions";
+import { AuthContext } from "../Auth";
 
 const useStyles = makeStyles({
   title: {
@@ -29,7 +30,7 @@ function HideOnScroll({ children }) {
 
 function Header() {
   const classes = useStyles();
-  const user = true;
+  const [user] = useContext(AuthContext);
 
   return (
     <HideOnScroll>

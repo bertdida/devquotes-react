@@ -4,6 +4,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Container from "@material-ui/core/Container";
 
 import { ThemeProvider } from "./components/Theme";
+import { AuthProvider } from "./components/Auth";
 import Header from "./components/Header";
 import Feed from "./components/Feed";
 import Signin from "./components/Signin";
@@ -23,15 +24,17 @@ function App() {
 
   return (
     <ThemeProvider>
-      <BrowserRouter>
-        <Header />
-        <Container maxWidth="md" className={classes.container}>
-          <Switch>
-            <Route path="/" exact component={Feed} />
-            <Route path="/signin" component={Signin} />
-          </Switch>
-        </Container>
-      </BrowserRouter>
+      <AuthProvider>
+        <BrowserRouter>
+          <Header />
+          <Container maxWidth="md" className={classes.container}>
+            <Switch>
+              <Route path="/" exact component={Feed} />
+              <Route path="/signin" component={Signin} />
+            </Switch>
+          </Container>
+        </BrowserRouter>
+      </AuthProvider>
     </ThemeProvider>
   );
 }
