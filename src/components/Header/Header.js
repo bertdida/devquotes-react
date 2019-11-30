@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Container from "@material-ui/core/Container";
@@ -38,9 +39,16 @@ function Header() {
             <Typography variant="h6" className={classes.title}>
               Devquotes
             </Typography>
-            <Button color="inherit">Home</Button>
-            {user ? <Button color="inherit">Favorites</Button> : null}
-            {!user ? <Button color="inherit">Sign In</Button> : null}
+            <Button color="inherit" component={Link} to="/">
+              Home
+            </Button>
+            {user ? (
+              <Button color="inherit">Favorites</Button>
+            ) : (
+              <Button color="inherit" component={Link} to="/signin">
+                Sign In
+              </Button>
+            )}
             <MoreOptions user={user} />
           </Toolbar>
         </Container>
