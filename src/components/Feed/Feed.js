@@ -2,11 +2,12 @@ import React from "react";
 
 import { Quote } from "../Quote";
 import Pagination from "./Pagination";
-import quotes from "./quotes";
 import Skeleton from "../Quote/Skeleton";
 import { useSnackbar, Snackbar } from "../Snackbar";
 
-function Feed() {
+function Feed(props) {
+  const { quotes } = props.data;
+  const showPagination = quotes.length > 1;
   const [open1, openSnackbar1, closeSnackbar1] = useSnackbar(false);
   const [open2, openSnackbar2, closeSnackbar2] = useSnackbar(false);
   const url = window.location.origin.replace(/\/$/, "");
@@ -58,7 +59,7 @@ function Feed() {
           }}
         />
       ))}
-      <Pagination />
+      {showPagination && <Pagination />}
       <Snackbar
         open={open1}
         onClose={closeSnackbar1}

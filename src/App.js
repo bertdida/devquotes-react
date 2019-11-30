@@ -8,6 +8,7 @@ import { AuthProvider } from "./components/Auth";
 import Header from "./components/Header";
 import Feed from "./components/Feed";
 import Signin from "./components/Signin";
+import quotes from "./quotes";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -29,8 +30,21 @@ function App() {
           <Header />
           <Container maxWidth="md" className={classes.container}>
             <Switch>
-              <Route path="/" exact component={Feed} />
               <Route path="/signin" component={Signin} />
+              <Route
+                path="/"
+                exact
+                render={props => <Feed {...props} data={{ quotes }} />}
+              />
+              <Route
+                path="/quotes/:quoteId"
+                exact
+                render={props => {
+                  const quoteId = parseInt(props.match.params.quoteId);
+                  const quote = quotes.find(q => q.id === quoteId);
+                  return <Feed {...props} data={{ quotes: [quote] }} />;
+                }}
+              />
             </Switch>
           </Container>
         </BrowserRouter>
