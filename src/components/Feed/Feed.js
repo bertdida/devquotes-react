@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
@@ -6,7 +6,7 @@ import { Quote } from "../Quote";
 import Pagination from "./Pagination";
 import quotes from "./quotes";
 import Skeleton from "../Quote/Skeleton";
-import Snackbar from "../Snackbar";
+import { useSnackbar, Snackbar } from "../Snackbar";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -20,29 +20,40 @@ const useStyles = makeStyles(theme => ({
 
 function Feed() {
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
+  const [open1, openSnackbar1, closeSnackbar1] = useSnackbar(false);
+  const [open2, openSnackbar2, closeSnackbar2] = useSnackbar(false);
 
   function handleLike() {
-    setOpen(true);
+    closeSnackbar2();
+    openSnackbar1();
   }
 
-  function handleClose(event, reason) {
-    if (reason !== "clickaway") {
-      setOpen(false);
-    }
+  function handleCopyLink() {
+    closeSnackbar1();
+    openSnackbar2();
   }
 
   return (
     <Container maxWidth="md" className={classes.container}>
       <Skeleton />
       {quotes.map(quote => (
-        <Quote key={quote.id} quote={quote} handleLike={handleLike} />
+        <Quote
+          key={quote.id}
+          quote={quote}
+          handleLike={handleLike}
+          handleCopyLink={handleCopyLink}
+        />
       ))}
       <Pagination />
       <Snackbar
-        open={open}
-        onClose={handleClose}
+        open={open1}
+        onClose={closeSnackbar1}
         message="Added to favorites"
+      />
+      <Snackbar
+        open={open2}
+        onClose={closeSnackbar2}
+        message="Link copied to clipboard"
       />
     </Container>
   );

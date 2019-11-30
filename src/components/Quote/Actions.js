@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function Actions({ handleLike }) {
+function Actions({ handleLike, handleCopyLink }) {
   const classes = useStyles();
 
   return (
@@ -45,7 +45,7 @@ function Actions({ handleLike }) {
         </IconButton>
       </Tooltip>
       <Tooltip title="Copy link">
-        <IconButton>
+        <IconButton onClick={handleCopyLink}>
           <LinkIcon />
         </IconButton>
       </Tooltip>

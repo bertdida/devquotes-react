@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function Quote({ quote, handleLike }) {
+function Quote({ quote, handleLike, handleCopyLink }) {
   const classes = useStyles();
 
   return (
@@ -46,7 +46,7 @@ function Quote({ quote, handleLike }) {
           {quote.author}
         </Typography>
       </CardContent>
-      <Actions handleLike={handleLike} />
+      <Actions handleLike={handleLike} handleCopyLink={handleCopyLink} />
     </Card>
   );
 }
