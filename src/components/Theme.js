@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { teal, deepPurple } from "@material-ui/core/colors";
@@ -66,6 +66,10 @@ function ThemeProvider({ children }) {
 
   const theme = isDarkTheme ? appTheme : { ...appTheme, ...lightTheme };
   const muiTheme = createMuiTheme(theme);
+
+  useEffect(() => {
+    document.body.dataset.theme = isDarkTheme ? "dark" : "light";
+  }, [isDarkTheme]);
 
   function toggleTheme() {
     setIsDarkTheme(!isDarkTheme);
