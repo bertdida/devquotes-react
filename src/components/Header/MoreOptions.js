@@ -1,4 +1,5 @@
 import React, { useState, forwardRef, useContext } from "react";
+import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import MoreIcon from "@material-ui/icons/MoreVert";
@@ -9,6 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import Brightness4Icon from "@material-ui/icons/Brightness4";
 import Brightness7Icon from "@material-ui/icons/Brightness7";
+import SendIcon from "@material-ui/icons/Send";
 
 import { ThemeContext } from "../Theme";
 import { app } from "../Signin/firebase";
@@ -74,6 +76,13 @@ function MoreOptions({ user }) {
           horizontal: "right"
         }}
       >
+        <Option
+          text="Submit a Quote"
+          icon={SendIcon}
+          onClick={hide}
+          component={Link}
+          to="/submit_quote"
+        />
         {user && (
           <Option onClick={signOut} text="Sign Out" icon={ExitToAppIcon} />
         )}

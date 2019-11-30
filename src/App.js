@@ -9,6 +9,7 @@ import Header from "./components/Header";
 import Feed from "./components/Feed";
 import Signin from "./components/Signin";
 import quotes from "./quotes";
+import { default as QuoteForm } from "./components/Quote/Form";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -16,6 +17,9 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: theme.spacing(2),
     [theme.breakpoints.up("sm")]: {
       paddingTop: theme.spacing(8)
+    },
+    "& > *:first-child": {
+      marginTop: theme.spacing(3)
     }
   }
 }));
@@ -31,6 +35,7 @@ function App() {
           <Container maxWidth="md" className={classes.container}>
             <Switch>
               <Route path="/signin" component={Signin} />
+              <Route path="/submit_quote" component={QuoteForm} />
               <Route
                 path="/"
                 exact
