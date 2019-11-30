@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function Actions({ handleLike, handleCopyLink }) {
+function Actions({ quote, actions }) {
   const classes = useStyles();
 
   return (
@@ -29,23 +29,23 @@ function Actions({ handleLike, handleCopyLink }) {
         variant="extended"
         color="secondary"
         className={classes.like}
-        onClick={handleLike}
+        onClick={() => actions.handleLike(quote)}
       >
         <FavoriteIcon className={classes.likeIcon} />
         22
       </Fab>
       <Tooltip title="Share on Twitter">
-        <IconButton>
+        <IconButton onClick={() => actions.shareOnTwitter(quote)}>
           <TwitterIcon />
         </IconButton>
       </Tooltip>
       <Tooltip title="Share on Facebook">
-        <IconButton>
+        <IconButton onClick={() => actions.shareOnFacebook(quote)}>
           <FacebookIcon />
         </IconButton>
       </Tooltip>
       <Tooltip title="Copy link">
-        <IconButton onClick={handleCopyLink}>
+        <IconButton onClick={() => actions.handleCopyLink(quote)}>
           <LinkIcon />
         </IconButton>
       </Tooltip>

@@ -29,24 +29,25 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function Quote({ quote, handleLike, handleCopyLink }) {
+function Quote(props) {
   const classes = useStyles();
+  const { author, phrase } = props.quote;
 
   return (
     <Card component="blockquote" className={classes.container}>
       <CardContent className={classes.quote}>
         <Typography variant="h5" component="p">
-          {quote.phrase}
+          {phrase}
         </Typography>
         <Typography
           color="textSecondary"
           component="cite"
           className={classes.author}
         >
-          {quote.author}
+          {author}
         </Typography>
       </CardContent>
-      <Actions handleLike={handleLike} handleCopyLink={handleCopyLink} />
+      <Actions {...props} />
     </Card>
   );
 }
