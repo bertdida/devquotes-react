@@ -15,7 +15,6 @@ import NotFoundPage from "./components/NotFoundPage";
 const useStyles = makeStyles(theme => ({
   container: {
     paddingTop: theme.spacing(7),
-    paddingBottom: theme.spacing(2),
     [theme.breakpoints.up("sm")]: {
       paddingTop: theme.spacing(8)
     }
