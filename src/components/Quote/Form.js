@@ -10,10 +10,8 @@ import { useSnackbar, Snackbar } from "../Snackbar";
 const useStyles = makeStyles(theme => ({
   container: {
     padding: theme.spacing(2),
-    margin: theme.spacing(2),
     [theme.breakpoints.up("sm")]: {
-      padding: theme.spacing(3),
-      margin: theme.spacing(3)
+      padding: theme.spacing(3)
     }
   },
   button: {

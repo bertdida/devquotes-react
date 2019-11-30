@@ -7,11 +7,11 @@ import { default as MuiSkeleton } from "@material-ui/lab/Skeleton";
 const useStyles = makeStyles(theme => ({
   container: {
     padding: theme.spacing(2),
-    margin: theme.spacing(2),
+    margin: theme.spacing(2, 0),
     minHeight: 215,
     [theme.breakpoints.up("sm")]: {
       padding: theme.spacing(3),
-      margin: theme.spacing(3)
+      margin: theme.spacing(3, 0)
     }
   },
   quote: {

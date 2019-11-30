@@ -18,9 +18,17 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: theme.spacing(2),
     [theme.breakpoints.up("sm")]: {
       paddingTop: theme.spacing(8)
+    }
+  },
+  wrapper: {
+    marginTop: theme.spacing(7),
+    padding: theme.spacing(2, 2),
+    [theme.breakpoints.up("sm")]: {
+      marginTop: theme.spacing(8),
+      padding: theme.spacing(3, 3)
     },
     "& > *:first-child": {
-      marginTop: theme.spacing(3)
+      marginTop: 0
     }
   }
 }));
@@ -33,26 +41,28 @@ function App() {
       <AuthProvider>
         <BrowserRouter>
           <Header />
-          <Container maxWidth="md" className={classes.container}>
-            <Switch>
-              <Route path="/signin" component={Signin} />
-              <Route path="/submit_quote" component={QuoteForm} />
-              <Route
-                path="/"
-                exact
-                render={props => <Feed {...props} data={{ quotes }} />}
-              />
-              <Route
-                path="/quotes/:quoteId"
-                exact
-                render={props => {
-                  const quoteId = parseInt(props.match.params.quoteId);
-                  const quote = quotes.find(q => q.id === quoteId);
-                  return <Feed {...props} data={{ quotes: [quote] }} />;
-                }}
-              />
-              <Route component={NotFoundPage} />
-            </Switch>
+          <Container maxWidth="md">
+            <div className={classes.wrapper}>
+              <Switch>
+                <Route path="/signin" component={Signin} />
+                <Route path="/submit_quote" component={QuoteForm} />
+                <Route
+                  path="/"
+                  exact
+                  render={props => <Feed {...props} data={{ quotes }} />}
+                />
+                <Route
+                  path="/quotes/:quoteId"
+                  exact
+                  render={props => {
+                    const quoteId = parseInt(props.match.params.quoteId);
+                    const quote = quotes.find(q => q.id === quoteId);
+                    return <Feed {...props} data={{ quotes: [quote] }} />;
+                  }}
+                />
+                <Route component={NotFoundPage} />
+              </Switch>
+            </div>
           </Container>
         </BrowserRouter>
       </AuthProvider>
