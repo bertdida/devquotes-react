@@ -21,10 +21,10 @@ const useStyles = makeStyles(theme => ({
   },
   wrapper: {
     marginTop: theme.spacing(7),
-    padding: theme.spacing(2, 2),
+    padding: theme.spacing(2),
     [theme.breakpoints.up("sm")]: {
       marginTop: theme.spacing(8),
-      padding: theme.spacing(3, 3)
+      padding: theme.spacing(3)
     },
     "& > *:first-child": {
       marginTop: 0
