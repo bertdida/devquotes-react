@@ -14,7 +14,9 @@ import { AuthContext } from "../Auth";
 
 const useStyles = makeStyles({
   title: {
-    marginRight: "auto"
+    marginRight: "auto",
+    color: "inherit",
+    textDecoration: "none"
   }
 });
 
@@ -37,7 +39,12 @@ function Header() {
       <AppBar>
         <Container maxWidth="md">
           <Toolbar>
-            <Typography variant="h6" className={classes.title}>
+            <Typography
+              variant="h6"
+              className={classes.title}
+              to="/"
+              component={Link}
+            >
               Devquotes
             </Typography>
             <Button color="inherit" component={Link} to="/">
