@@ -10,6 +10,7 @@ import Feed from "./components/Feed";
 import Signin from "./components/Signin";
 import quotes from "./quotes";
 import { default as QuoteForm } from "./components/Quote/Form";
+import NotFoundPage from "./components/NotFoundPage";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -50,6 +51,7 @@ function App() {
                   return <Feed {...props} data={{ quotes: [quote] }} />;
                 }}
               />
+              <Route component={NotFoundPage} />
             </Switch>
           </Container>
         </BrowserRouter>
