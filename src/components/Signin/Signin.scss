@@ -1,0 +1,136 @@
+$lightTheme-color-secondary: rgb(124, 77, 255);
+$darkTheme-color-secondary: rgb(29, 233, 182);
+
+#firebaseui_container {
+  --color-secondary: #{$lightTheme-color-secondary};
+
+  .firebaseui-container {
+    padding: 20px;
+    margin-top: 24px;
+    box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
+      0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+  }
+
+  .mdl-button,
+  .mdl-textfield__input,
+  .firebaseui-container,
+  .firebaseui-dialog {
+    font-family: inherit;
+  }
+
+  .mdl-button--primary.mdl-button--primary,
+  .mdl-textfield--floating-label.has-placeholder .mdl-textfield__label,
+  .mdl-textfield--floating-label.is-focused .mdl-textfield__label {
+    color: var(--color-secondary);
+  }
+
+  .mdl-button--raised.mdl-button--colored {
+    background: var(--color-secondary);
+  }
+
+  .mdl-button--raised.mdl-button--colored:active,
+  .mdl-button--raised.mdl-button--colored:focus:not(:active),
+  .mdl-button--raised.mdl-button--colored:hover,
+  .mdl-button--primary.mdl-button--primary.mdl-button--fab,
+  .mdl-button--primary.mdl-button--primary.mdl-button--raised,
+  .mdl-progress > .progressbar,
+  .mdl-progress.mdl-progress--indeterminate > .bar1,
+  .mdl-progress.mdl-progress__indeterminate > .bar1,
+  .mdl-progress.mdl-progress--indeterminate > .bar3,
+  .mdl-progress.mdl-progress__indeterminate > .bar3,
+  .mdl-textfield__label:after,
+  .firebaseui-textfield.mdl-textfield .firebaseui-label:after {
+    background-color: var(--color-secondary);
+  }
+
+  .firebaseui-textfield.mdl-textfield .firebaseui-label:after {
+    background-color: var(--color-secondary);
+  }
+
+  .mdl-spinner--single-color .mdl-spinner__layer-1,
+  .mdl-spinner--single-color .mdl-spinner__layer-2,
+  .mdl-spinner--single-color .mdl-spinner__layer-3,
+  .mdl-spinner--single-color .mdl-spinner__layer-4 {
+    border-color: var(--color-secondary);
+  }
+
+  .mdl-progress > .bufferbar {
+    background-image: linear-gradient(
+        90deg,
+        hsla(0, 0%, 100%, 0.7),
+        hsla(0, 0%, 100%, 0.7)
+      ),
+      linear-gradient(90deg, var(--color-secondary), var(--color-secondary));
+  }
+
+  @supports (-webkit-appearance: none) {
+    .mdl-progress:not(.mdl-progress--indeterminate):not(.mdl-progress--indeterminate)
+      > .auxbar,
+    .mdl-progress:not(.mdl-progress__indeterminate):not(.mdl-progress__indeterminate)
+      > .auxbar {
+      background-image: linear-gradient(
+          90deg,
+          hsla(0, 0%, 100%, 0.7),
+          hsla(0, 0%, 100%, 0.7)
+        ),
+        linear-gradient(90deg, var(--color-secondary), var(--color-secondary));
+    }
+  }
+
+  .mdl-progress:not(.mdl-progress--indeterminate) > .auxbar,
+  .mdl-progress:not(.mdl-progress__indeterminate) > .auxbar {
+    background-image: linear-gradient(
+        90deg,
+        hsla(0, 0%, 100%, 0.9),
+        hsla(0, 0%, 100%, 0.9)
+      ),
+      linear-gradient(90deg, var(--color-secondary), var(--color-secondary));
+  }
+
+  .firebaseui-textfield-invalid.mdl-textfield .firebaseui-label:after {
+    background-color: #dd2c00;
+  }
+
+  .firebaseui-textfield-invalid.mdl-textfield--floating-label
+    .mdl-textfield__label {
+    color: #dd2c00;
+  }
+}
+
+body[data-theme="dark"] {
+  #firebaseui_container {
+    --color-secondary: #{$darkTheme-color-secondary};
+
+    .firebaseui-container {
+      background-color: #333;
+    }
+
+    .mdl-button--raised.mdl-button--colored {
+      color: rgba(0, 0, 0, 0.87);
+    }
+
+    .firebaseui-title,
+    .firebaseui-input,
+    .firebaseui-subtitle,
+    .firebaseui-text,
+    .firebaseui-input-invalid {
+      color: #fff;
+    }
+
+    .firebaseui-label {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .firebaseui-input {
+      border-color: rgba(86, 86, 86, 0.7);
+    }
+
+    .firebaseui-input-toggle-on {
+      background-image: url(https://www.gstatic.com/images/icons/material/system/1x/visibility_white_24dp.png);
+    }
+
+    .firebaseui-input-toggle-off {
+      background-image: url(https://www.gstatic.com/images/icons/material/system/1x/visibility_off_white_24dp.png);
+    }
+  }
+}
