@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import Quote from "../Quote";
 import Pagination from "./Pagination";
 import Skeleton from "../Quote/Skeleton";
 import { useSnackbar, Snackbar } from "../Snackbar";
+import { AuthContext } from "../Auth";
 
 function Feed(props) {
+  const [user] = useContext(AuthContext);
   const { quotes } = props.data;
   const showPagination = quotes.length > 1;
   const [open1, openSnackbar1, closeSnackbar1] = useSnackbar(false);
@@ -13,9 +15,12 @@ function Feed(props) {
   const url = window.location.origin.replace(/\/$/, "");
 
   function handleLike(quote) {
+    if (!user) {
+      return props.history.push("/signin");
+    }
+
     closeSnackbar2();
     openSnackbar1();
-
     console.log(quote);
   }
 
