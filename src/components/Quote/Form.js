@@ -96,8 +96,8 @@ function Form() {
               color="secondary"
               value={quote.source}
               onChange={handleChange}
-              validators={["isURL", "required"]}
-              errorMessages={["Invalid URL", "Source is required"]}
+              validators={["required", "isURL"]}
+              errorMessages={["Source is required", "Invalid source URL"]}
               helperText="The URL of the page with the quote"
               fullWidth
             />
