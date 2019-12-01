@@ -20,6 +20,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Form() {
+  const QUOTATION_LIMIT = 200;
   const classes = useStyles();
   const [open, openSnackbar, closeSnackbar] = useSnackbar(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -81,6 +82,8 @@ function Form() {
               onChange={handleChange}
               validators={["required"]}
               errorMessages={["Quotation is required"]}
+              inputProps={{ maxLength: QUOTATION_LIMIT }}
+              helperText={`${quote.quotation.length}/${QUOTATION_LIMIT}`}
               fullWidth
             />
           </div>
