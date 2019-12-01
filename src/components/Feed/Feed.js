@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Quote } from "../Quote";
+import Quote from "../Quote";
 import Pagination from "./Pagination";
 import Skeleton from "../Quote/Skeleton";
 import { useSnackbar, Snackbar } from "../Snackbar";
