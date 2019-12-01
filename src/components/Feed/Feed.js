@@ -63,11 +63,13 @@ function Feed(props) {
       <Snackbar
         open={open1}
         onClose={closeSnackbar1}
+        autoHideDuration={1000}
         message="Added to favorites"
       />
       <Snackbar
         open={open2}
         onClose={closeSnackbar2}
+        autoHideDuration={1000}
         message="Link copied to clipboard"
       />
     </React.Fragment>

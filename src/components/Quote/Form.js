@@ -114,6 +114,7 @@ function Form() {
       <Snackbar
         open={open}
         onClose={closeSnackbar}
+        autoHideDuration={3000}
         message="Your quote has been submitted. Thanks!"
       />
     </React.Fragment>
