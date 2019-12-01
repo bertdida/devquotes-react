@@ -26,7 +26,7 @@ function Pagination() {
   const classes = useStyles();
 
   return (
-    <div className={classes.pagination}>
+    <div className={classes.pagination} data-testid="pagination">
       <Typography component="p" className={classes.paginationPage}>
         1-10 of 10
       </Typography>
