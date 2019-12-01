@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     maxWidth: 300,
     marginBottom: theme.spacing(1)
   },
-  phrase: {
+  quotation: {
     height: 40,
     maxWidth: 700
   }
@@ -37,7 +37,7 @@ function Skeleton() {
     <Card className={classes.container}>
       <CardContent>
         <MuiSkeleton className={classes.author}></MuiSkeleton>
-        <MuiSkeleton className={classes.phrase}></MuiSkeleton>
+        <MuiSkeleton className={classes.quotation}></MuiSkeleton>
       </CardContent>
     </Card>
   );

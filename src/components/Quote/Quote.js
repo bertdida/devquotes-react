@@ -31,13 +31,13 @@ const useStyles = makeStyles(theme => ({
 
 function Quote(props) {
   const classes = useStyles();
-  const { author, phrase } = props.quote;
+  const { author, quotation } = props.quote;
 
   return (
     <Card component="blockquote" className={classes.container}>
       <CardContent className={classes.quote}>
         <Typography variant="h5" component="p">
-          {phrase}
+          {quotation}
         </Typography>
         <Typography
           color="textSecondary"

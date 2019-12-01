@@ -31,16 +31,16 @@ function Feed(props) {
     openSnackbar2();
   }
 
-  function shareOnFacebook({ id, author, phrase }) {
+  function shareOnFacebook({ id, author, quotation }) {
     window.FB.ui({
       method: "share",
-      quote: `${phrase} — ${author}`,
+      quote: `${quotation} — ${author}`,
       href: `${url}/quotes/${id}`
     });
   }
 
-  function shareOnTwitter({ author, phrase }) {
-    const text = encodeURIComponent(`${phrase}  — ${author}`);
+  function shareOnTwitter({ author, quotation }) {
+    const text = encodeURIComponent(`${quotation}  — ${author}`);
     window.open("https://twitter.com/intent/tweet?text=" + text, "_blank");
   }
 
