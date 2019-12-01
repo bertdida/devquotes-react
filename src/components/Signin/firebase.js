@@ -1,6 +1,6 @@
-import { default as googleFirebase } from "firebase";
+import firebase from "firebase";
 
-const app = googleFirebase.initializeApp({
+const app = firebase.initializeApp({
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
   databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
@@ -13,11 +13,11 @@ const app = googleFirebase.initializeApp({
 
 const uiConfig = {
   signInOptions: [
-    googleFirebase.auth.EmailAuthProvider.PROVIDER_ID,
-    googleFirebase.auth.GoogleAuthProvider.PROVIDER_ID,
-    googleFirebase.auth.FacebookAuthProvider.PROVIDER_ID,
-    googleFirebase.auth.TwitterAuthProvider.PROVIDER_ID,
-    googleFirebase.auth.GithubAuthProvider.PROVIDER_ID
+    firebase.auth.EmailAuthProvider.PROVIDER_ID,
+    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+    firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+    firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+    firebase.auth.GithubAuthProvider.PROVIDER_ID
   ],
   callbacks: {
     signInSuccessWithAuthResult: () => false
