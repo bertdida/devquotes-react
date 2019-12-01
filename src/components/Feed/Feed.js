@@ -1,4 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 import Quote from "../Quote";
 import Pagination from "./Pagination";
@@ -12,6 +18,8 @@ function Feed(props) {
   const showPagination = quotes.length > 1;
   const [open1, openSnackbar1, closeSnackbar1] = useSnackbar(false);
   const [open2, openSnackbar2, closeSnackbar2] = useSnackbar(false);
+  const [open3, openSnackbar3, closeSnackbar3] = useSnackbar(false);
+  const [toDelete, setToDelete] = useState(null);
   const url = window.location.origin.replace(/\/$/, "");
 
   function handleLike(quote) {
@@ -19,7 +27,6 @@ function Feed(props) {
       return props.history.push("/signin");
     }
 
-    closeSnackbar2();
     openSnackbar1();
     console.log(quote);
   }
@@ -32,7 +39,6 @@ function Feed(props) {
     document.execCommand("copy");
     textField.remove();
 
-    closeSnackbar1();
     openSnackbar2();
   }
 
@@ -49,6 +55,12 @@ function Feed(props) {
     window.open("https://twitter.com/intent/tweet?text=" + text, "_blank");
   }
 
+  function handleDelete() {
+    console.log(toDelete);
+    setToDelete(null);
+    openSnackbar3();
+  }
+
   return (
     <React.Fragment>
       <Skeleton />
@@ -60,7 +72,8 @@ function Feed(props) {
             handleLike,
             handleCopyLink,
             shareOnFacebook,
-            shareOnTwitter
+            shareOnTwitter,
+            setToDelete
           }}
         />
       ))}
@@ -77,6 +90,32 @@ function Feed(props) {
         autoHideDuration={1000}
         message="Link copied to clipboard"
       />
+      <Snackbar
+        open={open3}
+        onClose={closeSnackbar3}
+        autoHideDuration={1000}
+        message="Quote deleted"
+      />
+
+      <Dialog
+        open={toDelete !== null}
+        onClose={() => setToDelete(null)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">Delete Quote?</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Deleting a Quote will permanently remove it from Devquotes.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setToDelete(null)}>No, Keep Quote</Button>
+          <Button onClick={handleDelete} autoFocus>
+            Yes, Delete Quote
+          </Button>
+        </DialogActions>
+      </Dialog>
     </React.Fragment>
   );
 }

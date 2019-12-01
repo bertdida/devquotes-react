@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 
 import Actions from "./Actions";
+import AdminActions from "./AdminActions";
+import { AuthContext } from "../Auth";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -32,6 +34,7 @@ const useStyles = makeStyles(theme => ({
 function Quote(props) {
   const classes = useStyles();
   const { author, quotation } = props.quote;
+  const [user] = useContext(AuthContext);
 
   return (
     <Card component="blockquote" className={classes.container}>
@@ -47,7 +50,7 @@ function Quote(props) {
           {author}
         </Typography>
       </CardContent>
-      <Actions {...props} />
+      {user ? <AdminActions {...props} /> : <Actions {...props} />}
     </Card>
   );
 }
