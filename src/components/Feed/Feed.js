@@ -98,7 +98,7 @@ function Feed(props) {
       />
 
       <Dialog
-        open={toDelete !== null}
+        open={Boolean(toDelete)}
         onClose={() => setToDelete(null)}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
