@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import CardActions from "@material-ui/core/CardActions";
 import Fab from "@material-ui/core/Fab";
@@ -62,7 +63,7 @@ function Actions({ quote, actions }) {
         22
       </Fab>
       <Tooltip title="Edit">
-        <IconButton>
+        <IconButton onClick={() => actions.handleEdit(quote)}>
           <EditIcon />
         </IconButton>
       </Tooltip>

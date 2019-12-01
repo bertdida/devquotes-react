@@ -43,6 +43,15 @@ function PrivateRoutes() {
     <React.Fragment>
       <Route path="/create-quote" component={QuoteForm} />
       <Route
+        path="/quotes/:quoteId/edit"
+        exact
+        render={props => {
+          const quoteId = parseInt(props.match.params.quoteId);
+          const quote = quotes.find(q => q.id === quoteId);
+          return <QuoteForm {...props} data={{ quote }} />;
+        }}
+      />
+      <Route
         path="/favorites"
         render={props => <Feed {...props} data={{ quotes }} />}
       />

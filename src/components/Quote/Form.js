@@ -19,16 +19,25 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function Form() {
+function Form(props) {
   const QUOTATION_LIMIT = 200;
   const classes = useStyles();
   const [open, openSnackbar, closeSnackbar] = useSnackbar(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isCreating, setIsCreating] = useState(true);
   const [quote, setQuote] = useState({
     author: "",
     quotation: "",
     source: ""
   });
+
+  useEffect(() => {
+    const { quote: _quote } = props.data;
+    if (_quote) {
+      setQuote({ ...quote, ..._quote });
+      setIsCreating(false);
+    }
+  }, [props.data.quote]);
 
   useEffect(() => {
     ValidatorForm.addValidationRule("isURL", value => {
@@ -113,7 +122,7 @@ function Form() {
             type="submit"
             disabled={isSubmitted}
           >
-            Create
+            {isCreating ? "Create" : "Update"}
           </Button>
         </ValidatorForm>
       </Paper>

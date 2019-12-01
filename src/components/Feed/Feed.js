@@ -61,6 +61,10 @@ function Feed(props) {
     openSnackbar3();
   }
 
+  function handleEdit({ id }) {
+    return props.history.push(`/quotes/${id}/edit`);
+  }
+
   return (
     <React.Fragment>
       <Skeleton />
@@ -73,7 +77,8 @@ function Feed(props) {
             handleCopyLink,
             shareOnFacebook,
             shareOnTwitter,
-            setToDelete
+            setToDelete,
+            handleEdit
           }}
         />
       ))}
