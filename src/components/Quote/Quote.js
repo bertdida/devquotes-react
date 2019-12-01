@@ -37,14 +37,19 @@ function Quote(props) {
   const [user] = useContext(AuthContext);
 
   return (
-    <Card component="blockquote" className={classes.container}>
+    <Card
+      component="blockquote"
+      className={classes.container}
+      data-testid="quote"
+    >
       <CardContent className={classes.quote}>
-        <Typography variant="h5" component="p">
+        <Typography variant="h5" component="p" data-testid="quotation">
           {quotation}
         </Typography>
         <Typography
           color="textSecondary"
           component="cite"
+          data-testid="author"
           className={classes.author}
         >
           {author}
