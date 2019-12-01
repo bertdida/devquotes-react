@@ -76,21 +76,23 @@ function MoreOptions({ user }) {
           horizontal: "right"
         }}
       >
-        <Option
-          text="Submit a Quote"
-          icon={SendIcon}
-          onClick={hide}
-          component={Link}
-          to="/submit-quote"
-        />
         {user && (
-          <Option onClick={signOut} text="Sign Out" icon={ExitToAppIcon} />
+          <Option
+            text="Create Quote"
+            icon={SendIcon}
+            onClick={hide}
+            component={Link}
+            to="/create-quote"
+          />
         )}
         <Option
           onClick={_toggleTheme}
           text={"Dark Theme: " + (isDarkTheme ? "On" : "Off")}
           icon={isDarkTheme ? Brightness4Icon : Brightness7Icon}
         />
+        {user && (
+          <Option onClick={signOut} text="Sign Out" icon={ExitToAppIcon} />
+        )}
       </Menu>
     </React.Fragment>
   );

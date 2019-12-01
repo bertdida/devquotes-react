@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import Container from "@material-ui/core/Container";
 
 import { ThemeProvider } from "./components/Theme";
-import { AuthProvider } from "./components/Auth";
+import { AuthProvider, AuthContext } from "./components/Auth";
 import Header from "./components/Header";
 import Feed from "./components/Feed";
 import Signin from "./components/Signin";
@@ -32,6 +32,24 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+function PrivateRoutes() {
+  const [user] = useContext(AuthContext);
+
+  if (!user) {
+    return <Redirect to="/signin" />;
+  }
+
+  return (
+    <React.Fragment>
+      <Route path="/create-quote" component={QuoteForm} />
+      <Route
+        path="/favorites"
+        render={props => <Feed {...props} data={{ quotes }} />}
+      />
+    </React.Fragment>
+  );
+}
+
 function App() {
   const classes = useStyles();
 
@@ -44,7 +62,6 @@ function App() {
             <div className={classes.wrapper}>
               <Switch>
                 <Route path="/signin" component={Signin} />
-                <Route path="/submit-quote" component={QuoteForm} />
                 <Route
                   path="/"
                   exact
@@ -59,6 +76,7 @@ function App() {
                     return <Feed {...props} data={{ quotes: [quote] }} />;
                   }}
                 />
+                <PrivateRoutes />
                 <Route component={NotFoundPage} />
               </Switch>
             </div>

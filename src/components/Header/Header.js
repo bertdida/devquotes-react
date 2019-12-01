@@ -51,7 +51,9 @@ function Header() {
               Home
             </Button>
             {user ? (
-              <Button color="inherit">Favorites</Button>
+              <Button color="inherit" component={Link} to="/favorites">
+                Favorites
+              </Button>
             ) : (
               <Button color="inherit" component={Link} to="/signin">
                 Sign In

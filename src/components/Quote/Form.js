@@ -113,7 +113,7 @@ function Form() {
             type="submit"
             disabled={isSubmitted}
           >
-            Submit
+            Create
           </Button>
         </ValidatorForm>
       </Paper>
