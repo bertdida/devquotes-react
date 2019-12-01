@@ -26,7 +26,6 @@ function Snackbar({ message, ...props }) {
         vertical: "bottom",
         horizontal: "left"
       }}
-      autoHideDuration={1000}
       TransitionComponent={Slide}
       ContentProps={{
         "aria-describedby": "message-id"
