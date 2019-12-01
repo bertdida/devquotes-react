@@ -22,6 +22,7 @@ const useStyles = makeStyles(theme => ({
 function Form() {
   const classes = useStyles();
   const [open, openSnackbar, closeSnackbar] = useSnackbar(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [quote, setQuote] = useState({
     author: "",
     quotation: "",
@@ -41,6 +42,7 @@ function Form() {
 
   function handleSubmit(event) {
     event.preventDefault();
+    setIsSubmitted(true);
     openSnackbar();
   }
 
@@ -106,6 +108,7 @@ function Form() {
             color="secondary"
             className={classes.button}
             type="submit"
+            disabled={isSubmitted}
           >
             Submit
           </Button>
