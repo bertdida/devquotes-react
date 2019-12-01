@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function Submit() {
+function Form() {
   const classes = useStyles();
   const [open, openSnackbar, closeSnackbar] = useSnackbar(false);
   const [quote, setQuote] = useState({
@@ -120,4 +120,4 @@ function Submit() {
   );
 }
 
-export default Submit;
+export default Form;
