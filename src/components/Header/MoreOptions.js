@@ -81,7 +81,7 @@ function MoreOptions({ user }) {
           icon={SendIcon}
           onClick={hide}
           component={Link}
-          to="/submit_quote"
+          to="/submit-quote"
         />
         {user && (
           <Option onClick={signOut} text="Sign Out" icon={ExitToAppIcon} />

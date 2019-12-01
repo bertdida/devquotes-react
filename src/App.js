@@ -44,7 +44,7 @@ function App() {
             <div className={classes.wrapper}>
               <Switch>
                 <Route path="/signin" component={Signin} />
-                <Route path="/submit_quote" component={QuoteForm} />
+                <Route path="/submit-quote" component={QuoteForm} />
                 <Route
                   path="/"
                   exact
