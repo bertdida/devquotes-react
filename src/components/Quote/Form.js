@@ -34,10 +34,10 @@ function Form(props) {
   useEffect(() => {
     const { quote: _quote } = props.data;
     if (_quote) {
-      setQuote({ ...quote, ..._quote });
+      setQuote(quote => ({ ...quote, ..._quote }));
       setIsCreating(false);
     }
-  }, [props.data.quote]);
+  }, [props.data]);
 
   useEffect(() => {
     ValidatorForm.addValidationRule("isURL", value => {
