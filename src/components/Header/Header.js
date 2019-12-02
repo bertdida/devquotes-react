@@ -51,11 +51,21 @@ function Header() {
               Home
             </Button>
             {user ? (
-              <Button color="inherit" component={Link} to="/favorites">
+              <Button
+                color="inherit"
+                component={Link}
+                to="/favorites"
+                data-testid="favorites"
+              >
                 Favorites
               </Button>
             ) : (
-              <Button color="inherit" component={Link} to="/signin">
+              <Button
+                color="inherit"
+                component={Link}
+                to="/signin"
+                data-testid="signIn"
+              >
                 Sign In
               </Button>
             )}

@@ -59,7 +59,7 @@ function MoreOptions({ user }) {
 
   return (
     <React.Fragment>
-      <IconButton color="inherit" onClick={show}>
+      <IconButton color="inherit" onClick={show} data-testid="moreOptions">
         <MoreIcon />
       </IconButton>
       <Menu
@@ -83,6 +83,7 @@ function MoreOptions({ user }) {
             onClick={hide}
             component={Link}
             to="/create-quote"
+            data-testid="createQuote"
           />
         )}
         <Option
@@ -91,7 +92,12 @@ function MoreOptions({ user }) {
           icon={isDarkTheme ? Brightness4Icon : Brightness7Icon}
         />
         {user && (
-          <Option onClick={signOut} text="Sign Out" icon={ExitToAppIcon} />
+          <Option
+            onClick={signOut}
+            text="Sign Out"
+            icon={ExitToAppIcon}
+            data-testid="signOut"
+          />
         )}
       </Menu>
     </React.Fragment>
