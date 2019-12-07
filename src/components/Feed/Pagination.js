@@ -22,18 +22,32 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function Pagination() {
+function Pagination({ setPage, quotes }) {
   const classes = useStyles();
+  const { curr_page, next_page, prev_page, per_page, total } = quotes;
+  const startCount = curr_page * per_page - (per_page - 1);
+  const endCount = Math.min(startCount + per_page - 1, total);
+
+  function handlePaginate(page) {
+    setPage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
 
   return (
     <div className={classes.pagination} data-testid="pagination">
       <Typography component="p" className={classes.paginationPage}>
-        1-10 of 10
+        {startCount}-{endCount} of {total}
       </Typography>
-      <IconButton>
+      <IconButton
+        disabled={prev_page === null}
+        onClick={() => handlePaginate(quotes.curr_page - 1)}
+      >
         <NavigateBeforeIcon />
       </IconButton>
-      <IconButton>
+      <IconButton
+        disabled={next_page === null}
+        onClick={() => handlePaginate(quotes.curr_page + 1)}
+      >
         <NavigateNextIcon />
       </IconButton>
     </div>

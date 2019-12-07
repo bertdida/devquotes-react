@@ -14,7 +14,7 @@ import { AuthContext } from "../Auth";
 function Feed(props) {
   const [user] = useContext(AuthContext);
   const { quotes } = props.data;
-  const showPagination = quotes.length > 1;
+  const showPagination = quotes.data.length > 1;
   const [open1, openSnackbar1, closeSnackbar1] = useSnackbar(false);
   const [open2, openSnackbar2, closeSnackbar2] = useSnackbar(false);
   const [open3, openSnackbar3, closeSnackbar3] = useSnackbar(false);
@@ -66,7 +66,7 @@ function Feed(props) {
 
   return (
     <React.Fragment>
-      {quotes.map(quote => (
+      {quotes.data.map(quote => (
         <Quote
           key={quote.data.id}
           quote={quote.data}
@@ -80,7 +80,7 @@ function Feed(props) {
           }}
         />
       ))}
-      {showPagination && <Pagination />}
+      {showPagination && <Pagination setPage={props.setPage} quotes={quotes} />}
       <Snackbar
         open={open1}
         onClose={closeSnackbar1}
