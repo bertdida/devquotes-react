@@ -10,7 +10,7 @@ import Feed from "./components/Feed";
 import Signin from "./components/Signin";
 import quotes from "./quotes";
 import { default as QuoteForm } from "./components/Quote/Form";
-import NotFoundPage from "./components/NotFoundPage";
+import errors from "./components/errors";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -41,6 +41,27 @@ function PrivateRoutes() {
 
   return (
     <React.Fragment>
+      <Route
+        path="/favorites"
+        render={props => <Feed {...props} data={{ quotes }} />}
+      />
+    </React.Fragment>
+  );
+}
+
+function AdminRoutes() {
+  const [user] = useContext(AuthContext);
+
+  if (!user) {
+    return <Redirect to="/signin" />;
+  }
+
+  if (!user.is_admin) {
+    return <Route component={errors.ForbiddenPage} />;
+  }
+
+  return (
+    <React.Fragment>
       <Route path="/create-quote" component={QuoteForm} />
       <Route
         path="/quotes/:quoteId/edit"
@@ -50,10 +71,6 @@ function PrivateRoutes() {
           const quote = quotes.find(q => q.id === quoteId);
           return <QuoteForm {...props} data={{ quote }} />;
         }}
-      />
-      <Route
-        path="/favorites"
-        render={props => <Feed {...props} data={{ quotes }} />}
       />
     </React.Fragment>
   );
@@ -85,8 +102,9 @@ function App() {
                     return <Feed {...props} data={{ quotes: [quote] }} />;
                   }}
                 />
+                <AdminRoutes />
                 <PrivateRoutes />
-                <Route component={NotFoundPage} />
+                <Route component={errors.NotFoundPage} />
               </Switch>
             </div>
           </Container>

@@ -55,7 +55,11 @@ function Quote(props) {
           {author}
         </Typography>
       </CardContent>
-      {user ? <AdminActions {...props} /> : <Actions {...props} />}
+      {user && user.is_admin ? (
+        <AdminActions {...props} />
+      ) : (
+        <Actions {...props} />
+      )}
     </Card>
   );
 }

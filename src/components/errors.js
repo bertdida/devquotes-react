@@ -5,4 +5,8 @@ function NotFoundPage() {
   return <Typography variant="h3">404 Not Found</Typography>;
 }
 
-export default NotFoundPage;
+function ForbiddenPage() {
+  return <Typography variant="h3">403 Forbidden</Typography>;
+}
+
+export default { NotFoundPage, ForbiddenPage };

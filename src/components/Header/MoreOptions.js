@@ -76,7 +76,7 @@ function MoreOptions({ user }) {
           horizontal: "right"
         }}
       >
-        {user && (
+        {user && user.is_admin && (
           <Option
             text="Create Quote"
             icon={SendIcon}
