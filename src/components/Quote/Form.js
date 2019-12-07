@@ -6,6 +6,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 
 import { useSnackbar, Snackbar } from "../Snackbar";
+import { createQuote } from "./api-calls";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -50,8 +51,10 @@ function Form(props) {
     });
   }, []);
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
+
+    await createQuote(quote);
     setIsSubmitted(true);
     openSnackbar();
   }
