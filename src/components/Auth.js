@@ -15,7 +15,7 @@ function AuthProvider({ children }) {
       if (firebaseUser) {
         const token = await firebaseUser.getIdToken();
         const response = await axios.post("/v1/auth/token", { token });
-        firebaseUser = response.data;
+        firebaseUser = response.data.data;
       }
 
       setUser(firebaseUser);
