@@ -6,7 +6,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 
 import { useSnackbar, Snackbar } from "../Snackbar";
-import { createQuote } from "./api-calls";
+import { createQuote, updateQuote } from "./api-calls";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -54,7 +54,12 @@ function Form(props) {
   async function handleSubmit(event) {
     event.preventDefault();
 
-    await createQuote(quote);
+    if (isCreating) {
+      await createQuote(quote);
+    } else {
+      await updateQuote(quote);
+    }
+
     setIsSubmitted(true);
     openSnackbar();
   }
@@ -133,7 +138,7 @@ function Form(props) {
         open={open}
         onClose={closeSnackbar}
         autoHideDuration={3000}
-        message="Quote created!"
+        message={"Quote " + (isCreating ? "created!" : "updated!")}
       />
     </React.Fragment>
   );

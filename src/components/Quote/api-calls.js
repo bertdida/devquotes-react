@@ -14,4 +14,18 @@ async function createQuote(quote) {
   });
 }
 
-export { createQuote };
+async function updateQuote(quote) {
+  const endPoint = "/v1/quotes/" + quote.id;
+  const payload = { ...quote };
+
+  return new Promise(async function(resolve, reject) {
+    try {
+      const response = await axios.patch(endPoint, payload);
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
+export { createQuote, updateQuote };
