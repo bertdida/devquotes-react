@@ -133,7 +133,7 @@ function Form(props) {
         open={open}
         onClose={closeSnackbar}
         autoHideDuration={3000}
-        message="Your quote has been submitted. Thanks!"
+        message="Quote created!"
       />
     </React.Fragment>
   );
