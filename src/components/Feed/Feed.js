@@ -8,7 +8,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 
 import Quote from "../Quote";
 import Pagination from "./Pagination";
-import Skeleton from "../Quote/Skeleton";
 import { useSnackbar, Snackbar } from "../Snackbar";
 import { AuthContext } from "../Auth";
 
@@ -67,11 +66,10 @@ function Feed(props) {
 
   return (
     <React.Fragment>
-      <Skeleton />
       {quotes.map(quote => (
         <Quote
-          key={quote.id}
-          quote={quote}
+          key={quote.data.id}
+          quote={quote.data}
           actions={{
             handleLike,
             handleCopyLink,

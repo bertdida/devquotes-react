@@ -11,6 +11,7 @@ import Signin from "./components/Signin";
 import quotes from "./quotes";
 import { default as QuoteForm } from "./components/Quote/Form";
 import errors from "./components/errors";
+import FeedContainer from "./components/Feed/FeedContainer";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -88,11 +89,7 @@ function App() {
             <div className={classes.wrapper}>
               <Switch>
                 <Route path="/signin" component={Signin} />
-                <Route
-                  path="/"
-                  exact
-                  render={props => <Feed {...props} data={{ quotes }} />}
-                />
+                <Route path="/" exact component={FeedContainer} />
                 <Route
                   path="/quotes/:quoteId"
                   exact
