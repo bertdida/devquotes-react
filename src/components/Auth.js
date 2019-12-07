@@ -11,7 +11,10 @@ function AuthProvider({ children }) {
 
   useEffect(() => {
     app.auth().onAuthStateChanged(async user => {
-      const token = await user.getIdToken();
+      if (user) {
+        const token = await user.getIdToken();
+      }
+
       setUser(user);
       setIsAuthenticating(false);
     });
