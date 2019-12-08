@@ -14,7 +14,7 @@ function FormContainer(props) {
 
     const quoteId = parseInt(props.match.params.quoteId);
     !isNaN(quoteId) && _getQuote();
-  }, []);
+  }, [props.match.params.quoteId]);
 
   return <Form data={{ quote }} />;
 }
