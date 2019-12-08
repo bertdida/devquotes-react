@@ -10,6 +10,7 @@ import Quote from "../Quote";
 import Pagination from "./Pagination";
 import { useSnackbar, Snackbar } from "../Snackbar";
 import { AuthContext } from "../Auth";
+import { deleteQuote } from "./api-calls";
 
 function Feed(props) {
   const [user] = useContext(AuthContext);
@@ -54,8 +55,8 @@ function Feed(props) {
     window.open("https://twitter.com/intent/tweet?text=" + text, "_blank");
   }
 
-  function handleDelete() {
-    console.log(toDelete);
+  async function handleDelete() {
+    await deleteQuote(toDelete.id);
     setToDelete(null);
     openSnackbar3();
   }

@@ -13,4 +13,17 @@ async function fetchQuotes(page) {
   });
 }
 
-export { fetchQuotes };
+async function deleteQuote(id) {
+  const endPoint = "/v1/quotes/" + id;
+
+  return new Promise(async function(resolve, reject) {
+    try {
+      const response = await axios.delete(endPoint);
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
+export { fetchQuotes, deleteQuote };
