@@ -28,4 +28,17 @@ async function updateQuote(quote) {
   });
 }
 
-export { createQuote, updateQuote };
+async function fetchQuote(id) {
+  const endPoint = "/v1/quotes/" + id;
+
+  return new Promise(async function(resolve, reject) {
+    try {
+      const response = await axios.get(endPoint);
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
+export { createQuote, updateQuote, fetchQuote };

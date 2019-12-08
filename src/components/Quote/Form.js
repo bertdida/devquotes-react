@@ -35,7 +35,7 @@ function Form(props) {
   useEffect(() => {
     const { quote: _quote } = props.data || {};
     if (_quote) {
-      setQuote(quote => ({ ...quote, ..._quote }));
+      setQuote(quote => ({ ...quote, ..._quote.data }));
       setIsCreating(false);
     }
   }, [props.data]);

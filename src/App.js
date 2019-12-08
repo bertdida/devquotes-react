@@ -9,6 +9,7 @@ import Header from "./components/Header";
 import Feed from "./components/Feed";
 import Signin from "./components/Signin";
 import quotes from "./quotes";
+import FormContainer from "./components/Quote/FormContainer";
 import { default as QuoteForm } from "./components/Quote/Form";
 import errors from "./components/errors";
 import FeedContainer from "./components/Feed/FeedContainer";
@@ -64,15 +65,7 @@ function AdminRoutes() {
   return (
     <React.Fragment>
       <Route path="/create-quote" component={QuoteForm} />
-      <Route
-        path="/quotes/:quoteId/edit"
-        exact
-        render={props => {
-          const quoteId = parseInt(props.match.params.quoteId);
-          const quote = quotes.find(q => q.id === quoteId);
-          return <QuoteForm {...props} data={{ quote }} />;
-        }}
-      />
+      <Route path="/quotes/:quoteId/edit" exact component={FormContainer} />
     </React.Fragment>
   );
 }
