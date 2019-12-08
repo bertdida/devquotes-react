@@ -35,7 +35,7 @@ function FeedContainer(props) {
   return isLoading ? (
     <Skeleton />
   ) : (
-    <Feed data={{ quotes }} setPage={_setPage} />
+    <Feed data={{ quotes }} setPage={_setPage} {...props} />
   );
 }
 
