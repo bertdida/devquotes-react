@@ -13,7 +13,6 @@ import Pagination from "./Pagination";
 import { useSnackbar, Snackbar } from "../Snackbar";
 import { AuthContext } from "../Auth";
 import { deleteQuote } from "./api-calls";
-import "./Feed.scss";
 
 const useStyles = makeStyles({
   buttonWrapper: {
