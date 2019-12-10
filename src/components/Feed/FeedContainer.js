@@ -25,7 +25,7 @@ function FeedContainer(props) {
     let isMounted = true;
     props.history.listen(location => {
       const query = queryString.parse(location.search);
-      isMounted && setPage(query.page);
+      isMounted && setPage(query.page || 1);
     });
 
     return () => {
