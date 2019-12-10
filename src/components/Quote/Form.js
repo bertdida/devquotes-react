@@ -4,6 +4,7 @@ import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import ReCAPTCHA from "react-google-recaptcha";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { useSnackbar, Snackbar } from "../Snackbar";
 import { createQuote, updateQuote } from "./api-calls";
@@ -15,8 +16,17 @@ const useStyles = makeStyles(theme => ({
       padding: theme.spacing(3)
     }
   },
-  button: {
+  buttonWrapper: {
+    position: "relative",
+    width: "fit-content",
     marginTop: theme.spacing(3)
+  },
+  buttonProgress: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    marginTop: -12,
+    marginLeft: -12
   }
 }));
 
@@ -24,7 +34,7 @@ function Form(props) {
   const QUOTATION_LIMIT = 200;
   const classes = useStyles();
   const [open, openSnackbar, closeSnackbar] = useSnackbar(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isCreating, setIsCreating] = useState(true);
   const [quote, setQuote] = useState({
     author: "",
@@ -54,13 +64,14 @@ function Form(props) {
   async function handleSubmit(event) {
     event.preventDefault();
 
+    setIsSubmitting(true);
     if (isCreating) {
       await createQuote(quote);
     } else {
       await updateQuote(quote);
     }
 
-    setIsSubmitted(true);
+    setIsSubmitting(false);
     openSnackbar();
   }
 
@@ -123,15 +134,24 @@ function Form(props) {
             sitekey={process.env.REACT_APP_RECAPTCHA_KEY}
             size="invisible"
           />
-          <Button
-            variant="contained"
-            color="secondary"
-            className={classes.button}
-            type="submit"
-            disabled={isSubmitted}
-          >
-            {isCreating ? "Create" : "Update"}
-          </Button>
+
+          <div className={classes.buttonWrapper}>
+            <Button
+              variant="contained"
+              color="secondary"
+              type="submit"
+              disabled={isSubmitting}
+            >
+              {isCreating ? "Create" : "Update"}
+            </Button>
+            {isSubmitting && (
+              <CircularProgress
+                size={24}
+                color="secondary"
+                className={classes.buttonProgress}
+              />
+            )}
+          </div>
         </ValidatorForm>
       </Paper>
       <Snackbar
