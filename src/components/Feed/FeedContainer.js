@@ -22,10 +22,15 @@ function FeedContainer(props) {
   }, [page]);
 
   useEffect(() => {
+    let isMounted = true;
     props.history.listen(location => {
       const query = queryString.parse(location.search);
-      setPage(query.page);
+      isMounted && setPage(query.page);
     });
+
+    return () => {
+      isMounted = false;
+    };
   }, [props.history]);
 
   function _setPage(page) {
