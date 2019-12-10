@@ -9,11 +9,11 @@ function FeedContainer(props) {
   const [quotes, setQuotes] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const { page: initialPage } = queryString.parse(props.location.search);
-  const [page, setPage] = useState(initialPage || 1);
+  const [page, setPage] = useState(initialPage);
 
   useEffect(() => {
     async function _fetchQuotes() {
-      const response = await fetchQuotes(page);
+      const response = await fetchQuotes(page || 1);
       setQuotes(response.data);
       setIsLoading(false);
     }
@@ -25,7 +25,7 @@ function FeedContainer(props) {
     let isMounted = true;
     props.history.listen(location => {
       const query = queryString.parse(location.search);
-      isMounted && setPage(query.page || 1);
+      isMounted && setPage(query.page);
     });
 
     return () => {
