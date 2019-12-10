@@ -39,6 +39,17 @@ it("renders for authenticated user", () => {
   expect(getByTestId("favorites")).toBeTruthy();
 
   fireEvent.click(getByTestId("moreOptions"));
+  expect(queryByTestId("/createQuote/")).toBeNull();
+  expect(queryByTestId("signOut")).toBeTruthy();
+});
+
+it("renders for admin user", () => {
+  const { queryByTestId, getByTestId } = renderHeader({ is_admin: true });
+
+  expect(queryByTestId("signIn")).toBeNull();
+  expect(getByTestId("favorites")).toBeTruthy();
+
+  fireEvent.click(getByTestId("moreOptions"));
   expect(getByTestId("createQuote")).toBeTruthy();
   expect(getByTestId("signOut")).toBeTruthy();
 });
