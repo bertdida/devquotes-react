@@ -5,12 +5,28 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { makeStyles } from "@material-ui/core/styles";
 
 import Quote from "../Quote";
 import Pagination from "./Pagination";
 import { useSnackbar, Snackbar } from "../Snackbar";
 import { AuthContext } from "../Auth";
 import { deleteQuote } from "./api-calls";
+import "./Feed.scss";
+
+const useStyles = makeStyles({
+  buttonWrapper: {
+    position: "relative"
+  },
+  buttonProgress: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    marginTop: -12,
+    marginLeft: -12
+  }
+});
 
 function Feed(props) {
   const [user] = useContext(AuthContext);
@@ -21,6 +37,8 @@ function Feed(props) {
   const [open3, openSnackbar3, closeSnackbar3] = useSnackbar(false);
   const [toDelete, setToDelete] = useState(null);
   const url = window.location.origin.replace(/\/$/, "");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const classes = useStyles();
 
   function handleLike(quote) {
     if (!user) {
@@ -56,7 +74,9 @@ function Feed(props) {
   }
 
   async function handleDelete() {
+    setIsDeleting(true);
     await deleteQuote(toDelete.id);
+    setIsDeleting(false);
     setToDelete(null);
     openSnackbar3();
   }
@@ -115,9 +135,18 @@ function Feed(props) {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setToDelete(null)}>No, Keep Quote</Button>
-          <Button onClick={handleDelete} autoFocus>
-            Yes, Delete Quote
-          </Button>
+          <div className={classes.buttonWrapper}>
+            <Button disabled={isDeleting} onClick={handleDelete}>
+              Yes, Delete Quote
+            </Button>
+            {isDeleting && (
+              <CircularProgress
+                size={24}
+                color="secondary"
+                className={classes.buttonProgress}
+              />
+            )}
+          </div>
         </DialogActions>
       </Dialog>
     </React.Fragment>
