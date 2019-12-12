@@ -77,11 +77,14 @@ function Form(props) {
 
     setIsSubmitting(false);
     openSnackbar();
-    setQuote({
-      author: "",
-      quotation: "",
-      source: ""
-    });
+
+    if (isCreating) {
+      setQuote({
+        author: "",
+        quotation: "",
+        source: ""
+      });
+    }
   }
 
   function handleChange(event) {
