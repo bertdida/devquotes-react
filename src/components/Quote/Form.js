@@ -52,6 +52,10 @@ function Form(props) {
 
   useEffect(() => {
     ValidatorForm.addValidationRule("isURL", value => {
+      if (value === "") {
+        return true;
+      }
+
       try {
         new URL(value);
         return true;
@@ -63,8 +67,8 @@ function Form(props) {
 
   async function handleSubmit(event) {
     event.preventDefault();
-
     setIsSubmitting(true);
+
     if (isCreating) {
       await createQuote(quote);
     } else {
@@ -73,6 +77,11 @@ function Form(props) {
 
     setIsSubmitting(false);
     openSnackbar();
+    setQuote({
+      author: "",
+      quotation: "",
+      source: ""
+    });
   }
 
   function handleChange(event) {
