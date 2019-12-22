@@ -134,10 +134,10 @@ function Form(props) {
               label="Source"
               margin="normal"
               color="secondary"
-              value={quote.source}
+              value={quote.source || ""}
               onChange={handleChange}
-              validators={["required", "isURL"]}
-              errorMessages={["Source is required", "Invalid source URL"]}
+              validators={["isURL"]}
+              errorMessages={["Invalid source URL"]}
               helperText="The URL of the page with the quote"
               fullWidth
             />
