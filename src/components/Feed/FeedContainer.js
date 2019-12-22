@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import queryString from "query-string";
 
-import { fetchQuotes } from "./api-calls";
+import { fetchQuotes, deleteQuote } from "./api-calls";
 import Feed from "./Feed";
 import Skeleton from "../Quote/Skeleton";
 
@@ -40,7 +40,12 @@ function FeedContainer(props) {
   return isLoading ? (
     <Skeleton />
   ) : (
-    <Feed data={{ quotes }} setPage={_setPage} {...props} />
+    <Feed
+      data={{ quotes }}
+      setPage={_setPage}
+      setQuotes={setQuotes}
+      {...props}
+    />
   );
 }
 

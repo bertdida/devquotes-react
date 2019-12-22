@@ -12,7 +12,7 @@ import Quote from "../Quote";
 import Pagination from "./Pagination";
 import { useSnackbar, Snackbar } from "../Snackbar";
 import { AuthContext } from "../Auth";
-import { deleteQuote } from "./api-calls";
+import { deleteQuote, fetchQuotes } from "./api-calls";
 
 const useStyles = makeStyles({
   buttonWrapper: {
@@ -73,7 +73,11 @@ function Feed(props) {
 
   async function handleDelete() {
     setIsDeleting(true);
+
     await deleteQuote(toDelete.id);
+    const response = await fetchQuotes(quotes.curr_page);
+    props.setQuotes(response.data);
+
     setIsDeleting(false);
     setToDelete(null);
     openSnackbar3();
