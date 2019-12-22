@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import queryString from "query-string";
 
-import { fetchQuotes, deleteQuote } from "./api-calls";
+import { fetchQuotes } from "./api-calls";
 import Feed from "./Feed";
 import Skeleton from "../Quote/Skeleton";
 
