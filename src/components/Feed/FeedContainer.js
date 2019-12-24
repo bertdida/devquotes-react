@@ -37,10 +37,11 @@ function FeedContainer(props) {
     props.history.push({ pathname: "/", search: "?page=" + page });
   }
 
-  async function _deleteQuote({ id }) {
+  async function _deleteQuote({ id }, callback) {
     await deleteQuote(id);
     const response = await fetchQuotes(quotes.curr_page);
     setQuotes(response.data);
+    callback();
   }
 
   if (isLoading) {

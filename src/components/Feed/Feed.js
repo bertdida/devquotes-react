@@ -70,12 +70,13 @@ function Feed(props) {
     window.open("https://twitter.com/intent/tweet?text=" + text, "_blank");
   }
 
-  async function handleDelete() {
+  function handleDelete() {
     setIsDeleting(true);
-    await props.deleteQuote(toDelete);
-    setIsDeleting(false);
-    setToDelete(null);
-    openSnackbar3();
+    props.deleteQuote(toDelete, () => {
+      setIsDeleting(false);
+      setToDelete(null);
+      openSnackbar3();
+    });
   }
 
   function handleEdit({ id }) {
