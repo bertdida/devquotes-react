@@ -32,7 +32,7 @@ function Actions({ user, ...props }) {
         onClick={() => props.actions.handleLike(quote)}
       >
         <FavoriteIcon className={classes.likeIcon} />
-        22
+        {quote.likes}
       </Fab>
       {isAdmin ? <AdminActions {...props} /> : <UserActions {...props} />}
     </CardActions>
