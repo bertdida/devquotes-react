@@ -73,6 +73,8 @@ function Feed(props) {
   function handleDelete() {
     setIsDeleting(true);
     props.deleteQuote(toDelete, () => {
+      // this callback is not called when on
+      // single quote view
       setIsDeleting(false);
       setToDelete(null);
       openSnackbar3();
