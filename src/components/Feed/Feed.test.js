@@ -8,6 +8,7 @@ import { AuthContext } from "../Auth";
 afterEach(cleanup);
 
 const quotes = {
+  curr_page: 1,
   data: [
     {
       data: {
@@ -29,12 +30,17 @@ const quotes = {
 function renderFeed(quotes) {
   return render(
     <AuthContext.Provider value={[null]}>
-      <Feed data={{ quotes }} />
+      <Feed data={quotes} />
     </AuthContext.Provider>
   );
 }
 
 it("renders with pagination", () => {
-  const { getByTestId } = renderFeed(quotes);
+  const { getByTestId } = renderFeed({ quotes });
   expect(getByTestId("pagination")).toBeTruthy();
+});
+
+it("renders without pagination", () => {
+  const { queryByTestId } = renderFeed({ quotes: { data: [quotes.data[0]] } });
+  expect(queryByTestId("/pagination/")).toBeNull();
 });
