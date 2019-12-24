@@ -5,7 +5,6 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 
 import Actions from "./Actions";
-import AdminActions from "./AdminActions";
 import { AuthContext } from "../Auth";
 
 const useStyles = makeStyles(theme => ({
@@ -55,11 +54,7 @@ function Quote(props) {
           {author}
         </Typography>
       </CardContent>
-      {user && user.is_admin ? (
-        <AdminActions {...props} />
-      ) : (
-        <Actions {...props} />
-      )}
+      <Actions user={user} {...props} />
     </Card>
   );
 }

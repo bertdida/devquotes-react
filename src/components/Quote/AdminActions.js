@@ -1,8 +1,4 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import CardActions from "@material-ui/core/CardActions";
-import Fab from "@material-ui/core/Fab";
-import FavoriteIcon from "@material-ui/icons/Favorite";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import Menu from "@material-ui/core/Menu";
@@ -11,18 +7,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 
-const useStyles = makeStyles(theme => ({
-  like: {
-    boxShadow: "none !important",
-    marginRight: "auto"
-  },
-  likeIcon: {
-    marginRight: theme.spacing(0.5)
-  }
-}));
-
 function Actions({ quote, actions }) {
-  const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -50,17 +35,7 @@ function Actions({ quote, actions }) {
   }
 
   return (
-    <CardActions>
-      <Fab
-        size="medium"
-        variant="extended"
-        color="secondary"
-        className={classes.like}
-        onClick={() => actions.handleLike(quote)}
-      >
-        <FavoriteIcon className={classes.likeIcon} />
-        22
-      </Fab>
+    <React.Fragment>
       <Tooltip title="Edit">
         <IconButton onClick={() => actions.handleEdit(quote)}>
           <EditIcon />
@@ -94,7 +69,7 @@ function Actions({ quote, actions }) {
         <MenuItem onClick={_shareOnFacebook}>Share on Facebook</MenuItem>
         <MenuItem onClick={_handleCopyLink}>Copy Link</MenuItem>
       </Menu>
-    </CardActions>
+    </React.Fragment>
   );
 }
 
