@@ -19,22 +19,22 @@ const useStyles = makeStyles(theme => ({
 
 function Actions({ user, ...props }) {
   const classes = useStyles();
-  const OtherActionsComponent =
-    user && user.is_admin ? AdminActions : UserActions;
+  const { quote } = props;
+  const isAdmin = user && user.is_admin;
 
   return (
     <CardActions>
       <Fab
         size="medium"
         variant="extended"
-        color="secondary"
+        color={quote.is_liked ? "secondary" : "default"}
         className={classes.like}
-        onClick={() => props.actions.handleLike(props.quote)}
+        onClick={() => props.actions.handleLike(quote)}
       >
         <FavoriteIcon className={classes.likeIcon} />
         22
       </Fab>
-      <OtherActionsComponent {...props} />
+      {isAdmin ? <AdminActions {...props} /> : <UserActions {...props} />}
     </CardActions>
   );
 }
