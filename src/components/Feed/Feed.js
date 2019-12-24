@@ -29,9 +29,9 @@ const useStyles = makeStyles({
 function Feed(props) {
   const [user] = useContext(AuthContext);
   const { quotes } = props.data;
-  const [open1, openSnackbar1, closeSnackbar1] = useSnackbar(false);
-  const [open2, openSnackbar2, closeSnackbar2] = useSnackbar(false);
-  const [open3, openSnackbar3, closeSnackbar3] = useSnackbar(false);
+  const [open1, openSnackbar1, closeSnackbar1] = useSnackbar(false); // added to favorites
+  const [open2, openSnackbar2, closeSnackbar2] = useSnackbar(false); // copied to clipboard
+  const [open3, openSnackbar3, closeSnackbar3] = useSnackbar(false); // deleted
   const [toDelete, setToDelete] = useState(null);
   const url = window.location.origin.replace(/\/$/, "");
   const [isDeleting, setIsDeleting] = useState(false);
