@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import queryString from "query-string";
 
-import { fetchQuotes } from "./api-calls";
+import { fetchQuotes, deleteQuote } from "./api-calls";
 import Feed from "./Feed";
 import Skeleton from "../Quote/Skeleton";
 
@@ -37,13 +37,21 @@ function FeedContainer(props) {
     props.history.push({ pathname: "/", search: "?page=" + page });
   }
 
-  return isLoading ? (
-    <Skeleton />
-  ) : (
+  async function _deleteQuote({ id }) {
+    await deleteQuote(id);
+    const response = await fetchQuotes(quotes.curr_page);
+    setQuotes(response.data);
+  }
+
+  if (isLoading) {
+    return <Skeleton />;
+  }
+
+  return (
     <Feed
       data={{ quotes }}
       setPage={_setPage}
-      setQuotes={setQuotes}
+      deleteQuote={_deleteQuote}
       {...props}
     />
   );

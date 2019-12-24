@@ -12,9 +12,9 @@ function FormContainer(props) {
       setQuote(response.data);
     }
 
-    const quoteId = parseInt(props.match.params.quoteId);
+    const quoteId = parseInt(props.match.params.id);
     !isNaN(quoteId) && _getQuote();
-  }, [props.match.params.quoteId]);
+  }, [props.match.params.id]);
 
   return <Form data={{ quote }} />;
 }

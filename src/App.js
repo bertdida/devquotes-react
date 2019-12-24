@@ -13,6 +13,7 @@ import FormContainer from "./components/Quote/FormContainer";
 import { default as QuoteForm } from "./components/Quote/Form";
 import errors from "./components/errors";
 import FeedContainer from "./components/Feed/FeedContainer";
+import SingleContainer from "./components/Feed/SingleContainer";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -65,7 +66,7 @@ function AdminRoutes() {
   return (
     <React.Fragment>
       <Route path="/create-quote" component={QuoteForm} />
-      <Route path="/quotes/:quoteId/edit" exact component={FormContainer} />
+      <Route path="/quotes/:id/edit" exact component={FormContainer} />
     </React.Fragment>
   );
 }
@@ -83,15 +84,7 @@ function App() {
               <Switch>
                 <Route path="/signin" component={Signin} />
                 <Route path="/" exact component={FeedContainer} />
-                <Route
-                  path="/quotes/:quoteId"
-                  exact
-                  render={props => {
-                    const quoteId = parseInt(props.match.params.quoteId);
-                    const quote = quotes.find(q => q.id === quoteId);
-                    return <Feed {...props} data={{ quotes: [quote] }} />;
-                  }}
-                />
+                <Route path="/quotes/:id" exact component={SingleContainer} />
                 <AdminRoutes />
                 <PrivateRoutes />
                 <Route component={errors.NotFoundPage} />
