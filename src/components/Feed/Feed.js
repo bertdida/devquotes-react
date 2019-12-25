@@ -37,13 +37,13 @@ function Feed(props) {
   const [isDeleting, setIsDeleting] = useState(false);
   const classes = useStyles();
 
-  function handleLike(quote) {
+  async function handleLike(quote) {
     if (!user) {
       return props.history.push("/signin");
     }
 
+    await props.toggleLike(quote);
     openSnackbar1();
-    console.log(quote);
   }
 
   function handleCopyLink({ id }) {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import queryString from "query-string";
 
-import { fetchQuotes, deleteQuote } from "./api-calls";
+import { fetchQuotes, deleteQuote, updateQuote } from "./api-calls";
 import Feed from "./Feed";
 import Skeleton from "../Quote/Skeleton";
 
@@ -44,6 +44,19 @@ function FeedContainer(props) {
     callback();
   }
 
+  async function toggleLike(quote) {
+    const newLikes = quote.is_liked ? quote.likes - 1 : quote.likes + 1;
+    const response = await updateQuote({ ...quote, likes: newLikes });
+    const { data } = response.data;
+
+    setQuotes({
+      ...quotes,
+      data: quotes.data.map(({ data: _data }) => {
+        return { data: _data.id === data.id ? data : _data };
+      })
+    });
+  }
+
   if (isLoading) {
     return <Skeleton />;
   }
@@ -53,6 +66,7 @@ function FeedContainer(props) {
       data={{ quotes }}
       setPage={_setPage}
       deleteQuote={_deleteQuote}
+      toggleLike={toggleLike}
       {...props}
     />
   );

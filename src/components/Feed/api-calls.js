@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../axios";
 
 async function fetchQuotes(page) {
   const endPoint = "/v1/quotes?page=" + page;
@@ -39,4 +39,18 @@ async function fetchQuote(id) {
   });
 }
 
-export { fetchQuotes, deleteQuote, fetchQuote };
+async function updateQuote(quote) {
+  const endPoint = "/v1/quotes/" + quote.id;
+  const payload = { ...quote };
+
+  return new Promise(async function(resolve, reject) {
+    try {
+      const response = await axios.patch(endPoint, payload);
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
+export { fetchQuotes, deleteQuote, fetchQuote, updateQuote };
