@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../axios";
 
 async function createQuote(quote) {
   const endPoint = "/v1/quotes";
