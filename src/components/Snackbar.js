@@ -18,10 +18,11 @@ function useSnackbar() {
   return [isOpen, open, close];
 }
 
-function Snackbar({ message, ...props }) {
+function Snackbar({ message, autoHideDuration = 1000, ...props }) {
   return (
     <MuiSnackbar
       {...props}
+      autoHideDuration={autoHideDuration}
       anchorOrigin={{
         vertical: "bottom",
         horizontal: "left"

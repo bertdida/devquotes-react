@@ -107,21 +107,14 @@ function Feed(props) {
       <Snackbar
         open={open1}
         onClose={closeSnackbar1}
-        autoHideDuration={1000}
         message="Added to favorites"
       />
       <Snackbar
         open={open2}
         onClose={closeSnackbar2}
-        autoHideDuration={1000}
         message="Link copied to clipboard"
       />
-      <Snackbar
-        open={open3}
-        onClose={closeSnackbar3}
-        autoHideDuration={1000}
-        message="Quote deleted"
-      />
+      <Snackbar open={open3} onClose={closeSnackbar3} message="Quote deleted" />
 
       <Dialog
         open={Boolean(toDelete)}
