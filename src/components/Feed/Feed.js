@@ -7,6 +7,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
 
 import Quote from "../Quote";
 import Pagination from "./Pagination";
@@ -81,25 +82,36 @@ function Feed(props) {
     return props.history.push(`/quotes/${id}/edit`);
   }
 
+  const EmptyResult = () => {
+    return <Typography variant="h3">Nothing to show</Typography>;
+  };
+
   return (
     <React.Fragment>
-      {quotes.data.map(quote => (
-        <Quote
-          key={quote.data.id}
-          quote={quote.data}
-          actions={{
-            handleLike,
-            handleCopyLink,
-            shareOnFacebook,
-            shareOnTwitter,
-            setToDelete,
-            handleEdit
-          }}
-        />
-      ))}
-      {quotes.curr_page && (
-        <Pagination setPage={props.setPage} quotes={quotes} />
+      {quotes.data.length === 0 ? (
+        <EmptyResult />
+      ) : (
+        <React.Fragment>
+          {quotes.data.map(quote => (
+            <Quote
+              key={quote.data.id}
+              quote={quote.data}
+              actions={{
+                handleLike,
+                handleCopyLink,
+                shareOnFacebook,
+                shareOnTwitter,
+                setToDelete,
+                handleEdit
+              }}
+            />
+          ))}
+          {quotes.curr_page && (
+            <Pagination setPage={props.setPage} quotes={quotes} />
+          )}
+        </React.Fragment>
       )}
+
       <Snackbar
         open={open1}
         onClose={closeSnackbar1}
