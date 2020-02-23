@@ -28,7 +28,8 @@ function FeedContainer(props) {
 
   useEffect(() => {
     async function _fetchQuotes() {
-      const response = await fetchQuotes(page || 1);
+      const userLikes = props.userLikes || false;
+      const response = await fetchQuotes(page || 1, userLikes);
       setQuotes(response.data);
       setIsLoading(false);
     }

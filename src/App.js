@@ -8,7 +8,6 @@ import { AuthProvider, AuthContext } from "./components/Auth";
 import Header from "./components/Header";
 import Feed from "./components/Feed";
 import Signin from "./components/Signin";
-import quotes from "./quotes";
 import FormContainer from "./components/Quote/FormContainer";
 import { default as QuoteForm } from "./components/Quote/Form";
 import errors from "./components/errors";
@@ -46,7 +45,7 @@ function PrivateRoutes() {
     <React.Fragment>
       <Route
         path="/favorites"
-        render={props => <Feed {...props} data={{ quotes }} />}
+        component={props => <FeedContainer {...props} userLikes={true} />}
       />
     </React.Fragment>
   );
@@ -85,8 +84,8 @@ function App() {
                 <Route path="/signin" component={Signin} />
                 <Route path="/" exact component={FeedContainer} />
                 <Route path="/quotes/:id" exact component={SingleContainer} />
-                <AdminRoutes />
                 <PrivateRoutes />
+                <AdminRoutes />
                 <Route component={errors.NotFoundPage} />
               </Switch>
             </div>
