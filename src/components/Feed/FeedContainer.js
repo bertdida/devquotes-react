@@ -19,6 +19,10 @@ function FeedContainer(props) {
       return;
     }
 
+    if (!quotes.data.some(({ data }) => data.is_liked)) {
+      return;
+    }
+
     // is_liked value to false if no user is signed in
     const newQuoteData = quotes.data.map(quote => {
       return { ...quote, data: { ...quote.data, is_liked: false } };
