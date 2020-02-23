@@ -14,6 +14,7 @@ import SendIcon from "@material-ui/icons/Send";
 
 import { ThemeContext } from "../Theme";
 import { app } from "../Signin/firebase";
+import { signOut as jwtSignOut } from "./api-calls";
 
 const useStyles = makeStyles(theme => ({
   menuIcon: {
@@ -53,6 +54,7 @@ function MoreOptions({ user }) {
   }
 
   async function signOut() {
+    await jwtSignOut();
     await app.auth().signOut();
     hide();
   }
