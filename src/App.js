@@ -1,18 +1,19 @@
-import React, { useContext } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import Container from "@material-ui/core/Container";
 
 import { ThemeProvider } from "./components/Theme";
-import { AuthProvider, AuthContext } from "./components/Auth";
+import { AuthProvider } from "./components/Auth";
 import Header from "./components/Header";
-import Feed from "./components/Feed";
 import Signin from "./components/Signin";
 import FormContainer from "./components/Quote/FormContainer";
 import { default as QuoteForm } from "./components/Quote/Form";
-import errors from "./components/errors";
+import { NotFoundPage, ForbiddenPage } from "./components/errors";
 import FeedContainer from "./components/Feed/FeedContainer";
 import SingleContainer from "./components/Feed/SingleContainer";
+import { ProtectedRoute } from "./protected.route";
+import { AdminRoute } from "./admin.route";
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -34,41 +35,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function PrivateRoutes() {
-  const [user] = useContext(AuthContext);
-
-  if (!user) {
-    return <Redirect to="/signin" />;
-  }
-
-  return (
-    <React.Fragment>
-      <Route
-        path="/favorites"
-        component={props => <FeedContainer {...props} userLikes={true} />}
-      />
-    </React.Fragment>
-  );
-}
-
-function AdminRoutes() {
-  const [user] = useContext(AuthContext);
-
-  if (!user) {
-    return <Redirect to="/signin" />;
-  }
-
-  if (!user.is_admin) {
-    return <Route component={errors.ForbiddenPage} />;
-  }
-
-  return (
-    <React.Fragment>
-      <Route path="/create-quote" component={QuoteForm} />
-      <Route path="/quotes/:id/edit" exact component={FormContainer} />
-    </React.Fragment>
-  );
-}
+const Favorites = props => <FeedContainer {...props} userLikes={true} />;
 
 function App() {
   const classes = useStyles();
@@ -81,12 +48,16 @@ function App() {
           <Container maxWidth="md">
             <div className={classes.wrapper}>
               <Switch>
+                <Route exact path="/" component={FeedContainer} />
                 <Route path="/signin" component={Signin} />
-                <Route path="/" exact component={FeedContainer} />
-                <Route path="/quotes/:id" exact component={SingleContainer} />
-                <PrivateRoutes />
-                <AdminRoutes />
-                <Route component={errors.NotFoundPage} />
+                <Route exact path="/quotes/:id" component={SingleContainer} />
+                <ProtectedRoute path="/favorites" component={Favorites} />
+                <AdminRoute path="/quotes/:id/edit" component={FormContainer} />
+                <AdminRoute path="/create-quote" component={QuoteForm} />
+
+                <Route path="/404" component={NotFoundPage} />
+                <Route path="/403" component={ForbiddenPage} />
+                <Redirect to="/404" />
               </Switch>
             </div>
           </Container>
