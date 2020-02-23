@@ -1,8 +1,8 @@
 import React, { useState, useEffect, createContext } from "react";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import axios from "axios";
 
-import { app } from "./Signin/firebase";
+import { app } from "../Signin/firebase";
+import { signIn } from "./api-calls";
 
 const AuthContext = createContext();
 
@@ -14,7 +14,7 @@ function AuthProvider({ children }) {
     app.auth().onAuthStateChanged(async firebaseUser => {
       if (firebaseUser) {
         const token = await firebaseUser.getIdToken();
-        const response = await axios.post("/v1/auth/token", { token });
+        const response = await signIn(token);
         firebaseUser = response.data.data;
       }
 
