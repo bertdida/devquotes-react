@@ -72,7 +72,7 @@ function Form(props) {
     if (isCreating) {
       await createQuote(quote);
     } else {
-      await updateQuote(quote);
+      await updateQuote({ ...quote, is_liked: undefined });
     }
 
     setIsSubmitting(false);
