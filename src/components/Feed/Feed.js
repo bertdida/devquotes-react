@@ -43,7 +43,9 @@ function Feed(props) {
     }
 
     await props.toggleLike(quote);
-    openSnackbar1();
+    if (!quote.is_liked) {
+      openSnackbar1();
+    }
   }
 
   function handleCopyLink({ id }) {
