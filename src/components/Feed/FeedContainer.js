@@ -74,8 +74,8 @@ function FeedContainer(props) {
 
     setQuotes({
       ...quotes,
-      data: quotes.data.map(({ data: _data }) => {
-        return { data: _data.id === data.id ? data : _data };
+      data: quotes.data.map(({ data: currData }) => {
+        return { data: currData.id === data.id ? data : currData };
       })
     });
   }
