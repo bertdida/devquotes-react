@@ -1,15 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import queryString from "query-string";
 
 import { fetchQuotes, deleteQuote, updateQuote } from "./api-calls";
 import Feed from "./Feed";
 import Skeleton from "../Quote/Skeleton";
+import { AuthContext } from "../Auth";
 
 function FeedContainer(props) {
+  const [user] = useContext(AuthContext);
   const [quotes, setQuotes] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const { page: initialPage } = queryString.parse(props.location.search);
   const [page, setPage] = useState(initialPage);
+
+  useEffect(() => {
+    if (user || !quotes.data) {
+      return;
+    }
+
+    // is_liked value to false if no user is signed in
+    const newQuoteData = quotes.data.map(quote => {
+      return { ...quote, data: { ...quote.data, is_liked: false } };
+    });
+
+    setQuotes({ ...quotes, data: newQuoteData });
+  }, [user]);
 
   useEffect(() => {
     async function _fetchQuotes() {
