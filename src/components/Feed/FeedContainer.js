@@ -60,8 +60,8 @@ function FeedContainer(props) {
   }
 
   async function toggleLike(quote) {
-    const newLikes = quote.is_liked ? quote.likes - 1 : quote.likes + 1;
-    const response = await updateQuote({ id: quote.id, likes: newLikes });
+    const params = { id: quote.id, is_liked: !quote.is_liked };
+    const response = await updateQuote(params);
     const { data } = response.data;
 
     setQuotes({
