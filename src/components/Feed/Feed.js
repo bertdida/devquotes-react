@@ -49,13 +49,7 @@ function Feed(props) {
   }
 
   function handleCopyLink({ id }) {
-    const textField = document.createElement("textarea");
-    textField.innerText = `${url}/quotes/${id}`;
-    document.body.appendChild(textField);
-    textField.select();
-    document.execCommand("copy");
-    textField.remove();
-
+    window.navigator.clipboard.writeText(`${url}/quotes/${id}`);
     openSnackbar2();
   }
 
