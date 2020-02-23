@@ -1,10 +1,20 @@
 import axios from "../axios";
 
-async function fetchQuotes(page, userLikes = false) {
-  let endPoint = "/v1/quotes?page=" + page;
-  if (userLikes) {
-    endPoint = "/v1/me/likes?page=" + page;
-  }
+async function fetchQuotes(page) {
+  const endPoint = "/v1/quotes?page=" + page;
+
+  return new Promise(async function(resolve, reject) {
+    try {
+      const response = await axios.get(endPoint);
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
+async function fetchLikedQuotes(page) {
+  const endPoint = "/v1/me/likes?page=" + page;
 
   return new Promise(async function(resolve, reject) {
     try {
@@ -56,4 +66,4 @@ async function updateQuote(quote) {
   });
 }
 
-export { fetchQuotes, deleteQuote, fetchQuote, updateQuote };
+export { fetchQuotes, fetchLikedQuotes, deleteQuote, fetchQuote, updateQuote };

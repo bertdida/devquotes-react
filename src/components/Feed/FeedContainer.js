@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 import queryString from "query-string";
 
-import { fetchQuotes, deleteQuote, updateQuote } from "./api-calls";
+// prettier-ignore
+import { fetchQuotes, fetchLikedQuotes, deleteQuote, updateQuote } from "./api-calls";
 import Feed from "./Feed";
 import Skeleton from "../Quote/Skeleton";
 import { AuthContext } from "../Auth";
@@ -24,18 +25,25 @@ function FeedContainer(props) {
     });
 
     setQuotes({ ...quotes, data: newQuoteData });
-  }, [user]);
+  }, [user, quotes]);
 
   useEffect(() => {
     async function _fetchQuotes() {
-      const userLikes = props.userLikes || false;
-      const response = await fetchQuotes(page || 1, userLikes);
+      const currPage = page || 1;
+      let response = {};
+
+      if (props.userLikes) {
+        response = await fetchLikedQuotes(currPage);
+      } else {
+        response = await fetchQuotes(currPage);
+      }
+
       setQuotes(response.data);
       setIsLoading(false);
     }
 
     _fetchQuotes();
-  }, [page]);
+  }, [page, props]);
 
   useEffect(() => {
     let isMounted = true;
