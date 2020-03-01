@@ -1,6 +1,6 @@
 import axios from "../axios";
 
-async function fetchQuotes(page) {
+export async function fetchQuotes(page) {
   const endPoint = "/v1/quotes?page=" + page;
 
   return new Promise(async function(resolve, reject) {
@@ -13,7 +13,7 @@ async function fetchQuotes(page) {
   });
 }
 
-async function fetchLikedQuotes(page) {
+export async function fetchLikedQuotes(page) {
   const endPoint = "/v1/me/likes?page=" + page;
 
   return new Promise(async function(resolve, reject) {
@@ -26,7 +26,7 @@ async function fetchLikedQuotes(page) {
   });
 }
 
-async function deleteQuote(id) {
+export async function deleteQuote(id) {
   const endPoint = "/v1/quotes/" + id;
 
   return new Promise(async function(resolve, reject) {
@@ -39,7 +39,7 @@ async function deleteQuote(id) {
   });
 }
 
-async function fetchQuote(id) {
+export async function fetchQuote(id) {
   const endPoint = "/v1/quotes/" + id;
 
   return new Promise(async function(resolve, reject) {
@@ -52,7 +52,7 @@ async function fetchQuote(id) {
   });
 }
 
-async function updateQuote(quote) {
+export async function updateQuote(quote) {
   const endPoint = "/v1/quotes/" + quote.id;
   const payload = { ...quote };
 
@@ -66,7 +66,7 @@ async function updateQuote(quote) {
   });
 }
 
-async function likeQuote(quote) {
+export async function likeQuote(quote) {
   const endPoint = "/v1/likes";
   const payload = { ...quote };
 
@@ -80,7 +80,7 @@ async function likeQuote(quote) {
   });
 }
 
-async function unlikeQuote(quote) {
+export async function unlikeQuote(quote) {
   const endPoint = "/v1/likes/" + quote.id;
 
   return new Promise(async function(resolve, reject) {
@@ -92,13 +92,3 @@ async function unlikeQuote(quote) {
     }
   });
 }
-
-export {
-  fetchQuotes,
-  fetchLikedQuotes,
-  deleteQuote,
-  fetchQuote,
-  updateQuote,
-  likeQuote,
-  unlikeQuote
-};
