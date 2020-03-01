@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { fetchQuote, deleteQuote, updateQuote } from "./api-calls";
+import { fetchQuote, deleteQuote, likeQuote, unlikeQuote } from "./api-calls";
 import Feed from "./Feed";
 import Skeleton from "../Quote/Skeleton";
 
@@ -34,9 +34,11 @@ function SingleContainer(props) {
     return <Skeleton />;
   }
 
-  async function toggleLike({ id, is_liked }) {
-    const response = await updateQuote({ id, is_liked: !is_liked });
+  async function toggleLike(quote) {
+    const apiFunction = !quote.is_liked ? likeQuote : unlikeQuote;
+    const response = await apiFunction(quote);
     const { data } = response.data;
+
     setQuote({ ...quote, data });
   }
 

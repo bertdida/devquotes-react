@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import queryString from "query-string";
 
 // prettier-ignore
-import { fetchQuotes, fetchLikedQuotes, deleteQuote, updateQuote } from "./api-calls";
+import { fetchQuotes, fetchLikedQuotes, deleteQuote, likeQuote, unlikeQuote } from "./api-calls";
 import Feed from "./Feed";
 import Skeleton from "../Quote/Skeleton";
 import { AuthContext } from "../Auth";
@@ -72,8 +72,9 @@ function FeedContainer(props) {
     callback();
   }
 
-  async function toggleLike({ id, is_liked }) {
-    const response = await updateQuote({ id, is_liked: !is_liked });
+  async function toggleLike(quote) {
+    const apiFunction = !quote.is_liked ? likeQuote : unlikeQuote;
+    const response = await apiFunction(quote);
     const { data } = response.data;
 
     setQuotes({

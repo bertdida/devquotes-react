@@ -66,4 +66,39 @@ async function updateQuote(quote) {
   });
 }
 
-export { fetchQuotes, fetchLikedQuotes, deleteQuote, fetchQuote, updateQuote };
+async function likeQuote(quote) {
+  const endPoint = "/v1/likes";
+  const payload = { ...quote };
+
+  return new Promise(async function(resolve, reject) {
+    try {
+      const response = await axios.post(endPoint, payload);
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
+async function unlikeQuote(quote) {
+  const endPoint = "/v1/likes/" + quote.id;
+
+  return new Promise(async function(resolve, reject) {
+    try {
+      const response = await axios.delete(endPoint);
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
+export {
+  fetchQuotes,
+  fetchLikedQuotes,
+  deleteQuote,
+  fetchQuote,
+  updateQuote,
+  likeQuote,
+  unlikeQuote
+};
