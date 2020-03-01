@@ -17,7 +17,7 @@ function SingleContainer(props) {
         setQuote(response.data);
         setIsLoading(false);
       } catch (error) {
-        if (error.response.status === 404) {
+        if (error.response && error.response.status === 404) {
           return props.history.push("/404");
         }
       }
