@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Favorites = props => <FeedContainer {...props} userLikes={true} />;
+const Favorites = props => <FeedContainer {...props} isFavoritesPage={true} />;
 
 function App() {
   const classes = useStyles();
