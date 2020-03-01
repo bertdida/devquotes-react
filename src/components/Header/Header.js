@@ -45,7 +45,7 @@ function Header() {
               to="/"
               component={Link}
             >
-              Devquotes
+              DevQuotes
             </Typography>
             <Button color="inherit" component={Link} to="/">
               Home
