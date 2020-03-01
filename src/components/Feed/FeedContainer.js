@@ -1,13 +1,12 @@
 import React, { useEffect, useState, useContext } from "react";
 import queryString from "query-string";
 
-// prettier-ignore
-import { fetchQuotes, fetchLikedQuotes, deleteQuote, likeQuote, unlikeQuote } from "./api-calls";
+import * as api from "./api-calls";
 import Feed from "./Feed";
 import Skeleton from "../Quote/Skeleton";
 import { AuthContext } from "../Auth";
 
-function FeedContainer(props) {
+function FeedContainer({ isFavoritesPage, ...props }) {
   const [user] = useContext(AuthContext);
   const [quotes, setQuotes] = useState({});
   const [isLoading, setIsLoading] = useState(true);
@@ -34,20 +33,17 @@ function FeedContainer(props) {
   useEffect(() => {
     async function _fetchQuotes() {
       const currPage = page || 1;
-      let response = {};
+      const apiFunction = isFavoritesPage
+        ? api.fetchLikedQuotes
+        : api.fetchQuotes;
 
-      if (props.userLikes) {
-        response = await fetchLikedQuotes(currPage);
-      } else {
-        response = await fetchQuotes(currPage);
-      }
-
+      const response = await apiFunction(currPage);
       setQuotes(response.data);
       setIsLoading(false);
     }
 
     _fetchQuotes();
-  }, [page, props]);
+  }, [page, isFavoritesPage]);
 
   useEffect(() => {
     let isMounted = true;
@@ -66,14 +62,14 @@ function FeedContainer(props) {
   }
 
   async function _deleteQuote({ id }, callback) {
-    await deleteQuote(id);
-    const response = await fetchQuotes(quotes.curr_page);
+    await api.deleteQuote(id);
+    const response = await api.fetchQuotes(quotes.curr_page);
     setQuotes(response.data);
     callback();
   }
 
   async function toggleLike(quote) {
-    const apiFunction = !quote.is_liked ? likeQuote : unlikeQuote;
+    const apiFunction = !quote.is_liked ? api.likeQuote : api.unlikeQuote;
     const response = await apiFunction(quote);
     const { data } = response.data;
 
