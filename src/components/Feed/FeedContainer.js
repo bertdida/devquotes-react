@@ -38,9 +38,15 @@ function FeedContainer({ isFavoritesPage, ...props }) {
         ? api.fetchLikedQuotes
         : api.fetchQuotes;
 
-      const response = await apiFunction(currPage);
-      setQuotes(response.data);
-      setIsLoading(false);
+      try {
+        const response = await apiFunction(currPage);
+        setQuotes(response.data);
+        setIsLoading(false);
+      } catch (error) {
+        if (error.response && error.response.status === 404) {
+          return props.history.push("/404");
+        }
+      }
     }
 
     _fetchQuotes();
