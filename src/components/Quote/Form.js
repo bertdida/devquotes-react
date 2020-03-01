@@ -39,7 +39,7 @@ function Form(props) {
   const [quote, setQuote] = useState({
     author: "",
     quotation: "",
-    source: ""
+    source: null
   });
 
   useEffect(() => {
@@ -69,11 +69,8 @@ function Form(props) {
     event.preventDefault();
     setIsSubmitting(true);
 
-    if (isCreating) {
-      await createQuote(quote);
-    } else {
-      await updateQuote({ ...quote, is_liked: undefined });
-    }
+    const apiFunction = isCreating ? createQuote : updateQuote;
+    await apiFunction(quote);
 
     setIsSubmitting(false);
     openSnackbar();
@@ -82,7 +79,7 @@ function Form(props) {
       setQuote({
         author: "",
         quotation: "",
-        source: ""
+        source: null
       });
     }
   }
