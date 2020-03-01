@@ -24,7 +24,7 @@ function SingleContainer(props) {
     }
 
     _fetchQuote();
-  }, [quoteId]);
+  }, [quoteId, props.history]);
 
   async function _deleteQuote({ id }) {
     await deleteQuote(id);
