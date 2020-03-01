@@ -14,7 +14,7 @@ export async function fetchQuotes(page) {
 }
 
 export async function fetchLikedQuotes(page) {
-  const endPoint = "/v1/me/likes?page=" + page;
+  const endPoint = "/v1/likes?page=" + page;
 
   return new Promise(async function(resolve, reject) {
     try {
