@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Helmet } from "react-helmet";
 
 import { fetchQuote, deleteQuote, likeQuote, unlikeQuote } from "./api-calls";
 import Feed from "./Feed";
@@ -43,12 +44,19 @@ function SingleContainer(props) {
   }
 
   return (
-    <Feed
-      data={{ quotes: { data: [quote] } }}
-      deleteQuote={_deleteQuote}
-      toggleLike={toggleLike}
-      {...props}
-    />
+    <React.Fragment>
+      <Helmet>
+        <title>
+          DevQuotes | {`${quote.data.quotation} — ${quote.data.author}`}
+        </title>
+      </Helmet>
+      <Feed
+        data={{ quotes: { data: [quote] } }}
+        deleteQuote={_deleteQuote}
+        toggleLike={toggleLike}
+        {...props}
+      />
+    </React.Fragment>
   );
 }
 

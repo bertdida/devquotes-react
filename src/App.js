@@ -2,6 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import Container from "@material-ui/core/Container";
+import { Helmet } from "react-helmet";
 
 import { ThemeProvider } from "./components/Theme";
 import { AuthProvider } from "./components/Auth";
@@ -41,29 +42,38 @@ function App() {
   const classes = useStyles();
 
   return (
-    <ThemeProvider>
-      <AuthProvider>
-        <BrowserRouter>
-          <Header />
-          <Container maxWidth="md">
-            <div className={classes.wrapper}>
-              <Switch>
-                <Route exact path="/" component={FeedContainer} />
-                <Route path="/signin" component={Signin} />
-                <Route exact path="/quotes/:id" component={SingleContainer} />
-                <ProtectedRoute path="/favorites" component={Favorites} />
-                <AdminRoute path="/quotes/:id/edit" component={FormContainer} />
-                <AdminRoute path="/create-quote" component={QuoteForm} />
+    <React.Fragment>
+      <Helmet>
+        <title>DevQuotes</title>
+      </Helmet>
 
-                <Route path="/404" component={NotFoundPage} />
-                <Route path="/403" component={ForbiddenPage} />
-                <Redirect to="/404" />
-              </Switch>
-            </div>
-          </Container>
-        </BrowserRouter>
-      </AuthProvider>
-    </ThemeProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <BrowserRouter>
+            <Header />
+            <Container maxWidth="md">
+              <div className={classes.wrapper}>
+                <Switch>
+                  <Route exact path="/" component={FeedContainer} />
+                  <Route path="/signin" component={Signin} />
+                  <Route exact path="/quotes/:id" component={SingleContainer} />
+                  <ProtectedRoute path="/favorites" component={Favorites} />
+                  <AdminRoute
+                    path="/quotes/:id/edit"
+                    component={FormContainer}
+                  />
+                  <AdminRoute path="/create-quote" component={QuoteForm} />
+
+                  <Route path="/404" component={NotFoundPage} />
+                  <Route path="/403" component={ForbiddenPage} />
+                  <Redirect to="/404" />
+                </Switch>
+              </div>
+            </Container>
+          </BrowserRouter>
+        </AuthProvider>
+      </ThemeProvider>
+    </React.Fragment>
   );
 }
 

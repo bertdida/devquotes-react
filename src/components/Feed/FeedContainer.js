@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import queryString from "query-string";
+import { Helmet } from "react-helmet";
 
 import * as api from "./api-calls";
 import Feed from "./Feed";
@@ -86,13 +87,21 @@ function FeedContainer({ isFavoritesPage, ...props }) {
   }
 
   return (
-    <Feed
-      data={{ quotes }}
-      setPage={_setPage}
-      deleteQuote={_deleteQuote}
-      toggleLike={toggleLike}
-      {...props}
-    />
+    <React.Fragment>
+      {isFavoritesPage && (
+        <Helmet>
+          <title>DevQuotes | Favorites</title>
+        </Helmet>
+      )}
+
+      <Feed
+        data={{ quotes }}
+        setPage={_setPage}
+        deleteQuote={_deleteQuote}
+        toggleLike={toggleLike}
+        {...props}
+      />
+    </React.Fragment>
   );
 }
 
