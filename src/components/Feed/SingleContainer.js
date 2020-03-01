@@ -11,9 +11,15 @@ function SingleContainer(props) {
 
   useEffect(() => {
     async function _fetchQuote() {
-      const response = await fetchQuote(quoteId);
-      setQuote(response.data);
-      setIsLoading(false);
+      try {
+        const response = await fetchQuote(quoteId);
+        setQuote(response.data);
+        setIsLoading(false);
+      } catch (error) {
+        if (error.response.status === 404) {
+          return props.history.push("/404");
+        }
+      }
     }
 
     _fetchQuote();
