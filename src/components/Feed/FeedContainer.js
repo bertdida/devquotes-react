@@ -50,7 +50,7 @@ function FeedContainer({ isFavoritesPage, ...props }) {
     }
 
     _fetchQuotes();
-  }, [page, isFavoritesPage]);
+  }, [page, isFavoritesPage, props.history]);
 
   useEffect(() => {
     let isMounted = true;
