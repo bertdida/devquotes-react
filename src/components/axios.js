@@ -7,6 +7,11 @@ let subscribers = [];
 
 instance.interceptors.request.use(config => {
   const access_token = Cookies.get("csrf_access_token");
+
+  if (process.env.NODE_ENV === "production" && config.url.startsWith("/v1")) {
+    config.baseURL = process.env.REACT_APP_API;
+  }
+
   if (access_token !== null) {
     config.headers["x-csrf-token"] = access_token;
   }
