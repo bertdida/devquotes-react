@@ -5,18 +5,26 @@ const instance = axios.create();
 let isRefreshing = false;
 let subscribers = [];
 
-instance.interceptors.request.use(config => {
-  const access_token = Cookies.get("csrf_access_token");
-
+function setBaseUrl(config) {
   if (process.env.NODE_ENV === "production" && config.url.startsWith("/v1")) {
     config.baseURL = process.env.REACT_APP_API;
   }
+
+  return config;
+}
+
+axios.interceptors.request.use(config => {
+  return setBaseUrl(config);
+});
+
+instance.interceptors.request.use(config => {
+  const access_token = Cookies.get("csrf_access_token");
 
   if (access_token !== null) {
     config.headers["x-csrf-token"] = access_token;
   }
 
-  return config;
+  return setBaseUrl(config);
 });
 
 instance.interceptors.response.use(
