@@ -20,7 +20,7 @@ axios.interceptors.request.use(config => {
 instance.interceptors.request.use(config => {
   const access_token = Cookies.get("csrf_access_token");
 
-  if (access_token !== null) {
+  if (access_token) {
     config.headers["x-csrf-token"] = access_token;
   }
 
