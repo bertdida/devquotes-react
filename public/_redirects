@@ -1,2 +1,2 @@
 /*  /index.html  200
-/v1/*  https://api-devquotes.herokuapp.com/:splat  200
+/v1/*  https://api-devquotes.herokuapp.com/v1/:splat  200
