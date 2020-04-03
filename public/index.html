@@ -6,15 +6,15 @@
   <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#000000" />
-  <meta name="description" content="Web site created using create-react-app" />
+  <meta name="description" content="Share and browse quotations from the famous Software Engineers." />
   <link rel="apple-touch-icon" href="logo192.png" />
 
-  <meta property="og:title" content="DevQuotes">
-  <meta property="og:description" content="Share and browse quotations from the famous Software Engineers.">
+  <meta property="og:title" content="DevQuotes" />
+  <meta property="og:description" content="Share and browse quotations from the famous Software Engineers." />
   <meta property="og:type" content="website" />
 
-  <meta property="fb:app_id" content="534099620720383" />
-  <meta name="twitter:card" content="summary_large_image">
+  <meta property="fb:app_id" content="%REACT_APP_FACEBOOK_APP_ID%" />
+  <meta name="twitter:card" content="summary_large_image" />
 
   <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -31,19 +31,19 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
   <title>DevQuotes</title>
-  <link href="https://fonts.googleapis.com/css?family=Poppins:500,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Poppins:500,700&display=swap" rel="stylesheet" />
 
+  <script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
   <script>
     window.fbAsyncInit = function () {
       FB.init({
-        appId: "534099620720383",
+        appId: document.querySelector('[property="fb:app_id"]').content,
         autoLogAppEvents: true,
         xfbml: true,
         version: "v5.0"
       });
     };
   </script>
-  <script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
 </head>
 
 <body>
