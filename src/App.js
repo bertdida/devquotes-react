@@ -1,42 +1,41 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
-import Container from "@material-ui/core/Container";
-import { Helmet } from "react-helmet";
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import Container from '@material-ui/core/Container';
+import { Helmet } from 'react-helmet';
 
-import { ThemeProvider } from "./components/Theme";
-import { AuthProvider } from "./components/Auth";
-import Header from "./components/Header";
-import Signin from "./components/Signin";
-import FormContainer from "./components/Quote/FormContainer";
-import { default as QuoteForm } from "./components/Quote/Form";
-import { NotFoundPage, ForbiddenPage } from "./components/errors";
-import FeedContainer from "./components/Feed/FeedContainer";
-import SingleContainer from "./components/Feed/SingleContainer";
-import { ProtectedRoute } from "./protected.route";
-import { AdminRoute } from "./admin.route";
+import { ThemeProvider } from './common/Theme';
+import { AuthProvider } from './common/Auth';
+import Header from './common/Header';
+import { NotFoundPage, ForbiddenPage } from './pages/errors';
+import { default as ProtectedRoute } from './common/route/Protected';
+import { default as AdminRoute } from './common/route/Admin';
+import HomeContainer from './pages/home';
+import QuoteContainer from './pages/quote';
+import QuotesContainer from './pages/quotes';
+import FavoritesContainer from './pages/favorites';
+import SignIn from './pages/signin';
+import FormContainer from './pages/form';
 
 const useStyles = makeStyles(theme => ({
   container: {
     paddingTop: theme.spacing(7),
-    [theme.breakpoints.up("sm")]: {
-      paddingTop: theme.spacing(8)
-    }
+    [theme.breakpoints.up('sm')]: {
+      paddingTop: theme.spacing(8),
+    },
   },
   wrapper: {
     marginTop: theme.spacing(7),
     padding: theme.spacing(2),
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up('sm')]: {
       marginTop: theme.spacing(8),
-      padding: theme.spacing(3)
+      padding: theme.spacing(3),
     },
-    "& > *:first-child": {
-      marginTop: 0
-    }
-  }
+    '& > *:first-child': {
+      marginTop: 0,
+    },
+  },
 }));
-
-const Favorites = props => <FeedContainer {...props} isFavoritesPage={true} />;
 
 function App() {
   const classes = useStyles();
@@ -54,16 +53,20 @@ function App() {
             <Container maxWidth="md">
               <div className={classes.wrapper}>
                 <Switch>
-                  <Route exact path="/" component={FeedContainer} />
-                  <Route path="/signin" component={Signin} />
-                  <Route exact path="/quotes/:id" component={SingleContainer} />
-                  <ProtectedRoute path="/favorites" component={Favorites} />
+                  <Route exact path="/" component={HomeContainer} />
                   <AdminRoute
                     path="/quotes/:id/edit"
                     component={FormContainer}
                   />
-                  <AdminRoute path="/create-quote" component={QuoteForm} />
+                  <Route path="/signin" component={SignIn} />
+                  <Route exact path="/quotes/:id" component={QuoteContainer} />
+                  <Route path="/quotes" component={QuotesContainer} />
+                  <ProtectedRoute
+                    path="/favorites"
+                    component={FavoritesContainer}
+                  />
 
+                  <AdminRoute path="/create-quote" component={FormContainer} />
                   <Route path="/404" component={NotFoundPage} />
                   <Route path="/403" component={ForbiddenPage} />
                   <Redirect to="/404" />

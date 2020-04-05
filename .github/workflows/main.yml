@@ -1,6 +1,7 @@
 name: Deploy workflow
 
 on:
+  repository_dispatch:
   push:
   pull_request:
     branches:
@@ -50,6 +51,7 @@ jobs:
           REACT_APP_FIREBASE_AUTH_DOMAIN: ${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}
           REACT_APP_FIREBASE_API_KEY: ${{ secrets.REACT_APP_FIREBASE_API_KEY }}
           REACT_APP_FACEBOOK_APP_ID: ${{ secrets.REACT_APP_FACEBOOK_APP_ID }}
+          REACT_APP_RECAPTCHA_KEY: ${{ secrets.REACT_APP_RECAPTCHA_KEY }}
 
       - name: Push to Netlify
         uses: netlify/actions/cli@master

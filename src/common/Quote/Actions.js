@@ -1,0 +1,68 @@
+import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
+import CardActions from '@material-ui/core/CardActions';
+import Fab from '@material-ui/core/Fab';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import { red } from '@material-ui/core/colors';
+
+import { AuthContext } from 'common/Auth';
+import ActionsUser from './ActionsUser';
+import ActionsAdmin from './ActionsAdmin';
+
+const useStyles = makeStyles(theme => ({
+  container: {
+    padding: `0 ${theme.spacing(2)}px`,
+  },
+  textDanger: {
+    display: 'flex',
+    justifyContent: 'center',
+    width: '100%',
+    color: red['500'],
+  },
+  like: {
+    boxShadow: 'none !important',
+    marginRight: 'auto',
+  },
+  likeIcon: {
+    marginRight: theme.spacing(0.5),
+  },
+}));
+
+export default function Actions({ quote, isDeleted, toggleLike, ...props }) {
+  const classes = useStyles();
+  const [user] = useContext(AuthContext);
+  const isAdmin = user && user.is_admin;
+
+  return (
+    <CardActions className={classes.container}>
+      {isDeleted ? (
+        <div className={classes.textDanger}>
+          <p>This quote has been deleted.</p>
+        </div>
+      ) : (
+        <React.Fragment>
+          <Fab
+            size="medium"
+            variant="extended"
+            color={quote.is_liked ? 'secondary' : 'default'}
+            className={classes.like}
+            onClick={toggleLike}
+            data-testid="button-like"
+          >
+            <FavoriteIcon className={classes.likeIcon} />
+            {quote.likes}
+          </Fab>
+
+          {isAdmin ? <ActionsAdmin {...props} /> : <ActionsUser {...props} />}
+        </React.Fragment>
+      )}
+    </CardActions>
+  );
+}
+
+Actions.propTypes = {
+  quote: PropTypes.object.isRequired,
+  isDeleted: PropTypes.bool.isRequired,
+  toggleLike: PropTypes.func.isRequired,
+};
