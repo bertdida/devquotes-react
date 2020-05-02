@@ -32,7 +32,7 @@ export default function Signin() {
   return (
     <React.Fragment>
       <Helmet>
-        <title>DevQuotes | Signin</title>
+        <title>DevQuotes | Sign In</title>
       </Helmet>
 
       <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={app.auth()} />
