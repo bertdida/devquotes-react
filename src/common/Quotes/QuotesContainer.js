@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Helmet } from 'react-helmet';
 import queryString from 'query-string';
 
 import Skeleton from 'common/Quote/Skeleton';
@@ -48,18 +47,12 @@ export default function QuotesContainer(props) {
   }
 
   return (
-    <React.Fragment>
-      <Helmet>
-        <title>DevQuotes | Quotes</title>
-      </Helmet>
-
-      <Quotes
-        quotes={quotes}
-        pagination={pagination}
-        updatePage={updatePage}
-        {...props}
-      />
-    </React.Fragment>
+    <Quotes
+      quotes={quotes}
+      pagination={pagination}
+      updatePage={updatePage}
+      {...props}
+    />
   );
 }
 

@@ -20,17 +20,17 @@ export default function HomeContainer(props) {
 
   useEffect(() => requestQuote(), []);
 
-  if (isLoading) {
-    return <Skeleton />;
-  }
-
   return (
     <React.Fragment>
       <Helmet>
         <title>DevQuotes | Home</title>
       </Helmet>
 
-      <Home quote={quote} requestQuote={requestQuote} {...props} />
+      {isLoading ? (
+        <Skeleton />
+      ) : (
+        <Home quote={quote} requestQuote={requestQuote} {...props} />
+      )}
     </React.Fragment>
   );
 }

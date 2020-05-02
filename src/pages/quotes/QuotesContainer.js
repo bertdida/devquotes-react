@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Helmet } from 'react-helmet';
 
 import { default as Container } from 'common/Quotes';
 import * as api from './api-calls';
@@ -10,11 +11,17 @@ export default function QuotesContainer(props) {
   }
 
   return (
-    <Container
-      fetchQuotes={api.fetchQuotes}
-      updatePage={updatePage}
-      {...props}
-    />
+    <React.Fragment>
+      <Helmet>
+        <title>DevQuotes | Quotes</title>
+      </Helmet>
+
+      <Container
+        fetchQuotes={api.fetchQuotes}
+        updatePage={updatePage}
+        {...props}
+      />
+    </React.Fragment>
   );
 }
 
