@@ -16,6 +16,7 @@ import QuotesContainer from './pages/quotes';
 import FavoritesContainer from './pages/favorites';
 import SignIn from './pages/signin';
 import FormContainer from './pages/form';
+import SearchContainer from './pages/search';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -61,6 +62,8 @@ function App() {
                   <Route path="/signin" component={SignIn} />
                   <Route exact path="/quotes/:id" component={QuoteContainer} />
                   <Route path="/quotes" component={QuotesContainer} />
+                  <Route path="/search" component={SearchContainer} />
+
                   <ProtectedRoute
                     path="/favorites"
                     component={FavoritesContainer}

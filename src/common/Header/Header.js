@@ -54,6 +54,9 @@ export default function Header() {
             <Button color="inherit" component={Link} to="/quotes">
               Quotes
             </Button>
+            <Button color="inherit" component={Link} to="/search">
+              Search
+            </Button>
             {user ? (
               <Button
                 color="inherit"
