@@ -66,7 +66,7 @@ function App() {
                     component={FavoritesContainer}
                   />
 
-                  <AdminRoute path="/create-quote" component={FormContainer} />
+                  <AdminRoute path="/create" component={FormContainer} />
                   <Route path="/404" component={NotFoundPage} />
                   <Route path="/403" component={ForbiddenPage} />
                   <Redirect to="/404" />

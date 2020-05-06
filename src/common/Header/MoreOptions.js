@@ -85,7 +85,7 @@ export default function MoreOptions({ user }) {
             icon={SendIcon}
             onClick={hide}
             component={Link}
-            to="/create-quote"
+            to="/create"
             data-testid="createQuote"
           />
         )}
