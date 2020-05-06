@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function Results({ hasSearched, quotes }) {
+function Results({ hasSearched, quotes, ...props }) {
   const classes = useStyles();
 
   if (!hasSearched) {
@@ -40,7 +40,7 @@ function Results({ hasSearched, quotes }) {
   return (
     <React.Fragment>
       {quotes.map(quote => (
-        <QuoteContainer key={quote.id} quote={quote} />
+        <QuoteContainer key={quote.id} quote={quote} {...props} />
       ))}
     </React.Fragment>
   );
@@ -75,7 +75,7 @@ export default function Search(props) {
         {isLoading ? (
           <Skeleton />
         ) : (
-          <Results quotes={quotes} hasSearched={hasSearched} />
+          <Results quotes={quotes} hasSearched={hasSearched} {...props} />
         )}
       </div>
     </React.Fragment>

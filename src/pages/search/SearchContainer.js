@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 import Search from './Search';
 import * as api from './api-calls';
 
-export default function SearchContainer() {
+export default function SearchContainer(props) {
   const [query, setQuery] = useState('');
   const [quotes, setQuotes] = useState([]);
   const [typingTimeout, setTypingTimeout] = useState();
@@ -47,6 +47,7 @@ export default function SearchContainer() {
         isLoading={isLoading}
         onChange={onChangeField}
         hasSearched={hasSearched}
+        {...props}
       />
     </React.Fragment>
   );
