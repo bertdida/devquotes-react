@@ -135,10 +135,13 @@ export default function Form({ quote: initialQuote }) {
               fullWidth
             />
           </div>
-          <ReCAPTCHA
-            sitekey={process.env.REACT_APP_RECAPTCHA_KEY}
-            size="invisible"
-          />
+
+          {process.env.REACT_APP_RECAPTCHA_KEY && (
+            <ReCAPTCHA
+              sitekey={process.env.REACT_APP_RECAPTCHA_KEY}
+              size="invisible"
+            />
+          )}
 
           <div className={classes.buttonWrapper}>
             <Button
