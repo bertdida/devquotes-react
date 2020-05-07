@@ -50,9 +50,13 @@ export default function Search(props) {
   const { quotes, isLoading, value, onChange, hasSearched } = props;
   const classes = useStyles();
 
+  function onSubmit(event) {
+    event.preventDefault();
+  }
+
   return (
     <React.Fragment>
-      <form>
+      <form onSubmit={onSubmit}>
         <TextField
           value={value}
           onChange={onChange}
