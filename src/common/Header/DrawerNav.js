@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { default as MuiDrawer } from '@material-ui/core/Drawer';
+import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
 import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton';
@@ -15,15 +15,15 @@ import { ThemeContext } from 'common/Theme';
 import app from 'common/firebase';
 import * as api from './api-calls';
 
-const DRAWER_WIDTH = 250;
+const DRAWER_NAV_WIDTH = 250;
 
 const useStyles = makeStyles({
   drawer: {
-    width: DRAWER_WIDTH,
+    width: DRAWER_NAV_WIDTH,
   },
 });
 
-function DrawerList({ onClose }) {
+function DrawerNavList({ onClose }) {
   const classes = useStyles();
   const [user] = useContext(AuthContext);
   const [isDarkTheme, toggleTheme] = useContext(ThemeContext);
@@ -49,27 +49,25 @@ function DrawerList({ onClose }) {
           <ListItemText primary="Quotes" />
         </ListItem>
 
-        <ListItem button component={Link} to="/search">
-          <ListItemText primary="Search" />
-        </ListItem>
-
         {user && (
           <ListItem button component={Link} to="/favorites">
             <ListItemText primary="Favorites" />
           </ListItem>
         )}
+
+        <ListItem button component={Link} to="/search">
+          <ListItemText primary="Search" />
+        </ListItem>
       </List>
+
       <Divider />
+
       <List>
         {user && user.is_admin && (
           <ListItem button component={Link} to="/create">
             <ListItemText primary="Create Quote" />
           </ListItem>
         )}
-
-        <ListItem button onClick={toggleTheme}>
-          <ListItemText primary={`Dark Theme: ${isDarkTheme ? 'On' : 'Off'}`} />
-        </ListItem>
 
         {user ? (
           <ListItem button onClick={signOut}>
@@ -81,11 +79,19 @@ function DrawerList({ onClose }) {
           </ListItem>
         )}
       </List>
+
+      <Divider />
+
+      <List>
+        <ListItem button onClick={toggleTheme}>
+          <ListItemText primary={`Dark Theme: ${isDarkTheme ? 'On' : 'Off'}`} />
+        </ListItem>
+      </List>
     </div>
   );
 }
 
-export default function Drawer() {
+export default function DrawerNav() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const toggleDrawer = state => event => {
@@ -109,17 +115,13 @@ export default function Drawer() {
         <MenuIcon />
       </IconButton>
 
-      <MuiDrawer
-        anchor="right"
-        open={isDrawerOpen}
-        onClose={toggleDrawer(false)}
-      >
-        <DrawerList onClose={toggleDrawer(false)} />
-      </MuiDrawer>
+      <Drawer anchor="right" open={isDrawerOpen} onClose={toggleDrawer(false)}>
+        <DrawerNavList onClose={toggleDrawer(false)} />
+      </Drawer>
     </React.Fragment>
   );
 }
 
-DrawerList.propTypes = {
+DrawerNavList.propTypes = {
   onClose: PropTypes.func.isRequired,
 };

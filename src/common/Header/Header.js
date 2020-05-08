@@ -13,7 +13,7 @@ import Hidden from '@material-ui/core/Hidden';
 
 import { AuthContext } from 'common/Auth';
 import MoreOptions from './MoreOptions';
-import Drawer from './Drawer';
+import DrawerNav from './DrawerNav';
 
 const useStyles = makeStyles({
   title: {
@@ -84,7 +84,7 @@ export default function Header() {
             </Hidden>
 
             <Hidden mdUp>
-              <Drawer />
+              <DrawerNav />
             </Hidden>
           </Toolbar>
         </Container>
