@@ -11,8 +11,11 @@ import Slide from '@material-ui/core/Slide';
 import Hidden from '@material-ui/core/Hidden';
 
 import { AuthContext } from 'common/Auth';
-import DrawerNav from './DrawerNav';
+import { ThemeContext } from 'common/Theme';
+import app from 'common/firebase';
+import NavDrawer from './NavDrawer';
 import NavTop from './NavTop';
+import * as api from './api-calls';
 
 const useStyles = makeStyles({
   title: {
@@ -35,6 +38,12 @@ function HideOnScroll({ children }) {
 export default function Header() {
   const classes = useStyles();
   const [user] = useContext(AuthContext);
+  const [isDarkTheme, toggleTheme] = useContext(ThemeContext);
+
+  async function signOut() {
+    await api.signOut();
+    await app.auth().signOut();
+  }
 
   return (
     <HideOnScroll>
@@ -51,11 +60,21 @@ export default function Header() {
             </Typography>
 
             <Hidden smDown>
-              <NavTop user={user} />
+              <NavTop
+                user={user}
+                signOut={signOut}
+                isDarkTheme={isDarkTheme}
+                toggleTheme={toggleTheme}
+              />
             </Hidden>
 
             <Hidden mdUp>
-              <DrawerNav />
+              <NavDrawer
+                user={user}
+                signOut={signOut}
+                isDarkTheme={isDarkTheme}
+                toggleTheme={toggleTheme}
+              />
             </Hidden>
           </Toolbar>
         </Container>

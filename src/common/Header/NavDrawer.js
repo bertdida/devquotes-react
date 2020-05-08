@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Drawer from '@material-ui/core/Drawer';
@@ -10,28 +10,17 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { AuthContext } from 'common/Auth';
-import { ThemeContext } from 'common/Theme';
-import app from 'common/firebase';
-import * as api from './api-calls';
-
-const DRAWER_NAV_WIDTH = 250;
+const NAV_DRAWER_WIDTH = 250;
 
 const useStyles = makeStyles({
   drawer: {
-    width: DRAWER_NAV_WIDTH,
+    width: NAV_DRAWER_WIDTH,
   },
 });
 
-function DrawerNavList({ onClose }) {
+function NavDrawerList(props) {
   const classes = useStyles();
-  const [user] = useContext(AuthContext);
-  const [isDarkTheme, toggleTheme] = useContext(ThemeContext);
-
-  async function signOut() {
-    await api.signOut();
-    await app.auth().signOut();
-  }
+  const { user, onClose, signOut, toggleTheme, isDarkTheme } = props;
 
   return (
     <div
@@ -91,7 +80,7 @@ function DrawerNavList({ onClose }) {
   );
 }
 
-export default function DrawerNav() {
+export default function NavDrawer(props) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const toggleDrawer = state => event => {
@@ -116,12 +105,16 @@ export default function DrawerNav() {
       </IconButton>
 
       <Drawer anchor="right" open={isDrawerOpen} onClose={toggleDrawer(false)}>
-        <DrawerNavList onClose={toggleDrawer(false)} />
+        <NavDrawerList onClose={toggleDrawer(false)} {...props} />
       </Drawer>
     </React.Fragment>
   );
 }
 
-DrawerNavList.propTypes = {
+NavDrawerList.propTypes = {
   onClose: PropTypes.func.isRequired,
+  user: PropTypes.object,
+  signOut: PropTypes.func.isRequired,
+  toggleTheme: PropTypes.func.isRequired,
+  isDarkTheme: PropTypes.bool.isRequired,
 };
