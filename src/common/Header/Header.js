@@ -9,9 +9,11 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import Slide from '@material-ui/core/Slide';
+import Hidden from '@material-ui/core/Hidden';
 
 import { AuthContext } from 'common/Auth';
 import MoreOptions from './MoreOptions';
+import Drawer from './Drawer';
 
 const useStyles = makeStyles({
   title: {
@@ -48,35 +50,42 @@ export default function Header() {
             >
               DevQuotes
             </Typography>
-            <Button color="inherit" component={Link} to="/">
-              Home
-            </Button>
-            <Button color="inherit" component={Link} to="/quotes">
-              Quotes
-            </Button>
-            <Button color="inherit" component={Link} to="/search">
-              Search
-            </Button>
-            {user ? (
-              <Button
-                color="inherit"
-                component={Link}
-                to="/favorites"
-                data-testid="favorites"
-              >
-                Favorites
+
+            <Hidden smDown>
+              <Button color="inherit" component={Link} to="/">
+                Home
               </Button>
-            ) : (
-              <Button
-                color="inherit"
-                component={Link}
-                to="/signin"
-                data-testid="signIn"
-              >
-                Sign In
+              <Button color="inherit" component={Link} to="/quotes">
+                Quotes
               </Button>
-            )}
-            <MoreOptions user={user} />
+              <Button color="inherit" component={Link} to="/search">
+                Search
+              </Button>
+              {user ? (
+                <Button
+                  color="inherit"
+                  component={Link}
+                  to="/favorites"
+                  data-testid="favorites"
+                >
+                  Favorites
+                </Button>
+              ) : (
+                <Button
+                  color="inherit"
+                  component={Link}
+                  to="/signin"
+                  data-testid="signIn"
+                >
+                  Sign In
+                </Button>
+              )}
+              <MoreOptions user={user} />
+            </Hidden>
+
+            <Hidden mdUp>
+              <Drawer />
+            </Hidden>
           </Toolbar>
         </Container>
       </AppBar>
