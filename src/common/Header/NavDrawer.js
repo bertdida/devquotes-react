@@ -30,21 +30,36 @@ function NavDrawerList(props) {
       className={classes.drawer}
     >
       <List>
-        <ListItem button component={Link} to="/">
+        <ListItem button component={Link} to="/" data-testid="home-link">
           <ListItemText primary="Home" />
         </ListItem>
 
-        <ListItem button component={Link} to="/quotes">
+        <ListItem
+          button
+          component={Link}
+          to="/quotes"
+          data-testid="quotes-link"
+        >
           <ListItemText primary="Quotes" />
         </ListItem>
 
         {user && (
-          <ListItem button component={Link} to="/favorites">
+          <ListItem
+            button
+            component={Link}
+            to="/favorites"
+            data-testid="favorites-link"
+          >
             <ListItemText primary="Favorites" />
           </ListItem>
         )}
 
-        <ListItem button component={Link} to="/search">
+        <ListItem
+          button
+          component={Link}
+          to="/search"
+          data-testid="search-link"
+        >
           <ListItemText primary="Search" />
         </ListItem>
       </List>
@@ -53,17 +68,27 @@ function NavDrawerList(props) {
 
       <List>
         {user && user.is_admin && (
-          <ListItem button component={Link} to="/create">
+          <ListItem
+            button
+            component={Link}
+            to="/create"
+            data-testid="create-quote-link"
+          >
             <ListItemText primary="Create Quote" />
           </ListItem>
         )}
 
         {user ? (
-          <ListItem button onClick={signOut}>
+          <ListItem button onClick={signOut} data-testid="signout-link">
             <ListItemText primary="Sign Out" />
           </ListItem>
         ) : (
-          <ListItem button component={Link} to="/signin">
+          <ListItem
+            button
+            component={Link}
+            to="/signin"
+            data-testid="signin-link"
+          >
             <ListItemText primary="Sign In" />
           </ListItem>
         )}
@@ -72,7 +97,7 @@ function NavDrawerList(props) {
       <Divider />
 
       <List>
-        <ListItem button onClick={toggleTheme}>
+        <ListItem button onClick={toggleTheme} data-testid="theme-toggle">
           <ListItemText primary={`Dark Theme: ${isDarkTheme ? 'On' : 'Off'}`} />
         </ListItem>
       </List>
@@ -100,6 +125,7 @@ export default function NavDrawer(props) {
         edge="start"
         aria-label="open drawer"
         onClick={toggleDrawer(true)}
+        data-testid="drawer-toggle"
       >
         <MenuIcon />
       </IconButton>

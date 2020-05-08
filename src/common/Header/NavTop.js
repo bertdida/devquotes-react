@@ -59,7 +59,7 @@ function MoreOptions(props) {
 
   return (
     <React.Fragment>
-      <IconButton color="inherit" onClick={show} data-testid="moreOptions">
+      <IconButton color="inherit" onClick={show} data-testid="options-toggle">
         <MoreIcon />
       </IconButton>
       <Menu
@@ -83,7 +83,7 @@ function MoreOptions(props) {
             onClick={hide}
             component={Link}
             to="/create"
-            data-testid="createQuote"
+            data-testid="create-quote-link"
           />
         )}
 
@@ -91,6 +91,7 @@ function MoreOptions(props) {
           onClick={_toggleTheme}
           text={`Dark Theme: ${isDarkTheme ? 'On' : 'Off'}`}
           icon={isDarkTheme ? Brightness4Icon : Brightness7Icon}
+          data-testid="theme-toggle"
         />
 
         {user && (
@@ -98,7 +99,7 @@ function MoreOptions(props) {
             onClick={_signOut}
             text="Sign Out"
             icon={ExitToAppIcon}
-            data-testid="signOut"
+            data-testid="signout-link"
           />
         )}
       </Menu>
@@ -109,11 +110,16 @@ function MoreOptions(props) {
 export default function NavTop({ user, ...props }) {
   return (
     <React.Fragment>
-      <Button color="inherit" component={Link} to="/">
+      <Button color="inherit" component={Link} to="/" data-testid="home-link">
         Home
       </Button>
 
-      <Button color="inherit" component={Link} to="/quotes">
+      <Button
+        color="inherit"
+        component={Link}
+        to="/quotes"
+        data-testid="quotes-link"
+      >
         Quotes
       </Button>
 
@@ -122,13 +128,18 @@ export default function NavTop({ user, ...props }) {
           color="inherit"
           component={Link}
           to="/favorites"
-          data-testid="favorites"
+          data-testid="favorites-link"
         >
           Favorites
         </Button>
       )}
 
-      <Button color="inherit" component={Link} to="/search">
+      <Button
+        color="inherit"
+        component={Link}
+        to="/search"
+        data-testid="search-link"
+      >
         Search
       </Button>
 
@@ -137,7 +148,7 @@ export default function NavTop({ user, ...props }) {
           color="inherit"
           component={Link}
           to="/signin"
-          data-testid="signIn"
+          data-testid="signin-link"
         >
           Sign In
         </Button>
