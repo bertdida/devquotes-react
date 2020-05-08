@@ -6,14 +6,13 @@ import AppBar from '@material-ui/core/AppBar';
 import Container from '@material-ui/core/Container';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import Slide from '@material-ui/core/Slide';
 import Hidden from '@material-ui/core/Hidden';
 
 import { AuthContext } from 'common/Auth';
-import MoreOptions from './MoreOptions';
 import DrawerNav from './DrawerNav';
+import NavTop from './NavTop';
 
 const useStyles = makeStyles({
   title: {
@@ -52,35 +51,7 @@ export default function Header() {
             </Typography>
 
             <Hidden smDown>
-              <Button color="inherit" component={Link} to="/">
-                Home
-              </Button>
-              <Button color="inherit" component={Link} to="/quotes">
-                Quotes
-              </Button>
-              <Button color="inherit" component={Link} to="/search">
-                Search
-              </Button>
-              {user ? (
-                <Button
-                  color="inherit"
-                  component={Link}
-                  to="/favorites"
-                  data-testid="favorites"
-                >
-                  Favorites
-                </Button>
-              ) : (
-                <Button
-                  color="inherit"
-                  component={Link}
-                  to="/signin"
-                  data-testid="signIn"
-                >
-                  Sign In
-                </Button>
-              )}
-              <MoreOptions user={user} />
+              <NavTop user={user} />
             </Hidden>
 
             <Hidden mdUp>
