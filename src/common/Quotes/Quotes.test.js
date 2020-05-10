@@ -7,7 +7,7 @@ import {
 import '@testing-library/jest-dom/extend-expect';
 
 import { AuthContext } from 'common/Auth';
-import QuotesContainer from './QuotesContainer';
+import { QuotesContainer } from './QuotesContainer';
 
 afterEach(cleanup);
 

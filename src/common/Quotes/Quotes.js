@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 
-import QuoteContainer from 'common/Quote';
-import Pagination from './Pagination';
+import { QuoteContainer } from 'common/Quote';
+import { Pagination } from './Pagination';
 
-export default function Quotes(props) {
+export function Quotes(props) {
   const { quotes, pagination, updatePage } = props;
 
   if (quotes.length === 0) {

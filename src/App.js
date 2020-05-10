@@ -6,17 +6,16 @@ import { Helmet } from 'react-helmet';
 
 import { ThemeProvider } from './common/Theme';
 import { AuthProvider } from './common/Auth';
-import Header from './common/Header';
+import { Header } from './common/Header';
+import { AdminRoute, ProtectedRoute } from './common/route';
+import { FavoritesContainer } from './pages/favorites';
+import { FormContainer } from './pages/form';
+import { HomeContainer } from './pages/home';
+import { QuoteContainer } from './pages/quote';
+import { QuotesContainer } from './pages/quotes';
+import { SearchContainer } from './pages/search';
+import { SignIn } from './pages/signin';
 import { NotFoundPage, ForbiddenPage } from './pages/errors';
-import { default as ProtectedRoute } from './common/route/Protected';
-import { default as AdminRoute } from './common/route/Admin';
-import HomeContainer from './pages/home';
-import QuoteContainer from './pages/quote';
-import QuotesContainer from './pages/quotes';
-import FavoritesContainer from './pages/favorites';
-import SignIn from './pages/signin';
-import FormContainer from './pages/form';
-import SearchContainer from './pages/search';
 
 const useStyles = makeStyles(theme => ({
   container: {

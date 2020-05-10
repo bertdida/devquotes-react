@@ -7,8 +7,8 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import { red } from '@material-ui/core/colors';
 
 import { AuthContext } from 'common/Auth';
-import ActionsUser from './ActionsUser';
-import ActionsAdmin from './ActionsAdmin';
+import { ActionsUser } from './ActionsUser';
+import { ActionsAdmin } from './ActionsAdmin';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Actions({ quote, isDeleted, toggleLike, ...props }) {
+export function Actions({ quote, isDeleted, toggleLike, ...props }) {
   const classes = useStyles();
   const [user] = useContext(AuthContext);
   const isAdmin = user && user.is_admin;

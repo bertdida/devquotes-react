@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 import { AuthContext } from 'common/Auth';
 import { useSnackbar, Snackbar } from 'common/Snackbar';
-import Quote from './Quote';
+import { Quote } from './Quote';
+import { DeleteDialog } from './DeleteDialog';
 import * as api from './api-calls';
-import DeleteDialog from './DeleteDialog';
 
-export default function QuoteContainer({ quote: initialQuote, ...props }) {
+export function QuoteContainer({ quote: initialQuote, ...props }) {
   const [user] = useContext(AuthContext);
   const [quote, setQuote] = useState(initialQuote);
   const [isDeleted, setIsDeleted] = useState(false);

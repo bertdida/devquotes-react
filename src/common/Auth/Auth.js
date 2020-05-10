@@ -2,7 +2,7 @@ import React, { useState, useEffect, createContext } from 'react';
 import PropTypes from 'prop-types';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-import app from 'common/firebase';
+import { app } from 'common/firebase';
 import * as api from './api-calls';
 
 export const AuthContext = createContext();

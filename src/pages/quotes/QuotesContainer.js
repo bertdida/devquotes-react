@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 
-import { default as Container } from 'common/Quotes';
+import { QuotesContainer as Container } from 'common/Quotes';
 import * as api from './api-calls';
 
-export default function QuotesContainer(props) {
+export function QuotesContainer(props) {
   function updatePage(page) {
     props.history.push({ pathname: '/quotes', search: `?page=${page}` });
   }

@@ -1,4 +1,4 @@
-import axios from 'common/axios';
+import { axios } from 'common/axios';
 
 export function deleteQuote(id) {
   return axios.delete(`/v1/quotes/${id}`);

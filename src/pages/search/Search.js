@@ -7,8 +7,8 @@ import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import SearchIcon from '@material-ui/icons/Search';
 
-import Skeleton from 'common/Quote/Skeleton';
-import QuoteContainer from 'common/Quote';
+import { Skeleton } from 'common/Quote/Skeleton';
+import { QuoteContainer } from 'common/Quote';
 
 const useStyles = makeStyles(theme => ({
   resultsContainer: {
@@ -46,7 +46,7 @@ function Results({ hasSearched, quotes, ...props }) {
   );
 }
 
-export default function Search(props) {
+export function Search(props) {
   const { quotes, isLoading, value, onChange, hasSearched } = props;
   const classes = useStyles();
 

@@ -105,7 +105,7 @@ function NavDrawerList(props) {
   );
 }
 
-export default function NavDrawer(props) {
+export function NavDrawer(props) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const toggleDrawer = state => event => {

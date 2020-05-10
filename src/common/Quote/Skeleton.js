@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Skeleton() {
+export function Skeleton() {
   const classes = useStyles();
 
   return (

@@ -7,7 +7,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-export default function ActionsAdmin({ confirmDelete, update, ...props }) {
+export function ActionsAdmin({ confirmDelete, update, ...props }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 

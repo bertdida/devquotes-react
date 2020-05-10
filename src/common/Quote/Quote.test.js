@@ -4,7 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 import axiosMock from 'axios';
 
 import { AuthContext } from 'common/Auth';
-import QuoteContainer from './QuoteContainer';
+import { QuoteContainer } from './QuoteContainer';
 
 afterEach(cleanup);
 jest.mock('axios');

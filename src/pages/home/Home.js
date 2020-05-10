@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
 
-import QuoteContainer from 'common/Quote';
+import { QuoteContainer } from 'common/Quote';
 
 const useStyles = makeStyles(theme => ({
   footer: {
@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Home({ quote, requestQuote, ...props }) {
+export function Home({ quote, requestQuote, ...props }) {
   const classes = useStyles();
 
   return (
