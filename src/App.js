@@ -54,21 +54,21 @@ function App() {
               <div className={classes.wrapper}>
                 <Switch>
                   <Route exact path="/" component={HomeContainer} />
-                  <AdminRoute
-                    path="/quotes/:id/edit"
-                    component={FormContainer}
-                  />
-                  <Route path="/signin" component={SignIn} />
+                  <Route exact path="/quotes" component={QuotesContainer} />
                   <Route exact path="/quotes/:id" component={QuoteContainer} />
-                  <Route path="/quotes" component={QuotesContainer} />
                   <Route path="/search" component={SearchContainer} />
+                  <Route path="/signin" component={SignIn} />
 
                   <ProtectedRoute
                     path="/favorites"
                     component={FavoritesContainer}
                   />
-
+                  <AdminRoute
+                    path="/quotes/:id/edit"
+                    component={FormContainer}
+                  />
                   <AdminRoute path="/create" component={FormContainer} />
+
                   <Route path="/404" component={NotFoundPage} />
                   <Route path="/403" component={ForbiddenPage} />
                   <Redirect to="/404" />
