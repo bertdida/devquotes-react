@@ -20,7 +20,7 @@ export default function SearchContainer(props) {
 
     setQuery(value);
     if (!value) {
-      return;
+      return setIsLoading(false);
     }
 
     setIsLoading(true);
