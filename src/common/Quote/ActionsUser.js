@@ -29,6 +29,7 @@ export function ActionsUser(props) {
         className={classes.twitterButton}
         onClick={shareOnTwitter}
         data-testid="button-twiter-share"
+        aria-label="share on twitter"
       >
         <TwitterIcon />
       </IconButton>
@@ -37,11 +38,16 @@ export function ActionsUser(props) {
         className={classes.facebookButton}
         onClick={shareOnFacebook}
         data-testid="button-facebook-share"
+        aria-label="share on facebook"
       >
         <FacebookIcon />
       </IconButton>
 
-      <IconButton onClick={copyLink} data-testid="button-copy-link">
+      <IconButton
+        onClick={copyLink}
+        data-testid="button-copy-link"
+        aria-label="copy link"
+      >
         <LinkIcon />
       </IconButton>
     </React.Fragment>

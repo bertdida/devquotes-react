@@ -61,11 +61,19 @@ export function Pagination({ updatePage, pagination }) {
         {startCount}-{endCount} of {total}
       </Typography>
 
-      <IconButton disabled={prev_page === null} onClick={previousPage}>
+      <IconButton
+        disabled={prev_page === null}
+        onClick={previousPage}
+        aria-label="previous page"
+      >
         <NavigateBeforeIcon />
       </IconButton>
 
-      <IconButton disabled={next_page === null} onClick={nextPage}>
+      <IconButton
+        disabled={next_page === null}
+        onClick={nextPage}
+        aria-label="next page"
+      >
         <NavigateNextIcon />
       </IconButton>
     </div>
