@@ -1,1 +1,3 @@
-export { FavoritesContainer } from './FavoritesContainer';
+import { FavoritesContainer } from './FavoritesContainer';
+
+export default FavoritesContainer;

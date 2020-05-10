@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
@@ -8,14 +8,15 @@ import { ThemeProvider } from './common/Theme';
 import { AuthProvider } from './common/Auth';
 import { Header } from './common/Header';
 import { AdminRoute, ProtectedRoute } from './common/route';
-import { FavoritesContainer } from './pages/favorites';
-import { FormContainer } from './pages/form';
-import { HomeContainer } from './pages/home';
-import { QuoteContainer } from './pages/quote';
-import { QuotesContainer } from './pages/quotes';
-import { SearchContainer } from './pages/search';
-import { SignIn } from './pages/signin';
 import { NotFoundPage, ForbiddenPage } from './pages/errors';
+
+const Home = lazy(() => import('./pages/home'));
+const Quote = lazy(() => import('./pages/quote'));
+const Quotes = lazy(() => import('./pages/quotes'));
+const Search = lazy(() => import('./pages/search'));
+const SignIn = lazy(() => import('./pages/signin'));
+const Favorites = lazy(() => import('./pages/favorites'));
+const Form = lazy(() => import('./pages/form'));
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -52,27 +53,23 @@ function App() {
             <Header />
             <Container maxWidth="md" component="main" id="maincontent">
               <div className={classes.wrapper}>
-                <Switch>
-                  <Route exact path="/" component={HomeContainer} />
-                  <Route exact path="/quotes" component={QuotesContainer} />
-                  <Route exact path="/quotes/:id" component={QuoteContainer} />
-                  <Route path="/search" component={SearchContainer} />
-                  <Route path="/signin" component={SignIn} />
+                <Suspense fallback={<p>Loading...</p>}>
+                  <Switch>
+                    <Route exact path="/" component={Home} />
+                    <Route exact path="/quotes" component={Quotes} />
+                    <Route exact path="/quotes/:id" component={Quote} />
+                    <Route path="/search" component={Search} />
+                    <Route path="/signin" component={SignIn} />
 
-                  <ProtectedRoute
-                    path="/favorites"
-                    component={FavoritesContainer}
-                  />
-                  <AdminRoute
-                    path="/quotes/:id/edit"
-                    component={FormContainer}
-                  />
-                  <AdminRoute path="/create" component={FormContainer} />
+                    <ProtectedRoute path="/favorites" component={Favorites} />
+                    <AdminRoute path="/quotes/:id/edit" component={Form} />
+                    <AdminRoute path="/create" component={Form} />
 
-                  <Route path="/404" component={NotFoundPage} />
-                  <Route path="/403" component={ForbiddenPage} />
-                  <Redirect to="/404" />
-                </Switch>
+                    <Route path="/404" component={NotFoundPage} />
+                    <Route path="/403" component={ForbiddenPage} />
+                    <Redirect to="/404" />
+                  </Switch>
+                </Suspense>
               </div>
             </Container>
           </BrowserRouter>

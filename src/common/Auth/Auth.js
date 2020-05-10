@@ -1,6 +1,7 @@
 import React, { useState, useEffect, createContext } from 'react';
 import PropTypes from 'prop-types';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import 'firebase/auth';
 
 import { app } from 'common/firebase';
 import * as api from './api-calls';

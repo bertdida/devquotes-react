@@ -3,7 +3,6 @@ import { Redirect } from 'react-router-dom';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { Helmet } from 'react-helmet';
 import firebase from 'firebase/app';
-import 'firebase/auth';
 
 import { app } from 'common/firebase';
 import { AuthContext } from 'common/Auth';

@@ -1,1 +1,3 @@
-export { FormContainer } from './FormContainer';
+import { FormContainer } from './FormContainer';
+
+export default FormContainer;
