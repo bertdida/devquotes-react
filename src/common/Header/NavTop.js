@@ -107,7 +107,7 @@ function MoreOptions(props) {
   );
 }
 
-export default function NavTop({ user, ...props }) {
+export function NavTop({ user, ...props }) {
   return (
     <React.Fragment>
       <Button color="inherit" component={Link} to="/" data-testid="home-link">

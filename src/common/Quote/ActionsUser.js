@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => {
   };
 });
 
-export default function ActionsUser(props) {
+export function ActionsUser(props) {
   const classes = useStyles();
   const { shareOnTwitter, shareOnFacebook, copyLink } = props;
 

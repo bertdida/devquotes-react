@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
-import app from 'common/firebase';
+import { app } from 'common/firebase';
 import { AuthContext } from 'common/Auth';
 import './SignIn.scss';
 
@@ -22,7 +22,7 @@ const uiConfig = {
   },
 };
 
-export default function Signin() {
+export function SignIn() {
   const [user] = useContext(AuthContext);
 
   if (user) {

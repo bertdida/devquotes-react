@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 
-import Skeleton from 'common/Quote/Skeleton';
-import Quotes from './Quotes';
+import { Skeleton } from 'common/Quote/Skeleton';
+import { Quotes } from './Quotes';
 
-export default function QuotesContainer(props) {
+export function QuotesContainer(props) {
   const { location, history, updatePage, fetchQuotes } = props;
   const [quotes, setQuotes] = useState();
   const [pagination, setPagination] = useState();

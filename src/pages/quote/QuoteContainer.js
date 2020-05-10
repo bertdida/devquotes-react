@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 
-import Skeleton from 'common/Quote/Skeleton';
-import Quote from './Quote';
+import { Skeleton } from 'common/Quote/Skeleton';
+import { Quote } from './Quote';
 import * as api from './api-calls';
 
-export default function QuoteContainer({ match, history, ...props }) {
+export function QuoteContainer({ match, history, ...props }) {
   const { id: quoteId } = match.params;
   const [quote, setQuote] = useState();
   const [isLoading, setIsLoading] = useState(true);

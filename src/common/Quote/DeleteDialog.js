@@ -27,7 +27,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function DeleteDialog({ open, onClose, ...props }) {
+export function DeleteDialog({ open, onClose, ...props }) {
   const classes = useStyles();
   const [isDeleting, setIsDeleting] = useState(false);
 

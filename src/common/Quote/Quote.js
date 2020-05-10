@@ -5,7 +5,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
-import Actions from './Actions';
+import { Actions } from './Actions';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Quote({ quote, ...props }) {
+export function Quote({ quote, ...props }) {
   const classes = useStyles();
   const { author, quotation } = quote;
 

@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Pagination({ updatePage, pagination }) {
+export function Pagination({ updatePage, pagination }) {
   const classes = useStyles();
   const { curr_page, next_page, prev_page, per_page, total } = pagination;
   const startCount = curr_page * per_page - (per_page - 1);

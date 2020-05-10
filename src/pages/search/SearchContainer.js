@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 
-import Search from './Search';
+import { Search } from './Search';
 import * as api from './api-calls';
 
-export default function SearchContainer(props) {
+export function SearchContainer(props) {
   const [query, setQuery] = useState('');
   const [quotes, setQuotes] = useState([]);
   const [typingTimeout, setTypingTimeout] = useState();

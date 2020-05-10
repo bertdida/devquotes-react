@@ -39,7 +39,7 @@ const DEFAULT_QUOTE = {
   source: null,
 };
 
-export default function Form({ quote: initialQuote }) {
+export function Form({ quote: initialQuote }) {
   const classes = useStyles();
   const [open, openSnackbar, closeSnackbar] = useSnackbar(false);
   const [isCreating, setIsCreating] = useState(true);

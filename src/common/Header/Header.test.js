@@ -7,7 +7,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 
 import { AuthContext } from 'common/Auth';
 import { ThemeContext } from 'common/Theme';
-import Header from './Header';
+import { Header } from './Header';
 
 afterEach(cleanup);
 

@@ -1,3 +1,1 @@
-import QuotesContainer from './QuotesContainer';
-
-export default QuotesContainer;
+export { QuotesContainer } from './QuotesContainer';

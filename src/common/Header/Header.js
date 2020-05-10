@@ -12,9 +12,9 @@ import Hidden from '@material-ui/core/Hidden';
 
 import { AuthContext } from 'common/Auth';
 import { ThemeContext } from 'common/Theme';
-import app from 'common/firebase';
-import NavDrawer from './NavDrawer';
-import NavTop from './NavTop';
+import { app } from 'common/firebase';
+import { NavDrawer } from './NavDrawer';
+import { NavTop } from './NavTop';
 import * as api from './api-calls';
 
 const useStyles = makeStyles({
@@ -35,7 +35,7 @@ function HideOnScroll({ children }) {
   );
 }
 
-export default function Header() {
+export function Header() {
   const classes = useStyles();
   const [user] = useContext(AuthContext);
   const [isDarkTheme, toggleTheme] = useContext(ThemeContext);

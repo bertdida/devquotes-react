@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import Form from './Form';
+import { Form } from './Form';
 import * as api from './api-calls';
 
-export default function FormContainer(props) {
+export function FormContainer(props) {
   const { match } = props;
   const [quote, setQuote] = useState();
 

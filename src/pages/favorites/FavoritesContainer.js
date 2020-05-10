@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 
-import QuotesContainer from 'common/Quotes';
+import { QuotesContainer } from 'common/Quotes';
 import * as api from './api-calls';
 
-export default function FavoritesContainer(props) {
+export function FavoritesContainer(props) {
   function updatePage(page) {
     props.history.push({ pathname: '/favorites', search: `?page=${page}` });
   }

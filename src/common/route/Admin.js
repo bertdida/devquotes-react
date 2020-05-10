@@ -4,7 +4,7 @@ import { Route, Redirect } from 'react-router-dom';
 
 import { AuthContext } from '../Auth';
 
-export default function AdminRoute({ component: Component, ...props }) {
+export function AdminRoute({ component: Component, ...props }) {
   const [user] = useContext(AuthContext);
 
   return (
