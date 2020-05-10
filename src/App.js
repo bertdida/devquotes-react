@@ -50,7 +50,7 @@ function App() {
         <AuthProvider>
           <BrowserRouter>
             <Header />
-            <Container maxWidth="md">
+            <Container maxWidth="md" component="main" id="maincontent">
               <div className={classes.wrapper}>
                 <Switch>
                   <Route exact path="/" component={HomeContainer} />

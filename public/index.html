@@ -40,14 +40,37 @@
         appId: document.querySelector('[property="fb:app_id"]').content,
         autoLogAppEvents: true,
         xfbml: true,
-        version: "v5.0"
+        version: 'v5.0',
       });
     };
   </script>
+
+  <style>
+    .skip-nav {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      display: flex;
+      align-items: center;
+      height: 40px;
+      padding: 0 10px;
+      background: #000;
+      color: #fff;
+      z-index: 1101;
+      transform: translateY(-60px);
+    }
+
+    .skip-nav:focus {
+      transform: translateY(0);
+
+    }
+  </style>
 </head>
 
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
+
+  <a class="skip-nav" href="#maincontent">Skip to main content</a>
   <div id="root"></div>
   <!--
       This HTML file is a template.
