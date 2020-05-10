@@ -25,17 +25,17 @@ export default function QuoteContainer({ match, history, ...props }) {
       });
   }, [quoteId, history]);
 
+  if (isLoading) {
+    return <Skeleton />;
+  }
+
   return (
     <React.Fragment>
       <Helmet>
         <title>DevQuotes | {`${quote.quotation} — ${quote.author}`}</title>
       </Helmet>
 
-      {isLoading ? (
-        <Skeleton />
-      ) : (
-        <Quote quote={quote} history={history} {...props} />
-      )}
+      <Quote quote={quote} history={history} {...props} />
     </React.Fragment>
   );
 }
