@@ -34,8 +34,8 @@
 
   <script async defer rel="preconnect" src="https://connect.facebook.net/en_US/sdk.js"></script>
   <script>
-    window.fbAsyncInit = function () {
-      FB.init({
+    window.fbAsyncInit = () => {
+      window.FB.init({
         appId: document.querySelector('[property="fb:app_id"]').content,
         autoLogAppEvents: true,
         xfbml: true,
