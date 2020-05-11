@@ -2,6 +2,8 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+
 import { default as MuiSkeleton } from '@material-ui/lab/Skeleton';
 
 const useStyles = makeStyles(theme => ({
@@ -21,12 +23,25 @@ const useStyles = makeStyles(theme => ({
   },
   author: {
     height: theme.spacing(3),
+    width: '50%',
     maxWidth: 300,
     marginBottom: theme.spacing(1),
   },
   quotation: {
     height: 40,
     maxWidth: 700,
+  },
+  buttonContainer: {
+    padding: theme.spacing(2),
+  },
+  button: {
+    transform: 'none',
+    width: 70,
+    height: 35,
+    borderRadius: 40,
+    [theme.breakpoints.up('sm')]: {
+      height: 40,
+    },
   },
 }));
 
@@ -36,9 +51,12 @@ export function Skeleton() {
   return (
     <Card className={classes.container} data-testid="skeleton">
       <CardContent>
-        <MuiSkeleton className={classes.author}></MuiSkeleton>
-        <MuiSkeleton className={classes.quotation}></MuiSkeleton>
+        <MuiSkeleton className={classes.author} />
+        <MuiSkeleton className={classes.quotation} />
       </CardContent>
+      <CardActions className={classes.buttonContainer}>
+        <MuiSkeleton className={classes.button} />
+      </CardActions>
     </Card>
   );
 }
