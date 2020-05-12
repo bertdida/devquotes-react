@@ -4,6 +4,7 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import { Helmet } from 'react-helmet';
 
+import { ErrorBoundary } from './common/ErrorBoundary';
 import { ThemeProvider } from './common/Theme';
 import { AuthProvider } from './common/Auth';
 import { Header } from './common/Header';
@@ -54,21 +55,23 @@ function App() {
             <Container maxWidth="md" component="main" id="maincontent">
               <div className={classes.wrapper}>
                 <Suspense fallback={<p>Loading...</p>}>
-                  <Switch>
-                    <Route exact path="/" component={Home} />
-                    <Route exact path="/quotes" component={Quotes} />
-                    <Route exact path="/quotes/:id" component={Quote} />
-                    <Route path="/search" component={Search} />
-                    <Route path="/signin" component={SignIn} />
+                  <ErrorBoundary>
+                    <Switch>
+                      <Route exact path="/" component={Home} />
+                      <Route exact path="/quotes" component={Quotes} />
+                      <Route exact path="/quotes/:id" component={Quote} />
+                      <Route path="/search" component={Search} />
+                      <Route path="/signin" component={SignIn} />
 
-                    <ProtectedRoute path="/favorites" component={Favorites} />
-                    <AdminRoute path="/quotes/:id/edit" component={Form} />
-                    <AdminRoute path="/create" component={Form} />
+                      <ProtectedRoute path="/favorites" component={Favorites} />
+                      <AdminRoute path="/quotes/:id/edit" component={Form} />
+                      <AdminRoute path="/create" component={Form} />
 
-                    <Route path="/404" component={NotFoundPage} />
-                    <Route path="/403" component={ForbiddenPage} />
-                    <Redirect to="/404" />
-                  </Switch>
+                      <Route path="/404" component={NotFoundPage} />
+                      <Route path="/403" component={ForbiddenPage} />
+                      <Redirect to="/404" />
+                    </Switch>
+                  </ErrorBoundary>
                 </Suspense>
               </div>
             </Container>
