@@ -72,7 +72,10 @@ function ThemeProvider({ children }) {
 
   useEffect(() => {
     document.body.dataset.theme = isDarkTheme ? 'dark' : 'light';
-  }, [isDarkTheme]);
+
+    const metaTheme = document.head.querySelector('meta[name=theme-color]');
+    metaTheme.content = theme.palette.primary.main;
+  }, [isDarkTheme, theme]);
 
   function toggleTheme() {
     setIsDarkTheme(!isDarkTheme);
