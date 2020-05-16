@@ -62,11 +62,14 @@ function ThemeProvider({ children }) {
   const muiTheme = createMuiTheme(theme);
 
   useEffect(() => {
-    const preferedTheme = window.localStorage.getItem('dq::theme');
-    if (preferedTheme === null || preferedTheme === 'dark') {
-      setIsDarkTheme(true);
+    const localTheme = window.localStorage.getItem('dq::theme');
+    if (localTheme) {
+      setIsDarkTheme(localTheme === 'dark');
     } else {
-      setIsDarkTheme(false);
+      setIsDarkTheme(
+        window.matchMedia &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches
+      );
     }
   }, []);
 
