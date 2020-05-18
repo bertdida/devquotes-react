@@ -3,6 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import { Helmet } from 'react-helmet';
+import Snackbar from '@material-ui/core/Snackbar';
+import Button from '@material-ui/core/Button';
 
 import { ErrorBoundary } from './common/ErrorBoundary';
 import { ThemeProvider } from './common/Theme';
@@ -10,6 +12,7 @@ import { AuthProvider } from './common/Auth';
 import { Header } from './common/Header';
 import { AdminRoute, ProtectedRoute } from './common/route';
 import { NotFoundPage, ForbiddenPage } from './pages/errors';
+import { useServiceWorker } from './common/useServiceWorker';
 
 const Home = lazy(() => import('./pages/home'));
 const Quote = lazy(() => import('./pages/quote'));
@@ -41,6 +44,7 @@ const useStyles = makeStyles(theme => ({
 
 function App() {
   const classes = useStyles();
+  const [isUpdateAvailable, updateAssets] = useServiceWorker();
 
   return (
     <React.Fragment>
@@ -77,6 +81,23 @@ function App() {
             </Container>
           </BrowserRouter>
         </AuthProvider>
+
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          open={isUpdateAvailable}
+          autoHideDuration={6000}
+          message="A new version is available."
+          action={
+            <React.Fragment>
+              <Button color="secondary" size="small" onClick={updateAssets}>
+                UPDATE
+              </Button>
+            </React.Fragment>
+          }
+        />
       </ThemeProvider>
     </React.Fragment>
   );
