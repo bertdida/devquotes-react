@@ -32,8 +32,10 @@
 .noScript__container {
   display: flex;
   align-items: center;
-  height: 200px;
-  width: 500px;
+  min-height: 200px;
+  width: 90%;
+  max-width: 500px;
+  margin: auto;
   padding: 20px;
   text-align: center;
   background-color: #fff;
