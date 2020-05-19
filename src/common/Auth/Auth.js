@@ -13,7 +13,7 @@ export function AuthProvider({ children }) {
   const [isAuthenticating, setIsAuthenticating] = useState(true);
 
   useEffect(() => {
-    app.auth().onAuthStateChanged(async firebaseUser => {
+    const unsubscribe = app.auth().onAuthStateChanged(async firebaseUser => {
       if (firebaseUser) {
         const token = await firebaseUser.getIdToken();
         const response = await api.signIn(token);
@@ -24,6 +24,8 @@ export function AuthProvider({ children }) {
 
       setIsAuthenticating(false);
     });
+
+    return () => unsubscribe();
   }, []);
 
   if (isAuthenticating) {
