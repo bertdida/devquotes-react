@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 
-import { AuthContext } from '../Auth';
+import { useAuth } from 'common/useAuth';
 
 export function AdminRoute({ component: Component, ...props }) {
-  const [user] = useContext(AuthContext);
+  const { user } = useAuth();
 
   return (
     <Route

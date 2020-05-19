@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import CardActions from '@material-ui/core/CardActions';
@@ -6,7 +6,7 @@ import Fab from '@material-ui/core/Fab';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { red } from '@material-ui/core/colors';
 
-import { AuthContext } from 'common/Auth';
+import { useAuth } from 'common/useAuth';
 import { ActionsUser } from './ActionsUser';
 import { ActionsAdmin } from './ActionsAdmin';
 
@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
 
 export function Actions({ quote, isDeleted, toggleLike, ...props }) {
   const classes = useStyles();
-  const [user] = useContext(AuthContext);
+  const { user } = useAuth();
   const isAdmin = user && user.is_admin;
 
   return (

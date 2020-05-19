@@ -10,9 +10,8 @@ import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import Slide from '@material-ui/core/Slide';
 import Hidden from '@material-ui/core/Hidden';
 
-import { AuthContext } from 'common/Auth';
+import { useAuth } from 'common/useAuth';
 import { ThemeContext } from 'common/Theme';
-import { app } from 'common/firebase';
 import { NavDrawer } from './NavDrawer';
 import { NavTop } from './NavTop';
 import * as api from './api-calls';
@@ -37,12 +36,12 @@ function HideOnScroll({ children }) {
 
 export function Header() {
   const classes = useStyles();
-  const [user] = useContext(AuthContext);
+  const auth = useAuth();
   const [isDarkTheme, toggleTheme] = useContext(ThemeContext);
 
   async function signOut() {
     await api.signOut();
-    await app.auth().signOut();
+    auth.signOut();
   }
 
   return (
@@ -61,7 +60,7 @@ export function Header() {
 
             <Hidden smDown>
               <NavTop
-                user={user}
+                user={auth.user}
                 signOut={signOut}
                 isDarkTheme={isDarkTheme}
                 toggleTheme={toggleTheme}
@@ -70,7 +69,7 @@ export function Header() {
 
             <Hidden mdUp>
               <NavDrawer
-                user={user}
+                user={auth.user}
                 signOut={signOut}
                 isDarkTheme={isDarkTheme}
                 toggleTheme={toggleTheme}

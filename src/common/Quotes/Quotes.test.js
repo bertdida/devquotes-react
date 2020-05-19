@@ -6,7 +6,7 @@ import {
 } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
-import { AuthContext } from 'common/Auth';
+import { AuthContext } from 'common/useAuth';
 import { QuotesContainer } from './QuotesContainer';
 
 afterEach(cleanup);
@@ -38,7 +38,7 @@ function updatePage() {}
 
 it('renders with pagination', async () => {
   const { getByTestId } = render(
-    <AuthContext.Provider value={[null]}>
+    <AuthContext.Provider value={{ user: null }}>
       <QuotesContainer
         fetchQuotes={fetchQuotes}
         updatePage={updatePage}

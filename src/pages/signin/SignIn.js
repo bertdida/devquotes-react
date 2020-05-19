@@ -1,11 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Redirect } from 'react-router-dom';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { Helmet } from 'react-helmet';
 import firebase from 'firebase/app';
 
-import { app } from 'common/firebase';
-import { AuthContext } from 'common/Auth';
+import { useAuth } from 'common/useAuth';
 import './SignIn.scss';
 
 const uiConfig = {
@@ -22,7 +21,7 @@ const uiConfig = {
 };
 
 export function SignIn() {
-  const [user] = useContext(AuthContext);
+  const { user } = useAuth();
 
   if (user) {
     return <Redirect to="/" />;
@@ -34,7 +33,7 @@ export function SignIn() {
         <title>DevQuotes | Sign In</title>
       </Helmet>
 
-      <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={app.auth()} />
+      <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
     </React.Fragment>
   );
 }

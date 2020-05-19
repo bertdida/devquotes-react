@@ -1,14 +1,14 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import { AuthContext } from 'common/Auth';
+import { useAuth } from 'common/useAuth';
 import { useSnackbar, Snackbar } from 'common/Snackbar';
 import { Quote } from './Quote';
 import { DeleteDialog } from './DeleteDialog';
 import * as api from './api-calls';
 
 export function QuoteContainer({ quote: initialQuote, ...props }) {
-  const [user] = useContext(AuthContext);
+  const { user } = useAuth();
   const [quote, setQuote] = useState(initialQuote);
   const [isDeleted, setIsDeleted] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);

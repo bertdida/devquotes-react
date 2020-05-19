@@ -3,7 +3,7 @@ import { render, cleanup, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import axiosMock from 'axios';
 
-import { AuthContext } from 'common/Auth';
+import { AuthContext } from 'common/useAuth';
 import { QuoteContainer } from './QuoteContainer';
 
 afterEach(cleanup);
@@ -17,7 +17,7 @@ const quote = {
 
 it('renders semantic html', () => {
   const { getByTestId } = render(
-    <AuthContext.Provider value={[null]}>
+    <AuthContext.Provider value={{ user: null }}>
       <QuoteContainer quote={quote} />
     </AuthContext.Provider>
   );
@@ -31,7 +31,7 @@ it('renders semantic html', () => {
 
 it('renders actions for user', () => {
   const { getByTestId, queryByTestId } = render(
-    <AuthContext.Provider value={[null]}>
+    <AuthContext.Provider value={{ user: null }}>
       <QuoteContainer quote={quote} />
     </AuthContext.Provider>
   );
@@ -48,7 +48,7 @@ it('renders actions for user', () => {
 
 it('renders actions for admin', () => {
   const { getByTestId, queryByTestId } = render(
-    <AuthContext.Provider value={[{ is_admin: true }]}>
+    <AuthContext.Provider value={{ user: { is_admin: true } }}>
       <QuoteContainer quote={quote} />
     </AuthContext.Provider>
   );
@@ -72,7 +72,7 @@ it('renders no actions when deleted', async () => {
   axiosMock.delete.mockResolvedValueOnce({ data: null });
 
   const { getByTestId, getByText } = render(
-    <AuthContext.Provider value={[{ is_admin: true }]}>
+    <AuthContext.Provider value={{ user: { is_admin: true } }}>
       <QuoteContainer quote={quote} />
     </AuthContext.Provider>
   );

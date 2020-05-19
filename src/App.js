@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 
 import { ErrorBoundary } from './common/ErrorBoundary';
 import { ThemeProvider } from './common/Theme';
-import { AuthProvider } from './common/Auth';
+import { AuthProvider } from './common/useAuth';
 import { Header } from './common/Header';
 import { AdminRoute, ProtectedRoute } from './common/route';
 import { NotFoundPage, ForbiddenPage } from './pages/errors';
