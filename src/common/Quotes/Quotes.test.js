@@ -6,7 +6,7 @@ import {
 } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
-import { AuthContext } from 'common/useAuth';
+import { AuthContext } from 'common/hooks/useAuth';
 import { QuotesContainer } from './QuotesContainer';
 
 afterEach(cleanup);

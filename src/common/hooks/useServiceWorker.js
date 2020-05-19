@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-import * as serviceWorker from '../serviceWorker';
+import * as serviceWorker from '../../serviceWorker';
 
 const ServiceWorkerContext = React.createContext();
 

@@ -8,11 +8,11 @@ import Button from '@material-ui/core/Button';
 
 import { ErrorBoundary } from './common/ErrorBoundary';
 import { ThemeProvider } from './common/Theme';
-import { AuthProvider } from './common/useAuth';
+import { AuthProvider } from './common/hooks/useAuth';
 import { Header } from './common/Header';
 import { AdminRoute, ProtectedRoute } from './common/route';
 import { NotFoundPage, ForbiddenPage } from './pages/errors';
-import { useServiceWorker } from './common/useServiceWorker';
+import { useServiceWorker } from './common/hooks/useServiceWorker';
 
 const Home = lazy(() => import('./pages/home'));
 const Quote = lazy(() => import('./pages/quote'));

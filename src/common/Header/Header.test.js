@@ -5,7 +5,7 @@ import '@testing-library/jest-dom/extend-expect';
 import mediaQuery from 'css-mediaquery';
 import { createMuiTheme } from '@material-ui/core/styles';
 
-import { AuthContext } from 'common/useAuth';
+import { AuthContext } from 'common/hooks/useAuth';
 import { ThemeContext } from 'common/Theme';
 import { Header } from './Header';
 
