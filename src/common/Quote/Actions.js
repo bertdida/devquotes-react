@@ -6,7 +6,7 @@ import Fab from '@material-ui/core/Fab';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { red } from '@material-ui/core/colors';
 
-import { useAuth } from 'common/hooks';
+import { useAuth } from 'common/hooks/useAuth';
 import { ActionsUser } from './ActionsUser';
 import { ActionsAdmin } from './ActionsAdmin';
 

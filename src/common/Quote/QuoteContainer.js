@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import { useAuth } from 'common/hooks';
+import { useAuth } from 'common/hooks/useAuth';
 import { useSnackbar, Snackbar } from 'common/Snackbar';
 import { Quote } from './Quote';
 import { DeleteDialog } from './DeleteDialog';

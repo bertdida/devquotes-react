@@ -6,9 +6,11 @@ import { Helmet } from 'react-helmet';
 import Snackbar from '@material-ui/core/Snackbar';
 import Button from '@material-ui/core/Button';
 
-import { ErrorBoundary } from './common/ErrorBoundary';
-import { ThemeProvider, AuthProvider, useServiceWorker } from './common/hooks';
+import { AuthProvider } from './common/hooks/useAuth';
+import { ThemeProvider } from './common/hooks/useTheme';
+import { useServiceWorker } from './common/hooks/useServiceWorker';
 import { Header } from './common/Header';
+import { ErrorBoundary } from './common/ErrorBoundary';
 import { AdminRoute, ProtectedRoute } from './common/route';
 import { NotFoundPage, ForbiddenPage } from './pages/errors';
 
