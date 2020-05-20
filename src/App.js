@@ -7,8 +7,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Button from '@material-ui/core/Button';
 
 import { ErrorBoundary } from './common/ErrorBoundary';
-import { ThemeProvider } from './common/Theme';
-import { AuthProvider, useServiceWorker } from './common/hooks';
+import { ThemeProvider, AuthProvider, useServiceWorker } from './common/hooks';
 import { Header } from './common/Header';
 import { AdminRoute, ProtectedRoute } from './common/route';
 import { NotFoundPage, ForbiddenPage } from './pages/errors';

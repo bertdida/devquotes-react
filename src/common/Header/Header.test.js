@@ -5,8 +5,8 @@ import '@testing-library/jest-dom/extend-expect';
 import mediaQuery from 'css-mediaquery';
 import { createMuiTheme } from '@material-ui/core/styles';
 
-import { AuthContext } from 'common/hooks';
-import { ThemeContext } from 'common/Theme';
+import { AuthContext, ThemeContext } from 'common/hooks';
+
 import { Header } from './Header';
 
 afterEach(cleanup);
@@ -23,7 +23,7 @@ function createMatchMedia(width) {
 
 function renderHeader(user) {
   return render(
-    <ThemeContext.Provider value={[false, () => {}]}>
+    <ThemeContext.Provider value={{ isDarkMode: false, toggle: () => {} }}>
       <AuthContext.Provider value={{ user }}>
         <BrowserRouter>
           <Header />

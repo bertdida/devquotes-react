@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -53,9 +53,9 @@ const appTheme = {
   ...darkTheme,
 };
 
-const ThemeContext = createContext();
+export const ThemeContext = createContext();
 
-function ThemeProvider({ children }) {
+export function ThemeProvider({ children }) {
   const [isDarkTheme, setIsDarkTheme] = useState();
 
   const theme = isDarkTheme ? appTheme : { ...appTheme, ...lightTheme };
@@ -80,13 +80,13 @@ function ThemeProvider({ children }) {
     metaTheme.content = theme.palette.primary.main;
   }, [isDarkTheme, theme]);
 
-  function toggleTheme() {
+  function toggle() {
     setIsDarkTheme(!isDarkTheme);
     window.localStorage.setItem('dq::theme', isDarkTheme ? 'light' : 'dark');
   }
 
   return (
-    <ThemeContext.Provider value={[isDarkTheme, toggleTheme]}>
+    <ThemeContext.Provider value={{ isDarkMode: isDarkTheme, toggle }}>
       <MuiThemeProvider theme={muiTheme}>
         <CssBaseline />
         {children}
@@ -99,4 +99,4 @@ ThemeProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export { ThemeContext, ThemeProvider };
+export const useTheme = () => useContext(ThemeContext);

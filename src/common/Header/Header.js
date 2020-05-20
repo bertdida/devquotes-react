@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
@@ -10,8 +10,7 @@ import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import Slide from '@material-ui/core/Slide';
 import Hidden from '@material-ui/core/Hidden';
 
-import { useAuth } from 'common/hooks';
-import { ThemeContext } from 'common/Theme';
+import { useAuth, useTheme } from 'common/hooks';
 import { NavDrawer } from './NavDrawer';
 import { NavTop } from './NavTop';
 import * as api from './api-calls';
@@ -37,7 +36,7 @@ function HideOnScroll({ children }) {
 export function Header() {
   const classes = useStyles();
   const auth = useAuth();
-  const [isDarkTheme, toggleTheme] = useContext(ThemeContext);
+  const theme = useTheme();
 
   async function signOut() {
     await api.signOut();
@@ -62,8 +61,8 @@ export function Header() {
               <NavTop
                 user={auth.user}
                 signOut={signOut}
-                isDarkTheme={isDarkTheme}
-                toggleTheme={toggleTheme}
+                isDarkTheme={theme.isDarkMode}
+                toggleTheme={theme.toggle}
               />
             </Hidden>
 
@@ -71,8 +70,8 @@ export function Header() {
               <NavDrawer
                 user={auth.user}
                 signOut={signOut}
-                isDarkTheme={isDarkTheme}
-                toggleTheme={toggleTheme}
+                isDarkTheme={theme.isDarkMode}
+                toggleTheme={theme.toggle}
               />
             </Hidden>
           </Toolbar>
