@@ -10,7 +10,7 @@ import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import Slide from '@material-ui/core/Slide';
 import Hidden from '@material-ui/core/Hidden';
 
-import { useAuth } from 'common/hooks/useAuth';
+import { useAuth } from 'common/hooks';
 import { ThemeContext } from 'common/Theme';
 import { NavDrawer } from './NavDrawer';
 import { NavTop } from './NavTop';

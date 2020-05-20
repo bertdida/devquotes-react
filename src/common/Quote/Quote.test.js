@@ -3,7 +3,7 @@ import { render, cleanup, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import axiosMock from 'axios';
 
-import { AuthContext } from 'common/hooks/useAuth';
+import { AuthContext } from 'common/hooks';
 import { QuoteContainer } from './QuoteContainer';
 
 afterEach(cleanup);

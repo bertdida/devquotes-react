@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 
-import { useAuth } from 'common/hooks/useAuth';
+import { useAuth } from 'common/hooks';
 
 export function AdminRoute({ component: Component, ...props }) {
   const { user } = useAuth();
