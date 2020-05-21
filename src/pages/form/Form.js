@@ -41,7 +41,7 @@ const DEFAULT_QUOTE = {
 
 export function Form({ quote: initialQuote }) {
   const classes = useStyles();
-  const [open, openSnackbar, closeSnackbar] = useSnackbar(false);
+  const snackbar = useSnackbar();
   const [isCreating, setIsCreating] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [quote, setQuote] = useState(DEFAULT_QUOTE);
@@ -69,7 +69,7 @@ export function Form({ quote: initialQuote }) {
     await apiFunction(quote);
 
     setIsSubmitting(false);
-    openSnackbar();
+    snackbar.show();
 
     if (isCreating) {
       setQuote({
@@ -162,9 +162,10 @@ export function Form({ quote: initialQuote }) {
           </div>
         </ValidatorForm>
       </Paper>
+
       <Snackbar
-        open={open}
-        onClose={closeSnackbar}
+        open={snackbar.isShown}
+        onClose={snackbar.onClose}
         autoHideDuration={3000}
         message={`Quote ${isCreating ? 'created' : 'updated'}.`}
       />

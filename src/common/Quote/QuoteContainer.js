@@ -12,9 +12,9 @@ export function QuoteContainer({ quote: initialQuote, ...props }) {
   const [quote, setQuote] = useState(initialQuote);
   const [isDeleted, setIsDeleted] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-  const [open1, openSnackbar1, closeSnackbar1] = useSnackbar(false); // added to favorites
-  const [open2, openSnackbar2, closeSnackbar2] = useSnackbar(false); // copied to clipboard
-  const [open3, openSnackbar3, closeSnackbar3] = useSnackbar(false); // deleted
+  const snackbar1 = useSnackbar(false); // added to favorites
+  const snackbar2 = useSnackbar(false); // copied to clipboard
+  const snackbar3 = useSnackbar(false); // deleted
 
   const baseUrl = window.location.origin.replace(/\/$/, '');
 
@@ -31,7 +31,7 @@ export function QuoteContainer({ quote: initialQuote, ...props }) {
   async function erase() {
     await api.deleteQuote(quote.id);
 
-    openSnackbar3();
+    snackbar3.show();
     setIsDeleted(true);
     setOpenDeleteDialog(false);
   }
@@ -51,13 +51,13 @@ export function QuoteContainer({ quote: initialQuote, ...props }) {
     setQuote(data);
 
     if (data.is_liked) {
-      openSnackbar1();
+      snackbar1.show();
     }
   }
 
   function copyLink() {
     window.navigator.clipboard.writeText(`${baseUrl}/quotes/${quote.id}`);
-    openSnackbar2();
+    snackbar2.show();
   }
 
   function shareOnFacebook() {
@@ -87,20 +87,20 @@ export function QuoteContainer({ quote: initialQuote, ...props }) {
       />
 
       <Snackbar
-        open={open1}
-        onClose={closeSnackbar1}
+        open={snackbar1.isShown}
+        onClose={snackbar1.onClose}
         message="Added to favorites."
       />
 
       <Snackbar
-        open={open2}
-        onClose={closeSnackbar2}
+        open={snackbar2.isShown}
+        onClose={snackbar2.onClose}
         message="Link copied to clipboard."
       />
 
       <Snackbar
-        open={open3}
-        onClose={closeSnackbar3}
+        open={snackbar3.isShown}
+        onClose={snackbar3.onClose}
         message="Quote deleted."
       />
 
