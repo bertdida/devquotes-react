@@ -3,12 +3,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import { Helmet } from 'react-helmet';
-import Snackbar from '@material-ui/core/Snackbar';
 import Button from '@material-ui/core/Button';
 
 import { AuthProvider } from './common/hooks/useAuth';
 import { ThemeProvider } from './common/hooks/useTheme';
 import { useServiceWorker } from './common/hooks/useServiceWorker';
+import { Snackbar } from './common/hooks/useSnackbar';
 import { Header } from './common/Header';
 import { ErrorBoundary } from './common/ErrorBoundary';
 import { AdminRoute, ProtectedRoute } from './common/route';
@@ -83,12 +83,8 @@ function App() {
         </AuthProvider>
 
         <Snackbar
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left',
-          }}
           open={isUpdateAvailable}
-          autoHideDuration={6000}
+          autoHideDuration={null}
           message="A new version is available."
           action={
             <React.Fragment>
