@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { useAuth } from 'common/hooks/useAuth';
-import { useSnackbar, Snackbar } from 'common/Snackbar';
+import { useSnackbar, Snackbar } from 'common/hooks/useSnackbar';
 import { Quote } from './Quote';
 import { DeleteDialog } from './DeleteDialog';
 import * as api from './api-calls';

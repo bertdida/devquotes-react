@@ -8,7 +8,7 @@ import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { isWebUri } from 'valid-url';
 
-import { useSnackbar, Snackbar } from 'common/Snackbar';
+import { useSnackbar, Snackbar } from 'common/hooks/useSnackbar';
 import * as api from './api-calls';
 
 const useStyles = makeStyles(theme => ({
