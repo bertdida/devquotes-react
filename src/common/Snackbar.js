@@ -4,19 +4,19 @@ import MuiSnackbar from '@material-ui/core/Snackbar';
 import Slide from '@material-ui/core/Slide';
 
 function useSnackbar() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isShown, setIsShown] = useState(false);
 
-  function open() {
-    setIsOpen(true);
+  function show() {
+    setIsShown(true);
   }
 
-  function close(_, reason) {
+  function onClose(_, reason) {
     if (reason !== 'clickaway') {
-      setIsOpen(false);
+      setIsShown(false);
     }
   }
 
-  return [isOpen, open, close];
+  return { isShown, show, onClose };
 }
 
 function Snackbar({ message, autoHideDuration = 1000, ...props }) {
