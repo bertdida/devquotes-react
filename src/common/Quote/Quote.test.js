@@ -1,13 +1,24 @@
 import React from 'react';
-import { render, cleanup, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent, waitFor, within } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import axiosMock from 'axios';
 
 import { AuthContext } from 'common/hooks/useAuth';
 import { QuoteContainer } from './QuoteContainer';
 
-afterEach(cleanup);
 jest.mock('axios');
+
+const REGEX = {
+  like: /like quote/i,
+  shareTwitter: /share on twitter/i,
+  shareFacebook: /share on facebook/i,
+  copyLink: /copy link/i,
+  edit: /edit quote/i,
+  moreMenu: /open more menu/i,
+  delete: /open delete confirmation dialog/i,
+  deleteTitle: /delete quote?/i,
+  deleteConfirm: /yes, delete quote/i,
+};
 
 const quote = {
   id: 1,
@@ -15,72 +26,77 @@ const quote = {
   quotation: 'Quotation 1',
 };
 
+function expectNull(node) {
+  expect(node).toBeNull();
+}
+
 it('renders semantic html', () => {
-  const { getByTestId } = render(
+  const { container } = render(
     <AuthContext.Provider value={{ user: null }}>
       <QuoteContainer quote={quote} />
     </AuthContext.Provider>
   );
 
-  expect(getByTestId('quote').nodeName).toBe('BLOCKQUOTE');
-  expect(getByTestId('author').nodeName).toBe('CITE');
-  expect(getByTestId('quotation').nodeName).toBe('P');
-  expect(getByTestId('author')).toHaveTextContent(quote.author);
-  expect(getByTestId('quotation')).toHaveTextContent(quote.quotation);
+  const root = container.querySelector('blockquote');
+  const author = within(root).getByText(quote.author);
+  const quotation = within(root).getByText(quote.quotation);
+
+  expect(author.nodeName).toBe('CITE');
+  expect(quotation.nodeName).toBe('P');
 });
 
 it('renders actions for user', () => {
-  const { getByTestId, queryByTestId } = render(
+  const { getByRole, queryByRole } = render(
     <AuthContext.Provider value={{ user: null }}>
       <QuoteContainer quote={quote} />
     </AuthContext.Provider>
   );
 
-  expect(queryByTestId('button-edit')).toBeNull();
-  expect(queryByTestId('button-delete')).toBeNull();
-  expect(queryByTestId('button-menu')).toBeNull();
+  expectNull(queryByRole('button', { name: REGEX.moreMenu }));
+  expectNull(queryByRole('menuitem', { name: REGEX.edit }));
+  expectNull(queryByRole('menuitem', { name: REGEX.delete }));
+  expectNull(queryByRole('menuitem', { name: REGEX.copyLink }));
 
-  expect(getByTestId('button-like')).toBeTruthy();
-  expect(getByTestId('button-twiter-share')).toBeTruthy();
-  expect(getByTestId('button-facebook-share')).toBeTruthy();
-  expect(getByTestId('button-copy-link')).toBeTruthy();
+  getByRole('button', { name: REGEX.like });
+  getByRole('button', { name: REGEX.shareTwitter });
+  getByRole('button', { name: REGEX.shareFacebook });
+  getByRole('button', { name: REGEX.copyLink });
 });
 
 it('renders actions for admin', () => {
-  const { getByTestId, queryByTestId } = render(
+  const { getByRole, queryByRole } = render(
     <AuthContext.Provider value={{ user: { is_admin: true } }}>
       <QuoteContainer quote={quote} />
     </AuthContext.Provider>
   );
 
-  expect(queryByTestId('button-twiter-share')).toBeNull();
-  expect(queryByTestId('button-facebook-share')).toBeNull();
-  expect(queryByTestId('button-copy-link')).toBeNull();
+  expectNull(queryByRole('button', { name: REGEX.shareTwitter }));
+  expectNull(queryByRole('button', { name: REGEX.shareFacebook }));
+  expectNull(queryByRole('button', { name: REGEX.copyLink }));
 
-  expect(getByTestId('button-like')).toBeTruthy();
-  expect(getByTestId('button-edit')).toBeTruthy();
-  expect(getByTestId('button-delete')).toBeTruthy();
-  expect(getByTestId('button-menu')).toBeTruthy();
+  getByRole('button', { name: REGEX.like });
+  getByRole('button', { name: REGEX.edit });
+  getByRole('button', { name: REGEX.delete });
 
-  fireEvent.click(getByTestId('button-menu'));
-  expect(getByTestId('menu-item-twitter-share')).toBeTruthy();
-  expect(getByTestId('menu-item-facebook-share')).toBeTruthy();
-  expect(getByTestId('menu-item-copy-link')).toBeTruthy();
+  fireEvent.click(getByRole('button', { name: REGEX.moreMenu }));
+  getByRole('menuitem', { name: REGEX.shareTwitter });
+  getByRole('menuitem', { name: REGEX.shareFacebook });
+  getByRole('menuitem', { name: REGEX.copyLink });
 });
 
 it('renders no actions when deleted', async () => {
   axiosMock.delete.mockResolvedValueOnce({ data: null });
 
-  const { getByTestId, getByText } = render(
+  const { getByRole, getByText } = render(
     <AuthContext.Provider value={{ user: { is_admin: true } }}>
       <QuoteContainer quote={quote} />
     </AuthContext.Provider>
   );
 
-  fireEvent.click(getByTestId('button-delete'));
-  expect(getByTestId('confirm-delete-dialog')).toBeTruthy();
+  fireEvent.click(getByRole('button', { name: REGEX.delete }));
+  getByRole('dialog', { heading: REGEX.deleteTitle });
 
-  fireEvent.click(getByTestId('confirm-delete-button'));
+  fireEvent.click(getByRole('button', { name: REGEX.deleteConfirm }));
   await waitFor(() => getByText('This quote has been deleted.'));
 
   expect(axiosMock.delete).toHaveBeenCalledTimes(1);

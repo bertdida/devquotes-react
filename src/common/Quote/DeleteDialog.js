@@ -42,7 +42,6 @@ export function DeleteDialog({ open, onClose, ...props }) {
       onClose={onClose}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
-      data-testid="confirm-delete-dialog"
     >
       <DialogTitle id="alert-dialog-title">Delete Quote?</DialogTitle>
 
@@ -60,7 +59,6 @@ export function DeleteDialog({ open, onClose, ...props }) {
             className={classes.buttonDelete}
             disabled={isDeleting}
             onClick={erase}
-            data-testid="confirm-delete-button"
           >
             Yes, Delete Quote
           </Button>

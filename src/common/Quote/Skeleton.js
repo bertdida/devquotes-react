@@ -49,7 +49,7 @@ export function Skeleton() {
   const classes = useStyles();
 
   return (
-    <Card className={classes.container} data-testid="skeleton">
+    <Card className={classes.container} role="alert" aria-label="loading">
       <CardContent>
         <MuiSkeleton className={classes.author} />
         <MuiSkeleton className={classes.quotation} />

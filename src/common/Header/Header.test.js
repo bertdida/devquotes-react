@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { render, cleanup, fireEvent } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import mediaQuery from 'css-mediaquery';
 import { createMuiTheme } from '@material-ui/core/styles';
@@ -9,7 +9,18 @@ import { AuthContext } from 'common/hooks/useAuth';
 import { ThemeContext } from 'common/hooks/useTheme';
 import { Header } from './Header';
 
-afterEach(cleanup);
+const REGEX = {
+  home: /home/i,
+  quotes: /quotes/i,
+  search: /search/i,
+  favorites: /favorites/i,
+  toggleTheme: /dark theme: on|off/i,
+  createQuote: /create quote/i,
+  signIn: /sign in/i,
+  signOut: /sign out/i,
+  moreMenu: /open more menu/i,
+  mainNav: /open main navigation/i,
+};
 
 const { breakpoints } = createMuiTheme();
 
@@ -33,55 +44,61 @@ function renderHeader(user) {
   );
 }
 
+function expectNull(node) {
+  expect(node).toBeNull();
+}
+
 describe('Medium to large screen', () => {
   beforeAll(() => {
     window.matchMedia = createMatchMedia(breakpoints.values.md);
   });
 
   it('renders for anonymous user', () => {
-    const { queryByTestId, getByTestId } = renderHeader(null);
+    const { getByRole, queryByRole } = renderHeader(null);
 
-    expect(getByTestId('home-link')).toBeTruthy();
-    expect(getByTestId('quotes-link')).toBeTruthy();
-    expect(getByTestId('search-link')).toBeTruthy();
+    getByRole('button', { name: REGEX.home });
+    getByRole('button', { name: REGEX.quotes });
+    getByRole('button', { name: REGEX.search });
 
-    expect(getByTestId('signin-link')).toBeTruthy();
-    expect(queryByTestId('/favorites-link/')).toBeNull();
+    getByRole('button', { name: REGEX.signIn });
+    expectNull(queryByRole('button', { name: REGEX.favorites }));
 
-    fireEvent.click(getByTestId('options-toggle'));
-    expect(getByTestId('theme-toggle')).toBeTruthy();
-    expect(queryByTestId('/create-quote-link/')).toBeNull();
-    expect(queryByTestId('/signout-link/')).toBeNull();
+    fireEvent.click(getByRole('button', { name: REGEX.moreMenu }));
+    getByRole('menuitem', { name: REGEX.toggleTheme });
+    expectNull(queryByRole('menuitem', { name: REGEX.createQuote }));
+    expectNull(queryByRole('menuitem', { name: REGEX.signOut }));
   });
 
   it('renders for authenticated user', () => {
-    const { queryByTestId, getByTestId } = renderHeader({});
+    const { getByRole, queryByRole } = renderHeader({ is_admin: false });
 
-    expect(getByTestId('home-link')).toBeTruthy();
-    expect(getByTestId('quotes-link')).toBeTruthy();
-    expect(getByTestId('search-link')).toBeTruthy();
+    getByRole('button', { name: REGEX.home });
+    getByRole('button', { name: REGEX.quotes });
+    getByRole('button', { name: REGEX.search });
 
-    expect(queryByTestId('signin-link')).toBeNull();
-    expect(getByTestId('favorites-link')).toBeTruthy();
+    expectNull(queryByRole('button', { name: REGEX.signIn }));
+    getByRole('button', { name: REGEX.favorites });
 
-    fireEvent.click(getByTestId('options-toggle'));
-    expect(queryByTestId('/create-quote-link/')).toBeNull();
-    expect(queryByTestId('signout-link')).toBeTruthy();
+    fireEvent.click(getByRole('button', { name: REGEX.moreMenu }));
+    getByRole('menuitem', { name: REGEX.toggleTheme });
+    expectNull(queryByRole('menuitem', { name: REGEX.createQuote }));
+    getByRole('menuitem', { name: REGEX.signOut });
   });
 
   it('renders for admin user', () => {
-    const { queryByTestId, getByTestId } = renderHeader({ is_admin: true });
+    const { getByRole, queryByRole } = renderHeader({ is_admin: true });
 
-    expect(getByTestId('home-link')).toBeTruthy();
-    expect(getByTestId('quotes-link')).toBeTruthy();
-    expect(getByTestId('search-link')).toBeTruthy();
+    getByRole('button', { name: REGEX.home });
+    getByRole('button', { name: REGEX.quotes });
+    getByRole('button', { name: REGEX.search });
 
-    expect(queryByTestId('signin-link')).toBeNull();
-    expect(getByTestId('favorites-link')).toBeTruthy();
+    expectNull(queryByRole('button', { name: REGEX.signIn }));
+    getByRole('button', { name: REGEX.favorites });
 
-    fireEvent.click(getByTestId('options-toggle'));
-    expect(getByTestId('create-quote-link')).toBeTruthy();
-    expect(getByTestId('signout-link')).toBeTruthy();
+    fireEvent.click(getByRole('button', { name: REGEX.moreMenu }));
+    getByRole('menuitem', { name: REGEX.toggleTheme });
+    getByRole('menuitem', { name: REGEX.createQuote });
+    getByRole('menuitem', { name: REGEX.signOut });
   });
 });
 
@@ -91,50 +108,50 @@ describe('Small to  medium screen', () => {
   });
 
   it('renders for anonymous user', () => {
-    const { queryByTestId, getByTestId } = renderHeader(null);
+    const { getByRole, queryByRole } = renderHeader(null);
 
-    fireEvent.click(getByTestId('drawer-toggle'));
-    expect(getByTestId('home-link')).toBeTruthy();
-    expect(getByTestId('quotes-link')).toBeTruthy();
-    expect(getByTestId('search-link')).toBeTruthy();
-    expect(getByTestId('theme-toggle')).toBeTruthy();
+    fireEvent.click(getByRole('button', { name: REGEX.mainNav }));
+    getByRole('button', { name: REGEX.home });
+    getByRole('button', { name: REGEX.quotes });
+    getByRole('button', { name: REGEX.search });
+    getByRole('button', { name: REGEX.toggleTheme });
 
-    expect(getByTestId('signin-link')).toBeTruthy();
+    getByRole('button', { name: REGEX.signIn });
 
-    expect(queryByTestId('/favorites-link/')).toBeNull();
-    expect(queryByTestId('/create-quote-link/')).toBeNull();
-    expect(queryByTestId('/signout-link/')).toBeNull();
+    expectNull(queryByRole('button', { name: REGEX.favorites }));
+    expectNull(queryByRole('button', { name: REGEX.createQuote }));
+    expectNull(queryByRole('button', { name: REGEX.signOut }));
   });
 
   it('renders for authenticated user', () => {
-    const { queryByTestId, getByTestId } = renderHeader({});
+    const { getByRole, queryByRole } = renderHeader({ is_admin: false });
 
-    fireEvent.click(getByTestId('drawer-toggle'));
-    expect(getByTestId('home-link')).toBeTruthy();
-    expect(getByTestId('quotes-link')).toBeTruthy();
-    expect(getByTestId('search-link')).toBeTruthy();
-    expect(getByTestId('theme-toggle')).toBeTruthy();
+    fireEvent.click(getByRole('button', { name: REGEX.mainNav }));
+    getByRole('button', { name: REGEX.home });
+    getByRole('button', { name: REGEX.quotes });
+    getByRole('button', { name: REGEX.search });
+    getByRole('button', { name: REGEX.toggleTheme });
 
-    expect(queryByTestId('signin-link')).toBeNull();
+    expectNull(queryByRole('button', { name: REGEX.signIn }));
 
-    expect(getByTestId('favorites-link')).toBeTruthy();
-    expect(queryByTestId('/create-quote-link/')).toBeNull();
-    expect(queryByTestId('signout-link')).toBeTruthy();
+    getByRole('button', { name: REGEX.favorites });
+    expectNull(queryByRole('button', { name: REGEX.createQuote }));
+    getByRole('button', { name: REGEX.signOut });
   });
 
   it('renders for admin user', () => {
-    const { queryByTestId, getByTestId } = renderHeader({ is_admin: true });
+    const { getByRole, queryByRole } = renderHeader({ is_admin: true });
 
-    fireEvent.click(getByTestId('drawer-toggle'));
-    expect(getByTestId('home-link')).toBeTruthy();
-    expect(getByTestId('quotes-link')).toBeTruthy();
-    expect(getByTestId('search-link')).toBeTruthy();
-    expect(getByTestId('theme-toggle')).toBeTruthy();
+    fireEvent.click(getByRole('button', { name: REGEX.mainNav }));
+    getByRole('button', { name: REGEX.home });
+    getByRole('button', { name: REGEX.quotes });
+    getByRole('button', { name: REGEX.search });
+    getByRole('button', { name: REGEX.toggleTheme });
 
-    expect(queryByTestId('signin-link')).toBeNull();
+    expectNull(queryByRole('button', { name: REGEX.signIn }));
 
-    expect(getByTestId('favorites-link')).toBeTruthy();
-    expect(getByTestId('create-quote-link')).toBeTruthy();
-    expect(getByTestId('signout-link')).toBeTruthy();
+    getByRole('button', { name: REGEX.favorites });
+    getByRole('button', { name: REGEX.createQuote });
+    getByRole('button', { name: REGEX.signOut });
   });
 });

@@ -35,20 +35,15 @@ export function Quote({ quote, ...props }) {
   const { author, quotation } = quote;
 
   return (
-    <Card
-      component="blockquote"
-      className={classes.container}
-      data-testid="quote"
-    >
+    <Card component="blockquote" className={classes.container}>
       <CardContent className={classes.quote}>
-        <Typography variant="h5" component="p" data-testid="quotation">
+        <Typography variant="h5" component="p">
           {quotation}
         </Typography>
 
         <Typography
           color="textSecondary"
           component="cite"
-          data-testid="author"
           className={classes.author}
         >
           {author}

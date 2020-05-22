@@ -36,15 +36,18 @@ export function ActionsAdmin({ confirmDelete, update, ...props }) {
 
   return (
     <React.Fragment>
-      <IconButton onClick={update} data-testid="button-edit">
+      <IconButton onClick={update} aria-label="edit quote">
         <EditIcon />
       </IconButton>
 
-      <IconButton onClick={confirmDelete} data-testid="button-delete">
+      <IconButton
+        onClick={confirmDelete}
+        aria-label="open delete confirmation dialog"
+      >
         <DeleteIcon />
       </IconButton>
 
-      <IconButton color="inherit" onClick={show} data-testid="button-menu">
+      <IconButton color="inherit" onClick={show} aria-label="open more menu">
         <MoreIcon />
       </IconButton>
 
@@ -62,21 +65,15 @@ export function ActionsAdmin({ confirmDelete, update, ...props }) {
           horizontal: 'right',
         }}
       >
-        <MenuItem
-          data-testid="menu-item-twitter-share"
-          onClick={shareOnTwitter}
-        >
+        <MenuItem onClick={shareOnTwitter} aria-label="share on twitter">
           Share on Twitter
         </MenuItem>
 
-        <MenuItem
-          data-testid="menu-item-facebook-share"
-          onClick={shareOnFacebook}
-        >
+        <MenuItem onClick={shareOnFacebook} aria-label="share on facebook">
           Share on Facebook
         </MenuItem>
 
-        <MenuItem data-testid="menu-item-copy-link" onClick={copyLink}>
+        <MenuItem onClick={copyLink} aria-label="copy link">
           Copy Link
         </MenuItem>
       </Menu>

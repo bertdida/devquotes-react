@@ -56,7 +56,11 @@ export function Pagination({ updatePage, pagination }) {
   });
 
   return (
-    <div className={classes.container} data-testid="pagination">
+    <div
+      className={classes.container}
+      role="navigation"
+      aria-label="Pagination"
+    >
       <Typography component="p" className={classes.text}>
         {startCount}-{endCount} of {total}
       </Typography>

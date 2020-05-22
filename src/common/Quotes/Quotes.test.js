@@ -1,55 +1,50 @@
 import React from 'react';
-import {
-  render,
-  cleanup,
-  waitForElementToBeRemoved,
-} from '@testing-library/react';
+import { createMemoryHistory, createLocation } from 'history'; // eslint-disable-line import/no-extraneous-dependencies
+import { render, waitForElementToBeRemoved } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import { AuthContext } from 'common/hooks/useAuth';
 import { QuotesContainer } from './QuotesContainer';
 
-afterEach(cleanup);
+const updatePage = () => {};
 
-const quotes = {
-  data: [
-    {
-      data: {
-        id: 1,
-        author: 'Author 1',
-        quotation: 'Quotation 1',
-      },
+const fetchQuotes = () =>
+  Promise.resolve({
+    data: {
+      data: [
+        {
+          data: {
+            id: 1,
+            author: 'Author 1',
+            quotation: 'Quotation 1',
+          },
+        },
+        {
+          data: {
+            id: 2,
+            author: 'Author 2',
+            quotation: 'Quotation 2',
+          },
+        },
+      ],
     },
-    {
-      data: {
-        id: 2,
-        author: 'Author 2',
-        quotation: 'Quotation 2',
-      },
-    },
-  ],
-};
-
-function fetchQuotes() {
-  return Promise.resolve({ data: quotes });
-}
-
-function updatePage() {}
+  });
 
 it('renders with pagination', async () => {
-  const { getByTestId } = render(
+  const { getByRole } = render(
     <AuthContext.Provider value={{ user: null }}>
       <QuotesContainer
-        fetchQuotes={fetchQuotes}
+        location={createLocation()}
+        history={createMemoryHistory()}
         updatePage={updatePage}
-        location={{ search: '' }}
-        history={{ listen: () => {} }}
+        fetchQuotes={fetchQuotes}
       />
     </AuthContext.Provider>
   );
 
-  expect(getByTestId('skeleton')).toBeTruthy();
-  await waitForElementToBeRemoved(() => getByTestId('skeleton'));
+  await waitForElementToBeRemoved(() =>
+    getByRole('alert', { name: /loading/i })
+  );
 
-  expect(getByTestId('pagination')).toBeTruthy();
+  getByRole('navigation', { name: /pagination/i });
 });

@@ -59,7 +59,7 @@ function MoreOptions(props) {
 
   return (
     <React.Fragment>
-      <IconButton color="inherit" onClick={show} data-testid="options-toggle">
+      <IconButton color="inherit" onClick={show} aria-label="open more menu">
         <MoreIcon />
       </IconButton>
       <Menu
@@ -83,7 +83,6 @@ function MoreOptions(props) {
             onClick={hide}
             component={Link}
             to="/create"
-            data-testid="create-quote-link"
           />
         )}
 
@@ -91,16 +90,10 @@ function MoreOptions(props) {
           onClick={_toggleTheme}
           text={`Dark Theme: ${isDarkTheme ? 'On' : 'Off'}`}
           icon={isDarkTheme ? Brightness4Icon : Brightness7Icon}
-          data-testid="theme-toggle"
         />
 
         {user && (
-          <Option
-            onClick={_signOut}
-            text="Sign Out"
-            icon={ExitToAppIcon}
-            data-testid="signout-link"
-          />
+          <Option onClick={_signOut} text="Sign Out" icon={ExitToAppIcon} />
         )}
       </Menu>
     </React.Fragment>
@@ -110,46 +103,26 @@ function MoreOptions(props) {
 export function NavTop({ user, ...props }) {
   return (
     <React.Fragment>
-      <Button color="inherit" component={Link} to="/" data-testid="home-link">
+      <Button color="inherit" component={Link} to="/">
         Home
       </Button>
 
-      <Button
-        color="inherit"
-        component={Link}
-        to="/quotes"
-        data-testid="quotes-link"
-      >
+      <Button color="inherit" component={Link} to="/quotes">
         Quotes
       </Button>
 
       {user && (
-        <Button
-          color="inherit"
-          component={Link}
-          to="/favorites"
-          data-testid="favorites-link"
-        >
+        <Button color="inherit" component={Link} to="/favorites">
           Favorites
         </Button>
       )}
 
-      <Button
-        color="inherit"
-        component={Link}
-        to="/search"
-        data-testid="search-link"
-      >
+      <Button color="inherit" component={Link} to="/search">
         Search
       </Button>
 
       {!user && (
-        <Button
-          color="inherit"
-          component={Link}
-          to="/signin"
-          data-testid="signin-link"
-        >
+        <Button color="inherit" component={Link} to="/signin">
           Sign In
         </Button>
       )}

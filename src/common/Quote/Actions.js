@@ -48,7 +48,7 @@ export function Actions({ quote, isDeleted, toggleLike, ...props }) {
             color={quote.is_liked ? 'secondary' : 'default'}
             className={classes.like}
             onClick={toggleLike}
-            data-testid="button-like"
+            aria-label="like quote"
           >
             <FavoriteIcon className={classes.likeIcon} />
             {quote.likes}
