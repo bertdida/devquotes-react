@@ -24,10 +24,10 @@
     "valid-url": "^1.0.9"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jest-environment-jsdom-sixteen",
-    "eject": "react-scripts eject",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test --env=jest-environment-jsdom-sixteen",
+    "eject": "react-app-rewired eject",
     "lint": "eslint src --ext .js",
     "lint:fix": "eslint src --ext .js --fix"
   },
