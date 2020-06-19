@@ -37,3 +37,9 @@ workbox.routing.registerRoute(
     cacheName: 'static-resources',
   })
 );
+
+self.addEventListener('message', event => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    skipWaiting();
+  }
+});
