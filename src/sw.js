@@ -14,19 +14,29 @@ workbox.routing.registerRoute(
   })
 );
 
+const googleFontsAndFirebaseSvgCachePlugins = [
+  new workbox.cacheableResponse.CacheableResponsePlugin({
+    statuses: [0, 200],
+  }),
+  new workbox.expiration.ExpirationPlugin({
+    maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
+    maxEntries: 30,
+  }),
+];
+
 workbox.routing.registerRoute(
   ({ url }) => url.origin === 'https://fonts.gstatic.com',
   new workbox.strategies.CacheFirst({
     cacheName: 'google-fonts-webfonts',
-    plugins: [
-      new workbox.cacheableResponse.CacheableResponsePlugin({
-        statuses: [0, 200],
-      }),
-      new workbox.expiration.ExpirationPlugin({
-        maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
-        maxEntries: 30,
-      }),
-    ],
+    plugins: googleFontsAndFirebaseSvgCachePlugins,
+  })
+);
+
+workbox.routing.registerRoute(
+  new RegExp('https://www.gstatic.com/firebasejs/(.*).svg$'),
+  new workbox.strategies.CacheFirst({
+    cacheName: 'google-firebase-svgs',
+    plugins: googleFontsAndFirebaseSvgCachePlugins,
   })
 );
 
