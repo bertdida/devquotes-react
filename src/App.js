@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 
 import { AuthProvider } from './common/hooks/useAuth';
 import { ThemeProvider } from './common/hooks/useTheme';
+import { useNetworkStatus } from './common/hooks/useNetworkStatus';
 import { useServiceWorker } from './common/hooks/useServiceWorker';
 import { Snackbar } from './common/hooks/useSnackbar';
 import { Header } from './common/Header';
@@ -44,6 +45,7 @@ const useStyles = makeStyles(theme => ({
 
 function App() {
   const classes = useStyles();
+  const isOnline = useNetworkStatus();
   const { isUpdateAvailable, updateAssets } = useServiceWorker();
 
   return (
@@ -93,6 +95,12 @@ function App() {
               </Button>
             </React.Fragment>
           }
+        />
+
+        <Snackbar
+          open={!isOnline}
+          autoHideDuration={null}
+          message="You are offline."
         />
       </ThemeProvider>
     </React.Fragment>
