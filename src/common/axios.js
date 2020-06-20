@@ -1,6 +1,8 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
+import { isLocalhost } from 'common/hooks/useServiceWorker';
+
 const instance = axios.create({ withCredentials: true });
 let isRefreshing = false;
 let subscribers = [];
@@ -15,6 +17,12 @@ function onAccessTokenFetched(access_token) {
 
 instance.interceptors.request.use(config => {
   const access_token = Cookies.get('csrf_access_token');
+
+  // fix API url for production build running in localhost
+  if (isLocalhost && config.url.startsWith('/v1')) {
+    const { proxy } = require('../../package.json'); // eslint-disable-line global-require
+    config.baseURL = proxy;
+  }
 
   if (access_token) {
     config.headers['x-csrf-token'] = access_token;
