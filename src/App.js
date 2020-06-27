@@ -1,6 +1,6 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import { Helmet } from 'react-helmet';
 import Button from '@material-ui/core/Button';
@@ -12,16 +12,7 @@ import { useServiceWorker } from './common/hooks/useServiceWorker';
 import { Snackbar } from './common/hooks/useSnackbar';
 import { Header } from './common/Header';
 import { ErrorBoundary } from './common/ErrorBoundary';
-import { AdminRoute, ProtectedRoute } from './common/route';
-import { NotFoundPage, ForbiddenPage } from './pages/errors';
-
-const Home = lazy(() => import('./pages/home'));
-const Quote = lazy(() => import('./pages/quote'));
-const Quotes = lazy(() => import('./pages/quotes'));
-const Search = lazy(() => import('./pages/search'));
-const SignIn = lazy(() => import('./pages/signin'));
-const Favorites = lazy(() => import('./pages/favorites'));
-const Form = lazy(() => import('./pages/form'));
+import { Routes } from './Routes';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -43,7 +34,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function App() {
+export function App() {
   const classes = useStyles();
   const isOnline = useNetworkStatus();
   const { isUpdateAvailable, updateAssets } = useServiceWorker();
@@ -62,21 +53,7 @@ function App() {
               <div className={classes.wrapper}>
                 <Suspense fallback={<p>Loading...</p>}>
                   <ErrorBoundary>
-                    <Switch>
-                      <Route exact path="/" component={Home} />
-                      <Route exact path="/quotes" component={Quotes} />
-                      <Route exact path="/quotes/:id" component={Quote} />
-                      <Route path="/search" component={Search} />
-                      <Route path="/signin" component={SignIn} />
-
-                      <ProtectedRoute path="/favorites" component={Favorites} />
-                      <AdminRoute path="/quotes/:id/edit" component={Form} />
-                      <AdminRoute path="/create" component={Form} />
-
-                      <Route path="/404" component={NotFoundPage} />
-                      <Route path="/403" component={ForbiddenPage} />
-                      <Redirect to="/404" />
-                    </Switch>
+                    <Routes />
                   </ErrorBoundary>
                 </Suspense>
               </div>
@@ -106,5 +83,3 @@ function App() {
     </React.Fragment>
   );
 }
-
-export default App;

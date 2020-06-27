@@ -52,6 +52,7 @@ jobs:
           REACT_APP_FIREBASE_API_KEY: ${{ secrets.REACT_APP_FIREBASE_API_KEY }}
           REACT_APP_FACEBOOK_APP_ID: ${{ secrets.REACT_APP_FACEBOOK_APP_ID }}
           REACT_APP_RECAPTCHA_KEY: ${{ secrets.REACT_APP_RECAPTCHA_KEY }}
+          REACT_APP_GA: ${{ secrets.REACT_APP_GA }}
 
       - name: Push to Netlify
         uses: netlify/actions/cli@master
