@@ -41,7 +41,9 @@ const DEFAULT_QUOTE = {
 
 export function Form({ quote: initialQuote }) {
   const classes = useStyles();
-  const snackbar = useSnackbar();
+  const snackbar1 = useSnackbar();
+  const snackbar2 = useSnackbar();
+
   const [isCreating, setIsCreating] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [quote, setQuote] = useState(DEFAULT_QUOTE);
@@ -66,10 +68,18 @@ export function Form({ quote: initialQuote }) {
     setIsSubmitting(true);
 
     const apiFunction = isCreating ? api.createQuote : api.updateQuote;
-    await apiFunction(quote);
+
+    try {
+      await apiFunction(quote);
+    } catch (error) {
+      if (error.response && error.response.status === 409) {
+        setIsSubmitting(false);
+        return snackbar2.show();
+      }
+    }
 
     setIsSubmitting(false);
-    snackbar.show();
+    snackbar1.show();
 
     if (isCreating) {
       setQuote({
@@ -164,10 +174,17 @@ export function Form({ quote: initialQuote }) {
       </Paper>
 
       <Snackbar
-        open={snackbar.isShown}
-        onClose={snackbar.onClose}
+        open={snackbar1.isShown}
+        onClose={snackbar1.onClose}
         autoHideDuration={3000}
         message={`Quote ${isCreating ? 'created' : 'updated'}.`}
+      />
+
+      <Snackbar
+        open={snackbar2.isShown}
+        onClose={snackbar2.onClose}
+        autoHideDuration={3000}
+        message="Duplicate entry, quote not created."
       />
     </React.Fragment>
   );
