@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 
 import { Skeleton } from 'common/Quote/Skeleton';
@@ -6,19 +7,25 @@ import { Home } from './Home';
 import * as api from './api-calls';
 
 export function HomeContainer(props) {
+  const { history } = props;
   const [quote, setQuote] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
-  function requestQuote() {
-    setIsLoading(true);
+  const requestQuote = useCallback(() => {
+    api
+      .fetchRandomQuote()
+      .then(response => {
+        setQuote(response.data.data);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        if (error.response && error.response.status === 404) {
+          return history.push('/404');
+        }
+      });
+  }, [history]);
 
-    api.fetchRandomQuote().then(response => {
-      setQuote(response.data.data);
-      setIsLoading(false);
-    });
-  }
-
-  useEffect(() => requestQuote(), []);
+  useEffect(() => requestQuote(), [requestQuote]);
 
   return (
     <React.Fragment>
@@ -34,3 +41,7 @@ export function HomeContainer(props) {
     </React.Fragment>
   );
 }
+
+HomeContainer.propTypes = {
+  history: PropTypes.object.isRequired,
+};
