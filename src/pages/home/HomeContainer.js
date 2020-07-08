@@ -1,48 +1,50 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 
 import { Skeleton } from 'common/Quote/Skeleton';
+import { EmptyResult } from 'common/Quotes/EmptyResult';
 import { Home } from './Home';
 import * as api from './api-calls';
 
 export function HomeContainer(props) {
-  const { history } = props;
-  const [quote, setQuote] = useState();
+  const [quote, setQuote] = useState(undefined);
   const [isLoading, setIsLoading] = useState(true);
 
-  const requestQuote = useCallback(() => {
+  async function requestQuote() {
     setIsLoading(true);
-    api
-      .fetchRandomQuote()
-      .then(response => {
-        setQuote(response.data.data);
-        setIsLoading(false);
-      })
-      .catch(error => {
-        if (error.response && error.response.status === 404) {
-          return history.push('/404');
-        }
-      });
-  }, [history]);
 
-  useEffect(() => requestQuote(), [requestQuote]);
+    try {
+      const response = await api.fetchRandomQuote();
+      setQuote(response.data.data);
+    } catch (error) {
+      if (!error.response || error.response.status !== 404) {
+        throw error;
+      }
+
+      setQuote(null);
+    }
+
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
+    requestQuote();
+  }, []);
+
+  function Result() {
+    if (quote === null) {
+      return <EmptyResult />;
+    }
+
+    return <Home quote={quote} requestQuote={requestQuote} {...props} />;
+  }
 
   return (
     <React.Fragment>
       <Helmet>
         <title>DevQuotes | Home</title>
       </Helmet>
-
-      {isLoading ? (
-        <Skeleton />
-      ) : (
-        <Home quote={quote} requestQuote={requestQuote} {...props} />
-      )}
+      {isLoading ? <Skeleton /> : <Result />}
     </React.Fragment>
   );
 }
-
-HomeContainer.propTypes = {
-  history: PropTypes.object.isRequired,
-};
