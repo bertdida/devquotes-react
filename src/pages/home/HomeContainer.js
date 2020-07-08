@@ -12,6 +12,7 @@ export function HomeContainer(props) {
   const [isLoading, setIsLoading] = useState(true);
 
   const requestQuote = useCallback(() => {
+    setIsLoading(true);
     api
       .fetchRandomQuote()
       .then(response => {
