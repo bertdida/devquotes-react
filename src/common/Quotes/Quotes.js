@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Typography from '@material-ui/core/Typography';
 
 import { QuoteContainer } from 'common/Quote';
 import { Pagination } from './Pagination';
+import { EmptyResult } from './EmptyResult';
 
 export function Quotes(props) {
   const { quotes, pagination, updatePage } = props;
 
   if (quotes.length === 0) {
-    return <Typography variant="h3">Nothing to show</Typography>;
+    return <EmptyResult />;
   }
 
   return (
