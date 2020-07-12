@@ -76,6 +76,5 @@
     "prettier": "^1.16.4",
     "react-app-rewired": "^2.1.6",
     "workbox-webpack-plugin": "^5.1.3"
-  },
-  "proxy": "http://127.0.0.1:5000"
+  }
 }
