@@ -12,6 +12,7 @@ export function QuoteContainer({ quote: initialQuote, ...props }) {
   const [quote, setQuote] = useState(initialQuote);
   const [isDeleted, setIsDeleted] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [isLiking, setIsLiking] = useState(false);
   const snackbar1 = useSnackbar(false); // added to favorites
   const snackbar2 = useSnackbar(false); // copied to clipboard
   const snackbar3 = useSnackbar(false); // deleted
@@ -45,10 +46,13 @@ export function QuoteContainer({ quote: initialQuote, ...props }) {
       return props.history.push('/signin');
     }
 
+    setIsLiking(true);
+
     const apiFunction = !quote.is_liked ? api.likeQuote : api.unlikeQuote;
     const response = await apiFunction(quote);
     const { data } = response.data;
     setQuote(data);
+    setIsLiking(false);
 
     if (data.is_liked) {
       snackbar1.show();
@@ -84,6 +88,7 @@ export function QuoteContainer({ quote: initialQuote, ...props }) {
         toggleLike={toggleLike}
         shareOnTwitter={shareOnTwitter}
         shareOnFacebook={shareOnFacebook}
+        isLiking={isLiking}
       />
 
       <Snackbar

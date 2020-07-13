@@ -29,10 +29,16 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export function Actions({ quote, isDeleted, toggleLike, ...props }) {
+export function Actions({ quote, isDeleted, toggleLike, isLiking, ...props }) {
   const classes = useStyles();
   const { user } = useAuth();
   const isAdmin = user && user.is_admin;
+
+  function _toggleLike() {
+    if (!isLiking) {
+      toggleLike();
+    }
+  }
 
   return (
     <CardActions className={classes.container}>
@@ -47,7 +53,7 @@ export function Actions({ quote, isDeleted, toggleLike, ...props }) {
             variant="extended"
             color={quote.is_liked ? 'secondary' : 'default'}
             className={classes.like}
-            onClick={toggleLike}
+            onClick={_toggleLike}
             aria-label="like quote"
           >
             <FavoriteIcon className={classes.likeIcon} />
@@ -65,4 +71,5 @@ Actions.propTypes = {
   quote: PropTypes.object.isRequired,
   isDeleted: PropTypes.bool.isRequired,
   toggleLike: PropTypes.func.isRequired,
+  isLiking: PropTypes.bool.isRequired,
 };
