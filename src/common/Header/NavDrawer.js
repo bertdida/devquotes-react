@@ -21,6 +21,29 @@ const useStyles = makeStyles({
 function NavDrawerList(props) {
   const classes = useStyles();
   const { user, onClose, signOut, toggleTheme, isDarkTheme } = props;
+  const isAdmin = user && user.is_admin;
+
+  const ListItems = () => {
+    if (!user) {
+      return (
+        <ListItem button component={Link} to="/signin">
+          <ListItemText primary="Sign In" />
+        </ListItem>
+      );
+    }
+
+    return (
+      <React.Fragment>
+        <ListItem button component={Link} to={isAdmin ? '/create' : '/submit'}>
+          <ListItemText primary={`${isAdmin ? 'Create' : 'Submit'} Quote`} />
+        </ListItem>
+
+        <ListItem button onClick={signOut}>
+          <ListItemText primary="Sign Out" />
+        </ListItem>
+      </React.Fragment>
+    );
+  };
 
   return (
     <div
@@ -52,21 +75,7 @@ function NavDrawerList(props) {
       <Divider />
 
       <List>
-        {user && user.is_admin && (
-          <ListItem button component={Link} to="/create">
-            <ListItemText primary="Create Quote" />
-          </ListItem>
-        )}
-
-        {user ? (
-          <ListItem button onClick={signOut}>
-            <ListItemText primary="Sign Out" />
-          </ListItem>
-        ) : (
-          <ListItem button component={Link} to="/signin">
-            <ListItemText primary="Sign In" />
-          </ListItem>
-        )}
+        <ListItems />
       </List>
 
       <Divider />

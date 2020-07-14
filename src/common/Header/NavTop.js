@@ -36,7 +36,7 @@ const Option = forwardRef(({ text, icon: Icon, ...props }, ref) => {
 function MoreOptions(props) {
   const [anchorEl, setAnchorEl] = useState(null);
   const { user, signOut, toggleTheme, isDarkTheme } = props;
-
+  const isAdmin = user && user.is_admin;
   const open = Boolean(anchorEl);
 
   function show(event) {
@@ -76,13 +76,13 @@ function MoreOptions(props) {
           horizontal: 'right',
         }}
       >
-        {user && user.is_admin && (
+        {user && (
           <Option
-            text="Create Quote"
             icon={SendIcon}
             onClick={hide}
             component={Link}
-            to="/create"
+            to={isAdmin ? '/create' : '/submit'}
+            text={`${isAdmin ? 'Create' : 'Submit'} Quote`}
           />
         )}
 
