@@ -9,6 +9,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { isWebUri } from 'valid-url';
 
 import { useSnackbar, Snackbar } from 'common/hooks/useSnackbar';
+import { useAuth } from 'common/hooks/useAuth';
 import * as api from './api-calls';
 
 const useStyles = makeStyles(theme => ({
@@ -47,6 +48,25 @@ export function Form({ quote: initialQuote }) {
   const [isCreating, setIsCreating] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [quote, setQuote] = useState(DEFAULT_QUOTE);
+
+  const { user } = useAuth();
+  const isAdmin = user && user.is_admin;
+
+  const createText = () => {
+    if (!isCreating) {
+      return 'Update';
+    }
+
+    return isAdmin ? 'Create' : 'Submit';
+  };
+
+  const snackbar1Message = () => {
+    if (!isCreating) {
+      return 'Quote updated.';
+    }
+
+    return `Quote ${isAdmin ? 'created' : 'submitted'}.`;
+  };
 
   useEffect(() => {
     setIsCreating(!initialQuote);
@@ -160,7 +180,7 @@ export function Form({ quote: initialQuote }) {
               type="submit"
               disabled={isSubmitting}
             >
-              {isCreating ? 'Create' : 'Update'}
+              {createText()}
             </Button>
             {isSubmitting && (
               <CircularProgress
@@ -177,7 +197,7 @@ export function Form({ quote: initialQuote }) {
         open={snackbar1.isShown}
         onClose={snackbar1.onClose}
         autoHideDuration={3000}
-        message={`Quote ${isCreating ? 'created' : 'updated'}.`}
+        message={snackbar1Message()}
       />
 
       <Snackbar
