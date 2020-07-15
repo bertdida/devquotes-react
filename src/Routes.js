@@ -22,9 +22,8 @@ function _Routes() {
       <Route path="/search" component={Search} />
       <Route path="/signin" component={SignIn} />
 
+      <AdminRoute path={['/quotes/:id/edit', '/create']} component={Form} />
       <ProtectedRoute path="/favorites" component={Favorites} />
-      <AdminRoute path="/quotes/:id/edit" component={Form} />
-      <AdminRoute path="/create" component={Form} />
       <ProtectedRoute
         path="/submit"
         redirectAdminTo="/create"
