@@ -25,7 +25,11 @@ function _Routes() {
       <ProtectedRoute path="/favorites" component={Favorites} />
       <AdminRoute path="/quotes/:id/edit" component={Form} />
       <AdminRoute path="/create" component={Form} />
-      <ProtectedRoute path="/submit" component={Form} />
+      <ProtectedRoute
+        path="/submit"
+        redirectAdminTo="/create"
+        component={Form}
+      />
 
       <Route path="/404" component={NotFoundPage} />
       <Route path="/403" component={ForbiddenPage} />
