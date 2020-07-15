@@ -4,19 +4,29 @@ import { Route, Redirect } from 'react-router-dom';
 
 import { useAuth } from 'common/hooks/useAuth';
 
-export function ProtectedRoute({ component: Component, ...props }) {
+export function ProtectedRoute(props) {
   const { user } = useAuth();
+  const { redirectAdminTo = null, component: Component, ...rest } = props;
 
   return (
     <Route
-      {...props}
-      render={_props =>
-        user ? <Component {..._props} /> : <Redirect to="/signin" />
-      }
+      {...rest}
+      render={_props => {
+        if (!user) {
+          return <Redirect to="/signin" />;
+        }
+
+        if (user.is_admin && redirectAdminTo !== null) {
+          return <Redirect to={redirectAdminTo} />;
+        }
+
+        return <Component {..._props} />;
+      }}
     />
   );
 }
 
 ProtectedRoute.propTypes = {
+  redirectAdminTo: PropTypes.string,
   component: PropTypes.elementType.isRequired,
 };
