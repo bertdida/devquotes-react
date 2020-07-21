@@ -38,6 +38,12 @@ function NavDrawerList(props) {
           <ListItemText primary={`${isAdmin ? 'Create' : 'Submit'} Quote`} />
         </ListItem>
 
+        {isAdmin && (
+          <ListItem button component={Link} to="/unpublished-quotes">
+            <ListItemText primary="Unpublished Quotes" />
+          </ListItem>
+        )}
+
         <ListItem button onClick={signOut}>
           <ListItemText primary="Sign Out" />
         </ListItem>

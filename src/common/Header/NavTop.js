@@ -13,6 +13,7 @@ import Brightness4Icon from '@material-ui/icons/Brightness4';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import Button from '@material-ui/core/Button';
 import SendIcon from '@material-ui/icons/Send';
+import DraftsIcon from '@material-ui/icons/Drafts';
 
 const useStyles = makeStyles(theme => ({
   menuIcon: {
@@ -83,6 +84,16 @@ function MoreOptions(props) {
             component={Link}
             to={isAdmin ? '/create' : '/submit'}
             text={`${isAdmin ? 'Create' : 'Submit'} Quote`}
+          />
+        )}
+
+        {isAdmin && (
+          <Option
+            icon={DraftsIcon}
+            onClick={hide}
+            component={Link}
+            to="/unpublished-quotes"
+            text="Unpublished Quotes"
           />
         )}
 

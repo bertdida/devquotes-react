@@ -8,6 +8,7 @@ import { withTracker } from './common/withTracker';
 const Home = lazy(() => import('./pages/home'));
 const Quote = lazy(() => import('./pages/quote'));
 const Quotes = lazy(() => import('./pages/quotes'));
+const UnpublishedQuotes = lazy(() => import('./pages/unpublished-quotes'));
 const Search = lazy(() => import('./pages/search'));
 const SignIn = lazy(() => import('./pages/signin'));
 const Favorites = lazy(() => import('./pages/favorites'));
@@ -23,6 +24,7 @@ function _Routes() {
       <Route path="/signin" component={SignIn} />
 
       <AdminRoute path={['/quotes/:id/edit', '/create']} component={Form} />
+      <AdminRoute path="/unpublished-quotes" component={UnpublishedQuotes} />
       <ProtectedRoute path="/favorites" component={Favorites} />
       <ProtectedRoute
         path="/submit"
