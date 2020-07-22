@@ -6,8 +6,12 @@ import CardHeader from '@material-ui/core/CardHeader';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 
+import { axios } from 'common/axios';
 import * as api from '../api-calls';
 import { TitleSkeleton } from './TitleSkeleton';
+
+const { CancelToken } = axios;
+let cancel;
 
 const styles = theme => ({
   root: {
@@ -33,11 +37,21 @@ export const Title = withStyles(styles)(props => {
 
   useEffect(() => {
     if (quote.contributor_id) {
-      api.fetchUser(quote.contributor_id).then(({ data }) => {
-        setContributor(data.data);
-        setIsLoading(false);
-      });
+      api
+        .fetchUser(quote.contributor_id, {
+          cancelToken: new CancelToken(c => (cancel = c)),
+        })
+        .then(({ data }) => {
+          setContributor(data.data);
+          setIsLoading(false);
+        });
     }
+
+    return () => {
+      if (typeof cancel === 'function') {
+        cancel();
+      }
+    };
   }, [quote.contributor_id]);
 
   useEffect(() => {
