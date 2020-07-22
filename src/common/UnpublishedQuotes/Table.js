@@ -86,6 +86,28 @@ export function Table(props) {
     setShowQuoteModal(true);
   };
 
+  function isSelected(quote) {
+    return selectedQuotes.some(({ id }) => id === quote.id);
+  }
+
+  const handleSelect = quote => () => {
+    if (!isSelected(quote)) {
+      setSelectedQuotes(prevSelected => [...prevSelected, quote]);
+      return;
+    }
+
+    setSelectedQuotes(prevSelected =>
+      prevSelected.filter(({ id }) => id !== quote.id)
+    );
+  };
+
+  function handleSelectAllClick(event) {
+    setSelectedQuotes(event.target.checked ? quotes : []);
+  }
+
+  const numSelected = selectedQuotes.length;
+  const numQuotes = quotes.length;
+
   return (
     <React.Fragment>
       <Paper>
@@ -100,6 +122,9 @@ export function Table(props) {
               <TableRow>
                 <TableCell padding="checkbox">
                   <Checkbox
+                    indeterminate={numSelected > 0 && numSelected < numQuotes}
+                    checked={numQuotes > 0 && numSelected === numQuotes}
+                    onChange={handleSelectAllClick}
                     inputProps={{ 'aria-label': 'select all quotes' }}
                   />
                 </TableCell>
@@ -113,7 +138,10 @@ export function Table(props) {
               {quotes.map(quote => (
                 <TableRow hover role="checkbox" tabIndex={-1} key={quote.id}>
                   <TableCell padding="checkbox">
-                    <Checkbox />
+                    <Checkbox
+                      onChange={handleSelect(quote)}
+                      checked={isSelected(quote)}
+                    />
                   </TableCell>
                   <TableCell>
                     <Link
