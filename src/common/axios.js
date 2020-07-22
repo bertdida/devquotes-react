@@ -5,6 +5,8 @@ axios.defaults.baseURL = process.env.REACT_APP_API || null;
 axios.defaults.withCredentials = true;
 
 const instance = axios.create();
+instance.CancelToken = axios.CancelToken;
+
 let isRefreshing = false;
 let subscribers = [];
 
