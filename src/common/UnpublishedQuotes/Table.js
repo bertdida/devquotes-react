@@ -81,6 +81,20 @@ export function Table(props) {
       });
   }, [fetchQuotes, history, page]);
 
+  useEffect(() => {
+    let isMounted = true;
+    history.listen(_location => {
+      const query = queryString.parse(_location.search);
+      if (isMounted) {
+        setPage(query.page);
+      }
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [history]);
+
   const onClickQuotation = quote => () => {
     setQuoteToShow(quote);
     setShowQuoteModal(true);
@@ -103,6 +117,13 @@ export function Table(props) {
 
   function handleSelectAllClick(event) {
     setSelectedQuotes(event.target.checked ? quotes : []);
+  }
+
+  function handleChangePage(event, newPage) {
+    history.push({
+      pathname: '/unpublished-quotes',
+      search: newPage === 0 ? null : `?page=${newPage + 1}`,
+    });
   }
 
   const numSelected = selectedQuotes.length;
@@ -206,10 +227,10 @@ export function Table(props) {
         {!isLoading && (
           <TablePagination
             component="div"
-            onChangePage={setPage}
+            onChangePage={handleChangePage}
             rowsPerPageOptions={[]}
             count={pagination.total}
-            page={pagination.curr_page - 1}
+            page={pagination.curr_page - 1} // zero based
             rowsPerPage={pagination.per_page}
           />
         )}
