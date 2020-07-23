@@ -207,7 +207,7 @@ export function Table(props) {
           <TablePagination
             component="div"
             onChangePage={setPage}
-            rowsPerPageOptions={[10, 25, 30]}
+            rowsPerPageOptions={[]}
             count={pagination.total}
             page={pagination.curr_page - 1}
             rowsPerPage={pagination.per_page}
