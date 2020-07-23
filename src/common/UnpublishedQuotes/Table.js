@@ -67,6 +67,8 @@ export function Table(props) {
   }
 
   useEffect(() => {
+    setSelectedQuotes([]);
+
     fetchQuotes(page || 1)
       .then(response => {
         const { data, ...rest } = response.data;
