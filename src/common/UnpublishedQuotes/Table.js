@@ -8,7 +8,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
+import { default as MuiTableRow } from '@material-ui/core/TableRow';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
@@ -56,6 +56,93 @@ const headCells = [
   { id: 'actions', label: 'Actions' },
 ];
 
+function TableRow(props) {
+  const { quote, isSelected, handleSelect, onClickQuotation } = props;
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
+  const classes = useStyles();
+  const isRowSelected = isSelected(quote);
+
+  function show(event) {
+    setAnchorEl(event.currentTarget);
+  }
+
+  function hideMenu() {
+    setAnchorEl(null);
+  }
+
+  return (
+    <MuiTableRow hover role="checkbox" tabIndex={-1} selected={isRowSelected}>
+      <TableCell padding="checkbox">
+        <Checkbox onChange={handleSelect(quote)} checked={isRowSelected} />
+      </TableCell>
+      <TableCell>
+        <Tooltip title={quote.quotation}>
+          <Link
+            color="initial"
+            component="button"
+            className={classes.ellipsis}
+            onClick={onClickQuotation(quote)}
+          >
+            {quote.quotation}
+          </Link>
+        </Tooltip>
+      </TableCell>
+      <TableCell className={classes.ellipsis}>{quote.author}</TableCell>
+      <TableCell>
+        <Tooltip title="Publish Quote">
+          <IconButton aria-label="publish quote">
+            <PublishIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Mark as spam">
+          <IconButton aria-label="mark as spam">
+            <NotInterestedIcon />
+          </IconButton>
+        </Tooltip>
+
+        <IconButton
+          color="inherit"
+          onClick={show}
+          aria-label="open more options"
+        >
+          <MoreIcon />
+        </IconButton>
+
+        <Menu
+          open={open}
+          anchorEl={anchorEl}
+          onClose={hideMenu}
+          keepMounted
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+        >
+          <MenuItem aria-label="delete quote">Delete Quote</MenuItem>
+
+          <MenuItem aria-label="mark user as spammer">
+            Mark user as spammer
+          </MenuItem>
+        </Menu>
+      </TableCell>
+    </MuiTableRow>
+  );
+}
+
+TableRow.propTypes = {
+  quote: PropTypes.object.isRequired,
+  isSelected: PropTypes.func.isRequired,
+  handleSelect: PropTypes.func.isRequired,
+  onClickQuotation: PropTypes.func.isRequired,
+};
+
 export function Table(props) {
   const { location, history, fetchQuotes } = props;
   const classes = useStyles();
@@ -68,17 +155,6 @@ export function Table(props) {
 
   const [quoteToShow, setQuoteToShow] = useState(null);
   const [showQuoteModal, setShowQuoteModal] = useState(false);
-
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-
-  function show(event) {
-    setAnchorEl(event.currentTarget);
-  }
-
-  function hideMenu() {
-    setAnchorEl(null);
-  }
 
   useEffect(() => {
     setIsLoading(true);
@@ -162,7 +238,7 @@ export function Table(props) {
 
           <MuiTable>
             <TableHead>
-              <TableRow>
+              <MuiTableRow>
                 <TableCell padding="checkbox">
                   <Checkbox
                     indeterminate={numSelected > 0 && numSelected < numQuotes}
@@ -174,88 +250,19 @@ export function Table(props) {
                 {headCells.map(headCell => (
                   <TableCell key={headCell.id}>{headCell.label}</TableCell>
                 ))}
-              </TableRow>
+              </MuiTableRow>
             </TableHead>
 
             <TableBody>
-              {quotes.map(quote => {
-                const isRowSelected = isSelected(quote);
-
-                return (
-                  <TableRow
-                    hover
-                    role="checkbox"
-                    tabIndex={-1}
-                    key={quote.id}
-                    selected={isRowSelected}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        onChange={handleSelect(quote)}
-                        checked={isRowSelected}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Tooltip title={quote.quotation}>
-                        <Link
-                          color="initial"
-                          component="button"
-                          className={classes.ellipsis}
-                          onClick={onClickQuotation(quote)}
-                        >
-                          {quote.quotation}
-                        </Link>
-                      </Tooltip>
-                    </TableCell>
-                    <TableCell className={classes.ellipsis}>
-                      {quote.author}
-                    </TableCell>
-                    <TableCell>
-                      <Tooltip title="Publish Quote">
-                        <IconButton aria-label="publish quote">
-                          <PublishIcon />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title="Mark as spam">
-                        <IconButton aria-label="mark as spam">
-                          <NotInterestedIcon />
-                        </IconButton>
-                      </Tooltip>
-
-                      <IconButton
-                        color="inherit"
-                        onClick={show}
-                        aria-label="open more options"
-                      >
-                        <MoreIcon />
-                      </IconButton>
-
-                      <Menu
-                        open={open}
-                        anchorEl={anchorEl}
-                        onClose={hideMenu}
-                        keepMounted
-                        anchorOrigin={{
-                          vertical: 'top',
-                          horizontal: 'right',
-                        }}
-                        transformOrigin={{
-                          vertical: 'top',
-                          horizontal: 'right',
-                        }}
-                      >
-                        <MenuItem aria-label="delete quote">
-                          Delete Quote
-                        </MenuItem>
-
-                        <MenuItem aria-label="mark user as spammer">
-                          Mark user as spammer
-                        </MenuItem>
-                      </Menu>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+              {quotes.map(quote => (
+                <TableRow
+                  key={quote.id}
+                  quote={quote}
+                  isSelected={isSelected}
+                  handleSelect={handleSelect}
+                  onClickQuotation={onClickQuotation}
+                />
+              ))}
             </TableBody>
           </MuiTable>
         </TableContainer>
