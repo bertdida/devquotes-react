@@ -21,10 +21,24 @@ import Link from '@material-ui/core/Link';
 import Menu from '@material-ui/core/Menu';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import MenuItem from '@material-ui/core/MenuItem';
+import Backdrop from '@material-ui/core/Backdrop';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { QuoteDialog } from './QuoteDialog';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
+  tableContainer: {
+    position: 'relative',
+    minHeight: 400,
+  },
+  backdrop: {
+    position: 'absolute',
+    top: theme.spacing(7),
+    zIndex: 1,
+    alignItems: 'initial',
+    paddingTop: theme.spacing(5),
+    backgroundColor: 'rgb(255 255 255 / 50%)',
+  },
   ellipsis: {
     maxWidth: 200,
     whiteSpace: 'nowrap',
@@ -34,7 +48,7 @@ const useStyles = makeStyles({
     fontSize: 'inherit',
     color: 'inherit',
   },
-});
+}));
 
 const headCells = [
   { id: 'quotation', label: 'Quotation' },
@@ -67,6 +81,7 @@ export function Table(props) {
   }
 
   useEffect(() => {
+    setIsLoading(true);
     setSelectedQuotes([]);
 
     fetchQuotes(page || 1)
@@ -140,7 +155,11 @@ export function Table(props) {
             Unpublished Quotes
           </Typography>
         </Toolbar>
-        <TableContainer>
+        <TableContainer className={classes.tableContainer}>
+          <Backdrop open={isLoading} className={classes.backdrop}>
+            <CircularProgress color="inherit" />
+          </Backdrop>
+
           <MuiTable>
             <TableHead>
               <TableRow>
