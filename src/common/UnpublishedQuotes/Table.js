@@ -23,8 +23,12 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import MenuItem from '@material-ui/core/MenuItem';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import DoneIcon from '@material-ui/icons/Done';
+import DeleteIcon from '@material-ui/icons/Delete';
 
+import { useSnackbar, Snackbar } from 'common/hooks/useSnackbar';
 import { QuoteDialog } from './QuoteDialog';
+import { updateQuote } from './api-calls';
 
 const useStyles = makeStyles(theme => ({
   tableContainer: {
@@ -64,6 +68,7 @@ function TableRow(props) {
 
   const classes = useStyles();
   const isRowSelected = isSelected(quote);
+  const isPublished = quote.is_published === true;
 
   function show(event) {
     setAnchorEl(event.currentTarget);
@@ -73,66 +78,87 @@ function TableRow(props) {
     setAnchorEl(null);
   }
 
+  async function _publishQuote() {
+    if (!isPublished) {
+      props.publishQuote(quote);
+    }
+  }
+
+  const isPublishedLabel = isPublished ? 'Quote is published' : 'Publish Quote';
+
   return (
-    <MuiTableRow hover role="checkbox" tabIndex={-1} selected={isRowSelected}>
-      <TableCell padding="checkbox">
-        <Checkbox onChange={handleSelect(quote)} checked={isRowSelected} />
-      </TableCell>
-      <TableCell>
-        <Tooltip title={quote.quotation}>
-          <Link
-            color="initial"
-            component="button"
-            className={classes.ellipsis}
-            onClick={onClickQuotation(quote)}
+    <React.Fragment>
+      <MuiTableRow hover role="checkbox" tabIndex={-1} selected={isRowSelected}>
+        <TableCell padding="checkbox">
+          <Checkbox onChange={handleSelect(quote)} checked={isRowSelected} />
+        </TableCell>
+        <TableCell>
+          <Tooltip title={quote.quotation}>
+            <Link
+              color="initial"
+              component="button"
+              className={classes.ellipsis}
+              onClick={onClickQuotation(quote)}
+            >
+              {quote.quotation}
+            </Link>
+          </Tooltip>
+        </TableCell>
+        <TableCell className={classes.ellipsis}>{quote.author}</TableCell>
+        <TableCell>
+          <Tooltip title={isPublishedLabel}>
+            <IconButton aria-label={isPublishedLabel} onClick={_publishQuote}>
+              {isPublished ? <DoneIcon /> : <PublishIcon />}
+            </IconButton>
+          </Tooltip>
+
+          {isPublished ? (
+            <Tooltip title="Delete Quote">
+              <IconButton aria-label="delete quote">
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+          ) : (
+            <Tooltip title="Mark as spam">
+              <IconButton aria-label="mark as spam">
+                <NotInterestedIcon />
+              </IconButton>
+            </Tooltip>
+          )}
+
+          <IconButton
+            color="inherit"
+            onClick={show}
+            aria-label="open more options"
           >
-            {quote.quotation}
-          </Link>
-        </Tooltip>
-      </TableCell>
-      <TableCell className={classes.ellipsis}>{quote.author}</TableCell>
-      <TableCell>
-        <Tooltip title="Publish Quote">
-          <IconButton aria-label="publish quote">
-            <PublishIcon />
+            <MoreIcon />
           </IconButton>
-        </Tooltip>
-        <Tooltip title="Mark as spam">
-          <IconButton aria-label="mark as spam">
-            <NotInterestedIcon />
-          </IconButton>
-        </Tooltip>
 
-        <IconButton
-          color="inherit"
-          onClick={show}
-          aria-label="open more options"
-        >
-          <MoreIcon />
-        </IconButton>
+          <Menu
+            open={open}
+            anchorEl={anchorEl}
+            onClose={hideMenu}
+            keepMounted
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+          >
+            {!isPublished && (
+              <MenuItem aria-label="delete quote">Delete Quote</MenuItem>
+            )}
 
-        <Menu
-          open={open}
-          anchorEl={anchorEl}
-          onClose={hideMenu}
-          keepMounted
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-        >
-          <MenuItem aria-label="delete quote">Delete Quote</MenuItem>
-
-          <MenuItem aria-label="mark user as spammer">
-            Mark user as spammer
-          </MenuItem>
-        </Menu>
-      </TableCell>
-    </MuiTableRow>
+            <MenuItem aria-label="mark user as spammer">
+              Mark user as spammer
+            </MenuItem>
+          </Menu>
+        </TableCell>
+      </MuiTableRow>
+    </React.Fragment>
   );
 }
 
@@ -141,6 +167,7 @@ TableRow.propTypes = {
   isSelected: PropTypes.func.isRequired,
   handleSelect: PropTypes.func.isRequired,
   onClickQuotation: PropTypes.func.isRequired,
+  publishQuote: PropTypes.func.isRequired,
 };
 
 export function Table(props) {
@@ -155,6 +182,7 @@ export function Table(props) {
 
   const [quoteToShow, setQuoteToShow] = useState(null);
   const [showQuoteModal, setShowQuoteModal] = useState(false);
+  const snackbar = useSnackbar(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -220,6 +248,26 @@ export function Table(props) {
     });
   }
 
+  async function publishQuote(quote) {
+    if (quote.is_published) {
+      return;
+    }
+
+    const newQuote = { ...quote, is_published: true };
+    await updateQuote(newQuote);
+    setQuotes(prevQuotes =>
+      prevQuotes.map(currQuote => {
+        if (currQuote.id !== quote.id) {
+          return currQuote;
+        }
+
+        return newQuote;
+      })
+    );
+
+    snackbar.show();
+  }
+
   const numSelected = selectedQuotes.length;
   const numQuotes = quotes.length;
 
@@ -261,6 +309,7 @@ export function Table(props) {
                   isSelected={isSelected}
                   handleSelect={handleSelect}
                   onClickQuotation={onClickQuotation}
+                  publishQuote={publishQuote}
                 />
               ))}
             </TableBody>
@@ -284,6 +333,12 @@ export function Table(props) {
         show={showQuoteModal}
         onHide={() => setShowQuoteModal(false)}
         onExited={() => setQuoteToShow(null)}
+      />
+
+      <Snackbar
+        open={snackbar.isShown}
+        onClose={snackbar.onClose}
+        message="Quote published."
       />
     </React.Fragment>
   );
