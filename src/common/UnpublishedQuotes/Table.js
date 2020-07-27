@@ -25,8 +25,11 @@ import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import DoneIcon from '@material-ui/icons/Done';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { red } from '@material-ui/core/colors';
 
 import { useSnackbar, Snackbar } from 'common/hooks/useSnackbar';
+import { DeleteDialog } from 'common/Quote/DeleteDialog';
+import { deleteQuote } from 'common/Quote/api-calls';
 import { QuoteDialog } from './QuoteDialog';
 import { updateQuote } from './api-calls';
 
@@ -52,6 +55,9 @@ const useStyles = makeStyles(theme => ({
     fontSize: 'inherit',
     color: 'inherit',
   },
+  textDanger: {
+    color: red['500'],
+  },
 }));
 
 const headCells = [
@@ -70,6 +76,9 @@ function TableRow(props) {
   const isRowSelected = isSelected(quote);
   const isPublished = quote.is_published === true;
 
+  const [isDeleted, setIsDeleted] = useState(false);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+
   function show(event) {
     setAnchorEl(event.currentTarget);
   }
@@ -82,6 +91,18 @@ function TableRow(props) {
     if (!isPublished) {
       props.publishQuote(quote);
     }
+  }
+
+  function confirmDelete() {
+    setOpenDeleteDialog(true);
+    hideMenu();
+  }
+
+  async function erase() {
+    await props.eraseQuote(quote);
+
+    setIsDeleted(true);
+    setOpenDeleteDialog(false);
   }
 
   const isPublishedLabel = isPublished ? 'Quote is published' : 'Publish Quote';
@@ -105,59 +126,76 @@ function TableRow(props) {
           </Tooltip>
         </TableCell>
         <TableCell className={classes.ellipsis}>{quote.author}</TableCell>
-        <TableCell>
-          <Tooltip title={isPublishedLabel}>
-            <IconButton aria-label={isPublishedLabel} onClick={_publishQuote}>
-              {isPublished ? <DoneIcon /> : <PublishIcon />}
-            </IconButton>
-          </Tooltip>
 
-          {isPublished ? (
-            <Tooltip title="Delete Quote">
-              <IconButton aria-label="delete quote">
-                <DeleteIcon />
+        {isDeleted ? (
+          <TableCell>
+            <div className={classes.textDanger}>
+              <p>Deleted</p>
+            </div>
+          </TableCell>
+        ) : (
+          <TableCell>
+            <Tooltip title={isPublishedLabel}>
+              <IconButton aria-label={isPublishedLabel} onClick={_publishQuote}>
+                {isPublished ? <DoneIcon /> : <PublishIcon />}
               </IconButton>
             </Tooltip>
-          ) : (
-            <Tooltip title="Mark as spam">
-              <IconButton aria-label="mark as spam">
-                <NotInterestedIcon />
-              </IconButton>
-            </Tooltip>
-          )}
 
-          <IconButton
-            color="inherit"
-            onClick={show}
-            aria-label="open more options"
-          >
-            <MoreIcon />
-          </IconButton>
-
-          <Menu
-            open={open}
-            anchorEl={anchorEl}
-            onClose={hideMenu}
-            keepMounted
-            anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-          >
-            {!isPublished && (
-              <MenuItem aria-label="delete quote">Delete Quote</MenuItem>
+            {isPublished ? (
+              <Tooltip title="Delete Quote">
+                <IconButton aria-label="delete quote" onClick={confirmDelete}>
+                  <DeleteIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              <Tooltip title="Mark as spam">
+                <IconButton aria-label="mark as spam">
+                  <NotInterestedIcon />
+                </IconButton>
+              </Tooltip>
             )}
 
-            <MenuItem aria-label="mark user as spammer">
-              Mark user as spammer
-            </MenuItem>
-          </Menu>
-        </TableCell>
+            <IconButton
+              color="inherit"
+              onClick={show}
+              aria-label="open more options"
+            >
+              <MoreIcon />
+            </IconButton>
+
+            <Menu
+              open={open}
+              anchorEl={anchorEl}
+              onClose={hideMenu}
+              keepMounted
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+            >
+              {!isPublished && (
+                <MenuItem aria-label="delete quote" onClick={confirmDelete}>
+                  Delete Quote
+                </MenuItem>
+              )}
+
+              <MenuItem aria-label="mark user as spammer">
+                Mark user as spammer
+              </MenuItem>
+            </Menu>
+          </TableCell>
+        )}
       </MuiTableRow>
+
+      <DeleteDialog
+        open={openDeleteDialog}
+        onClose={() => setOpenDeleteDialog(false)}
+        erase={erase}
+      />
     </React.Fragment>
   );
 }
@@ -168,6 +206,7 @@ TableRow.propTypes = {
   handleSelect: PropTypes.func.isRequired,
   onClickQuotation: PropTypes.func.isRequired,
   publishQuote: PropTypes.func.isRequired,
+  eraseQuote: PropTypes.func.isRequired,
 };
 
 export function Table(props) {
@@ -182,7 +221,8 @@ export function Table(props) {
 
   const [quoteToShow, setQuoteToShow] = useState(null);
   const [showQuoteModal, setShowQuoteModal] = useState(false);
-  const snackbar = useSnackbar(false);
+  const snackbar1 = useSnackbar(false);
+  const snackbar2 = useSnackbar(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -265,7 +305,12 @@ export function Table(props) {
       })
     );
 
-    snackbar.show();
+    snackbar1.show();
+  }
+
+  async function eraseQuote(quote) {
+    await deleteQuote(quote.id);
+    snackbar2.show();
   }
 
   const numSelected = selectedQuotes.length;
@@ -310,6 +355,7 @@ export function Table(props) {
                   handleSelect={handleSelect}
                   onClickQuotation={onClickQuotation}
                   publishQuote={publishQuote}
+                  eraseQuote={eraseQuote}
                 />
               ))}
             </TableBody>
@@ -336,9 +382,15 @@ export function Table(props) {
       />
 
       <Snackbar
-        open={snackbar.isShown}
-        onClose={snackbar.onClose}
+        open={snackbar1.isShown}
+        onClose={snackbar1.onClose}
         message="Quote published."
+      />
+
+      <Snackbar
+        open={snackbar2.isShown}
+        onClose={snackbar2.onClose}
+        message="Quote deleted."
       />
     </React.Fragment>
   );
