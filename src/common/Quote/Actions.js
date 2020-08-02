@@ -57,7 +57,7 @@ export function Actions({ quote, isDeleted, toggleLike, isLiking, ...props }) {
             aria-label="like quote"
           >
             <FavoriteIcon className={classes.likeIcon} />
-            {quote.likes}
+            {quote.total_likes}
           </Fab>
 
           {isAdmin ? <ActionsAdmin {...props} /> : <ActionsUser {...props} />}
