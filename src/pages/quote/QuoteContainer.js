@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
+import { Redirect } from 'react-router-dom';
 
 import { Skeleton } from 'common/Quote/Skeleton';
 import { Quote } from './Quote';
 import * as api from './api-calls';
 
 export function QuoteContainer({ match, history, ...props }) {
-  const { id: quoteId } = match.params;
+  const { id: quoteId, slug: quoteSlug } = match.params;
   const [quote, setQuote] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -27,6 +28,10 @@ export function QuoteContainer({ match, history, ...props }) {
 
   if (isLoading) {
     return <Skeleton />;
+  }
+
+  if (quote.slug !== quoteSlug) {
+    return <Redirect to={`/quotes/${quote.id}/${quote.slug}`} />;
   }
 
   return (
