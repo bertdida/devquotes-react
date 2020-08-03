@@ -18,6 +18,7 @@ export function QuoteContainer({ quote: initialQuote, ...props }) {
   const snackbar3 = useSnackbar(false); // deleted
 
   const baseUrl = window.location.origin.replace(/\/$/, '');
+  const resourceUrl = `${baseUrl}/quotes/${quote.id}/${quote.slug}`;
 
   useEffect(() => {
     if (!user && quote.is_liked === true) {
@@ -60,7 +61,7 @@ export function QuoteContainer({ quote: initialQuote, ...props }) {
   }
 
   function copyLink() {
-    window.navigator.clipboard.writeText(`${baseUrl}/quotes/${quote.id}`);
+    window.navigator.clipboard.writeText(resourceUrl);
     snackbar2.show();
   }
 
@@ -68,7 +69,7 @@ export function QuoteContainer({ quote: initialQuote, ...props }) {
     window.FB.ui({
       method: 'share',
       quote: `${quote.quotation} — ${quote.author}`,
-      href: `${baseUrl}/quotes/${quote.id}`,
+      href: resourceUrl,
     });
   }
 
