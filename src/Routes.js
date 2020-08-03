@@ -19,7 +19,7 @@ function _Routes() {
     <Switch>
       <Route exact path="/" component={Home} />
       <Route exact path="/quotes" component={Quotes} />
-      <Route exact path="/quotes/:id" component={Quote} />
+      <Route exact path="/quotes/:id/:slug" component={Quote} />
       <Route path="/search" component={Search} />
       <Route path="/signin" component={SignIn} />
 
