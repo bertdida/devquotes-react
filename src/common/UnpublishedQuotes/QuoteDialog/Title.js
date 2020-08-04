@@ -36,23 +36,21 @@ export const Title = withStyles(styles)(props => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (quote.contributor_id) {
-      api
-        .fetchUser(quote.contributor_id, {
-          cancelToken: new CancelToken(c => (cancel = c)),
-        })
-        .then(({ data }) => {
-          setContributor(data.data);
-          setIsLoading(false);
-        });
-    }
+    api
+      .fetchQuoteContributor(quote, {
+        cancelToken: new CancelToken(c => (cancel = c)),
+      })
+      .then(({ data }) => {
+        setContributor(data.data);
+        setIsLoading(false);
+      });
 
     return () => {
       if (typeof cancel === 'function') {
         cancel();
       }
     };
-  }, [quote.contributor_id]);
+  }, [quote]);
 
   useEffect(() => {
     const date = new Date(quote.created_at);
