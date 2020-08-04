@@ -74,7 +74,7 @@ function TableRow(props) {
 
   const classes = useStyles();
   const isRowSelected = isSelected(quote);
-  const isPublished = quote.is_published === true;
+  const isPublished = quote.status === 'published';
 
   const [isDeleted, setIsDeleted] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -289,11 +289,11 @@ export function Table(props) {
   }
 
   async function publishQuote(quote) {
-    if (quote.is_published) {
+    if (quote.status === 'published') {
       return;
     }
 
-    const newQuote = { ...quote, is_published: true };
+    const newQuote = { ...quote, status: 'published' };
     await updateQuote(newQuote);
     setQuotes(prevQuotes =>
       prevQuotes.map(currQuote => {
