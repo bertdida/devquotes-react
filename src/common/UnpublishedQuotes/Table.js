@@ -32,6 +32,7 @@ import { DeleteDialog } from 'common/Quote/DeleteDialog';
 import { deleteQuote } from 'common/Quote/api-calls';
 import { QuoteDialog } from './QuoteDialog';
 import { updateQuote } from './api-calls';
+import { TableFilter } from './TableFilter';
 
 const useStyles = makeStyles(theme => ({
   tableContainer: {
@@ -57,6 +58,10 @@ const useStyles = makeStyles(theme => ({
   },
   textDanger: {
     color: red['500'],
+  },
+  toolbar: {
+    display: 'flex',
+    justifyContent: 'space-between',
   },
 }));
 
@@ -319,10 +324,12 @@ export function Table(props) {
   return (
     <React.Fragment>
       <Paper>
-        <Toolbar>
+        <Toolbar className={classes.toolbar}>
           <Typography variant="h6" component="div">
             Unpublished Quotes
           </Typography>
+
+          <TableFilter />
         </Toolbar>
         <TableContainer className={classes.tableContainer}>
           <Backdrop open={isLoading} className={classes.backdrop}>
