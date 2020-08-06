@@ -11,3 +11,7 @@ export function updateQuote(quote) {
 export function fetchQuoteContributor(quote, config = {}) {
   return axios.get(`/v1/quotes/${quote.id}/contributor`, config);
 }
+
+export function fetchQuoteStatuses() {
+  return axios.get('/v1/quote-statuses');
+}
