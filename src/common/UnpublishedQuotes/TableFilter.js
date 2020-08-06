@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
@@ -20,6 +20,8 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import Badge from '@material-ui/core/Badge';
+
+import { fetchQuoteStatuses } from './api-calls';
 
 const useStyles = makeStyles(theme => {
   const { spacing } = theme;
@@ -84,19 +86,34 @@ const StyledBadge = withStyles(theme => ({
 }))(Badge);
 
 export function TableFilter() {
-  const filter = {
-    statuses: ['Published', 'Unpublished', 'Pending Review', 'Spam'],
+  const [isLoading, setIsLoading] = useState(true);
+  const [options, setOptions] = useState({
+    statuses: [],
     totalLikes: ['Is greater than', 'Is equal to', 'Is less than'],
-  };
+  });
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [status, setStatus] = useState(filter.statuses[0]);
-  const [totalLikes, setTotalLikes] = useState(filter.totalLikes[0]);
+  const [status, setStatus] = useState();
+  const [totalLikes, setTotalLikes] = useState(options.totalLikes[0]);
+
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const classes = useStyles();
 
+  useEffect(() => {
+    setIsLoading(true);
+
+    fetchQuoteStatuses().then(({ data }) => {
+      const { data: statuses } = data;
+      setIsLoading(false);
+      setStatus(statuses[0].data.id);
+      setOptions(prev => ({ ...prev, statuses }));
+    });
+  }, []);
+
   function handleClick(event) {
-    setAnchorEl(event.currentTarget);
+    if (!isLoading) {
+      setAnchorEl(event.currentTarget);
+    }
   }
 
   function handleClose() {
@@ -147,9 +164,9 @@ export function TableFilter() {
           <CollapsibleListItem title="Status">
             <FormControl margin="dense" fullWidth>
               <Select autoFocus value={status} onChange={onChangeStatus}>
-                {filter.statuses.map((option, index) => (
-                  <MenuItem key={index} value={option}>
-                    {option}
+                {options.statuses.map(({ data: option }) => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.display_name}
                   </MenuItem>
                 ))}
               </Select>
@@ -163,7 +180,7 @@ export function TableFilter() {
                 value={totalLikes}
                 onChange={onChangeTotalLikes}
               >
-                {filter.totalLikes.map((option, index) => (
+                {options.totalLikes.map((option, index) => (
                   <MenuItem key={index} value={option}>
                     {option}
                   </MenuItem>
