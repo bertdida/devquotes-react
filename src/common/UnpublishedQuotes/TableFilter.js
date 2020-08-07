@@ -85,6 +85,34 @@ const StyledBadge = withStyles(theme => ({
   },
 }))(Badge);
 
+function FilterButton({ onClick, disabled }) {
+  const Div = ({ children }) => <div>{children}</div>;
+  const Wrapper = disabled ? Div : Tooltip;
+
+  Div.propTypes = {
+    children: PropTypes.node.isRequired,
+  };
+
+  return (
+    <Wrapper title="Filter Quotes">
+      <IconButton
+        aria-label="filter quotes"
+        onClick={onClick}
+        disabled={disabled}
+      >
+        <StyledBadge badgeContent={3} color="secondary">
+          <FilterListIcon />
+        </StyledBadge>
+      </IconButton>
+    </Wrapper>
+  );
+}
+
+FilterButton.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
+};
+
 export function TableFilter() {
   const [isLoading, setIsLoading] = useState(true);
   const [options, setOptions] = useState({
@@ -130,13 +158,7 @@ export function TableFilter() {
 
   return (
     <React.Fragment>
-      <Tooltip title="Filter Quotes">
-        <IconButton aria-label="filter quotes" onClick={handleClick}>
-          <StyledBadge badgeContent={3} color="secondary">
-            <FilterListIcon />
-          </StyledBadge>
-        </IconButton>
-      </Tooltip>
+      <FilterButton onClick={handleClick} disabled={isLoading} />
 
       <Popover
         open={open}
