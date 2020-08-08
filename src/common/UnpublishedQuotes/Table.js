@@ -326,7 +326,7 @@ export function Table(props) {
       <Paper>
         <Toolbar className={classes.toolbar}>
           <Typography variant="h6" component="div">
-            Unpublished Quotes
+            Manage Quotes
           </Typography>
 
           <TableFilter />
