@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { func } from 'prop-types';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -45,12 +45,13 @@ const useStyles = makeStyles(theme => {
 });
 
 function CollapsibleListItem(props) {
-  const { title, children } = props;
+  const { title, children, onChangeCheckbox } = props;
   const [open, setOpen] = useState(false);
   const classes = useStyles();
 
   function handleClick() {
     setOpen(prev => !prev);
+    onChangeCheckbox(!open);
   }
 
   return (
@@ -74,6 +75,7 @@ function CollapsibleListItem(props) {
 CollapsibleListItem.propTypes = {
   title: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
+  onChangeCheckbox: PropTypes.func.isRequired,
 };
 
 const StyledBadge = withStyles(theme => ({
@@ -85,7 +87,7 @@ const StyledBadge = withStyles(theme => ({
   },
 }))(Badge);
 
-function FilterButton({ onClick, disabled }) {
+function FilterButton({ onClick, disabled, filtersCount }) {
   const Div = ({ children }) => <div>{children}</div>;
   const Wrapper = disabled ? Div : Tooltip;
 
@@ -100,7 +102,10 @@ function FilterButton({ onClick, disabled }) {
         onClick={onClick}
         disabled={disabled}
       >
-        <StyledBadge badgeContent={3} color="secondary">
+        <StyledBadge
+          badgeContent={filtersCount === 0 ? null : filtersCount}
+          color="secondary"
+        >
           <FilterListIcon />
         </StyledBadge>
       </IconButton>
@@ -111,6 +116,7 @@ function FilterButton({ onClick, disabled }) {
 FilterButton.propTypes = {
   onClick: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,
+  filtersCount: PropTypes.number.isRequired,
 };
 
 export function TableFilter() {
@@ -122,6 +128,7 @@ export function TableFilter() {
 
   const [status, setStatus] = useState();
   const [totalLikes, setTotalLikes] = useState(options.totalLikes[0]);
+  const [filtersCount, setfiltersCount] = useState(0);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -156,9 +163,17 @@ export function TableFilter() {
     setTotalLikes(event.target.value);
   }
 
+  function onChangeCheckbox(isSelected) {
+    setfiltersCount(prev => (isSelected ? prev + 1 : prev - 1));
+  }
+
   return (
     <React.Fragment>
-      <FilterButton onClick={handleClick} disabled={isLoading} />
+      <FilterButton
+        onClick={handleClick}
+        disabled={isLoading}
+        filtersCount={filtersCount}
+      />
 
       <Popover
         open={open}
@@ -183,7 +198,10 @@ export function TableFilter() {
             </ListSubheader>
           }
         >
-          <CollapsibleListItem title="Status">
+          <CollapsibleListItem
+            title="Status"
+            onChangeCheckbox={onChangeCheckbox}
+          >
             <FormControl margin="dense" fullWidth>
               <Select autoFocus value={status} onChange={onChangeStatus}>
                 {options.statuses.map(({ data: option }) => (
@@ -195,7 +213,10 @@ export function TableFilter() {
             </FormControl>
           </CollapsibleListItem>
 
-          <CollapsibleListItem title="Total Likes">
+          <CollapsibleListItem
+            title="Total Likes"
+            onChangeCheckbox={onChangeCheckbox}
+          >
             <FormControl margin="dense" fullWidth>
               <Select
                 autoFocus
@@ -214,7 +235,10 @@ export function TableFilter() {
             </FormControl>
           </CollapsibleListItem>
 
-          <CollapsibleListItem title="Submitted By">
+          <CollapsibleListItem
+            title="Submitted By"
+            onChangeCheckbox={onChangeCheckbox}
+          >
             <FormControl margin="dense" fullWidth>
               <TextField autoFocus />
             </FormControl>
