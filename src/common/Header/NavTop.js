@@ -92,8 +92,8 @@ function MoreOptions(props) {
             icon={DraftsIcon}
             onClick={hide}
             component={Link}
-            to="/unpublished-quotes"
-            text="Unpublished Quotes"
+            to="/manage-quotes"
+            text="Manage Quotes"
           />
         )}
 

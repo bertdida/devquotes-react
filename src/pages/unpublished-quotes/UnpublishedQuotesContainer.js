@@ -13,7 +13,7 @@ export function UnpublishedQuotesContainer(props) {
   return (
     <React.Fragment>
       <Helmet>
-        <title>DevQuotes | Unpublished Quotes</title>
+        <title>DevQuotes | Manage Quotes</title>
       </Helmet>
 
       <Table fetchQuotes={api.fetchQuotes} updatePage={updatePage} {...props} />

@@ -39,8 +39,8 @@ function NavDrawerList(props) {
         </ListItem>
 
         {isAdmin && (
-          <ListItem button component={Link} to="/unpublished-quotes">
-            <ListItemText primary="Unpublished Quotes" />
+          <ListItem button component={Link} to="/manage-quotes">
+            <ListItemText primary="Manage Quotes" />
           </ListItem>
         )}
 

@@ -288,7 +288,7 @@ export function Table(props) {
   function handleChangePage(event, newPage) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     history.push({
-      pathname: '/unpublished-quotes',
+      pathname: '/manage-quotes',
       search: newPage === 0 ? null : `?page=${newPage + 1}`,
     });
   }

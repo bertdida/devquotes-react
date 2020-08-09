@@ -24,7 +24,7 @@ function _Routes() {
       <Route path="/signin" component={SignIn} />
 
       <AdminRoute path={['/quotes/:id/edit', '/create']} component={Form} />
-      <AdminRoute path="/unpublished-quotes" component={UnpublishedQuotes} />
+      <AdminRoute path="/manage-quotes" component={UnpublishedQuotes} />
       <ProtectedRoute path="/favorites" component={Favorites} />
       <ProtectedRoute
         path="/submit"

@@ -38,19 +38,19 @@ const lightTheme = {
 };
 
 const appTheme = {
-  breakpoints: {
-    values: {
-      ...defaultTheme.breakpoints.values,
-      md: 800,
-    },
-  },
+  // breakpoints: {
+  //   values: {
+  //     ...defaultTheme.breakpoints.values,
+  //     md: 800,
+  //   },
+  // },
   typography: {
     fontFamily: ['Poppins', 'sans-serif'].join(','),
     fontWeightRegular: 500,
     fontWeightLight: 500,
     fontWeightMedium: 700,
   },
-  ...darkTheme,
+  // ...darkTheme,
 };
 
 export const ThemeContext = createContext();
@@ -59,7 +59,8 @@ export function ThemeProvider({ children }) {
   const [isDarkTheme, setIsDarkTheme] = useState();
 
   const theme = isDarkTheme ? appTheme : { ...appTheme, ...lightTheme };
-  const muiTheme = createMuiTheme(theme);
+  // const muiTheme = createMuiTheme(theme);
+  const muiTheme = createMuiTheme(appTheme);
 
   useEffect(() => {
     const localTheme = window.localStorage.getItem('dq::theme');
