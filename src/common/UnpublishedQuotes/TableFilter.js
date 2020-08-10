@@ -134,6 +134,15 @@ const TOTAL_LIKES_OPTIONS = [
   },
 ];
 
+const INITIAL_FILTER = {
+  status: '',
+  submittedBy: '',
+  totalLikes: {
+    value: 0,
+    operator: TOTAL_LIKES_OPTIONS[0].value,
+  },
+};
+
 export function TableFilter() {
   const [isLoading, setIsLoading] = useState(true);
   const [options, setOptions] = useState({
@@ -142,14 +151,7 @@ export function TableFilter() {
   });
 
   const [filtersCount, setfiltersCount] = useState(0);
-  const [filter, setFilter] = useState({
-    status: '',
-    submittedBy: '',
-    totalLikes: {
-      value: 0,
-      operator: TOTAL_LIKES_OPTIONS[0].value,
-    },
-  });
+  const [filter, setFilter] = useState(INITIAL_FILTER);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -199,6 +201,10 @@ export function TableFilter() {
 
   function onClickSubmit() {
     console.log(filter);
+  }
+
+  function resetFilter() {
+    setFilter(() => ({ ...INITIAL_FILTER }));
   }
 
   return (
@@ -285,7 +291,12 @@ export function TableFilter() {
             onChangeCheckbox={onChangeCheckbox}
           >
             <FormControl margin="dense" fullWidth>
-              <TextField autoFocus name="submittedBy" onChange={onChange} />
+              <TextField
+                autoFocus
+                name="submittedBy"
+                value={filter.submittedBy}
+                onChange={onChange}
+              />
             </FormControl>
           </CollapsibleListItem>
         </List>
@@ -295,6 +306,7 @@ export function TableFilter() {
             size="small"
             variant="contained"
             className={classes.clearButton}
+            onClick={resetFilter}
           >
             Clear
           </Button>
