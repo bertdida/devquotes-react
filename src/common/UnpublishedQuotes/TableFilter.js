@@ -119,16 +119,37 @@ FilterButton.propTypes = {
   filtersCount: PropTypes.number.isRequired,
 };
 
+const TOTAL_LIKES_OPTIONS = [
+  {
+    text: 'Is greater than',
+    value: 'gt',
+  },
+  {
+    text: 'Is equal to',
+    value: 'et',
+  },
+  {
+    text: 'Is less than',
+    value: 'lt',
+  },
+];
+
 export function TableFilter() {
   const [isLoading, setIsLoading] = useState(true);
   const [options, setOptions] = useState({
     statuses: [],
-    totalLikes: ['Is greater than', 'Is equal to', 'Is less than'],
+    totalLikes: TOTAL_LIKES_OPTIONS,
   });
 
-  const [status, setStatus] = useState();
-  const [totalLikes, setTotalLikes] = useState(options.totalLikes[0]);
   const [filtersCount, setfiltersCount] = useState(0);
+  const [filter, setFilter] = useState({
+    status: '',
+    submittedBy: '',
+    totalLikes: {
+      value: 0,
+      operator: TOTAL_LIKES_OPTIONS[0].value,
+    },
+  });
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -139,9 +160,11 @@ export function TableFilter() {
 
     fetchQuoteStatuses().then(({ data }) => {
       const { data: statuses } = data;
+      const defaultStatus = statuses[0].data.name;
+
       setIsLoading(false);
-      setStatus(statuses[0].data.id);
-      setOptions(prev => ({ ...prev, statuses }));
+      setOptions(prevOptions => ({ ...prevOptions, statuses }));
+      setFilter(prevFilter => ({ ...prevFilter, status: defaultStatus }));
     });
   }, []);
 
@@ -155,16 +178,27 @@ export function TableFilter() {
     setAnchorEl(null);
   }
 
-  function onChangeStatus(event) {
-    setStatus(event.target.value);
-  }
+  function onChange(event) {
+    const { name, value } = event.target;
 
-  function onChangeTotalLikes(event) {
-    setTotalLikes(event.target.value);
+    if (!name.startsWith('totalLikes')) {
+      setFilter({ ...filter, [name]: value });
+      return;
+    }
+
+    const [_, key] = name.split('.');
+    const { totalLikes: prevTotalLikes } = filter;
+    const totalLikes = { ...prevTotalLikes, [key]: value };
+
+    setFilter({ ...filter, totalLikes });
   }
 
   function onChangeCheckbox(isSelected) {
     setfiltersCount(prev => (isSelected ? prev + 1 : prev - 1));
+  }
+
+  function onClickSubmit() {
+    console.log(filter);
   }
 
   return (
@@ -203,9 +237,14 @@ export function TableFilter() {
             onChangeCheckbox={onChangeCheckbox}
           >
             <FormControl margin="dense" fullWidth>
-              <Select autoFocus value={status} onChange={onChangeStatus}>
+              <Select
+                autoFocus
+                name="status"
+                value={filter.status}
+                onChange={onChange}
+              >
                 {options.statuses.map(({ data: option }) => (
-                  <MenuItem key={option.id} value={option.id}>
+                  <MenuItem key={option.id} value={option.name}>
                     {option.display_name}
                   </MenuItem>
                 ))}
@@ -220,18 +259,24 @@ export function TableFilter() {
             <FormControl margin="dense" fullWidth>
               <Select
                 autoFocus
-                value={totalLikes}
-                onChange={onChangeTotalLikes}
+                name="totalLikes.operator"
+                value={filter.totalLikes.operator}
+                onChange={onChange}
               >
-                {options.totalLikes.map((option, index) => (
-                  <MenuItem key={index} value={option}>
-                    {option}
+                {options.totalLikes.map(option => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.text}
                   </MenuItem>
                 ))}
               </Select>
             </FormControl>
             <FormControl margin="dense" fullWidth>
-              <TextField defaultValue={0} type="number" />
+              <TextField
+                name="totalLikes.value"
+                onChange={onChange}
+                defaultValue={filter.totalLikes.value}
+                type="number"
+              />
             </FormControl>
           </CollapsibleListItem>
 
@@ -240,7 +285,7 @@ export function TableFilter() {
             onChangeCheckbox={onChangeCheckbox}
           >
             <FormControl margin="dense" fullWidth>
-              <TextField autoFocus />
+              <TextField autoFocus name="submittedBy" onChange={onChange} />
             </FormControl>
           </CollapsibleListItem>
         </List>
@@ -253,7 +298,12 @@ export function TableFilter() {
           >
             Clear
           </Button>
-          <Button size="small" variant="contained" color="primary">
+          <Button
+            size="small"
+            variant="contained"
+            color="primary"
+            onClick={onClickSubmit}
+          >
             Done
           </Button>
         </div>
