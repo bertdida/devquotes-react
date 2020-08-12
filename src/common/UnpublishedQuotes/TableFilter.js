@@ -22,6 +22,7 @@ import Button from '@material-ui/core/Button';
 import Badge from '@material-ui/core/Badge';
 
 import { fetchQuoteStatuses } from './api-calls';
+import * as options from './options';
 
 const useStyles = makeStyles(theme => {
   const { spacing } = theme;
@@ -87,21 +88,10 @@ const StyledBadge = withStyles(theme => ({
   },
 }))(Badge);
 
-function FilterButton({ onClick, disabled, filtersCount }) {
-  const Div = ({ children }) => <div>{children}</div>;
-  const Wrapper = disabled ? Div : Tooltip;
-
-  Div.propTypes = {
-    children: PropTypes.node.isRequired,
-  };
-
+function FilterButton({ onClick, filtersCount }) {
   return (
-    <Wrapper title="Filter Quotes">
-      <IconButton
-        aria-label="filter quotes"
-        onClick={onClick}
-        disabled={disabled}
-      >
+    <Tooltip title="Filter Quotes">
+      <IconButton aria-label="filter quotes" onClick={onClick}>
         <StyledBadge
           badgeContent={filtersCount === 0 ? null : filtersCount}
           color="secondary"
@@ -109,90 +99,178 @@ function FilterButton({ onClick, disabled, filtersCount }) {
           <FilterListIcon />
         </StyledBadge>
       </IconButton>
-    </Wrapper>
+    </Tooltip>
   );
 }
 
 FilterButton.propTypes = {
   onClick: PropTypes.func.isRequired,
-  disabled: PropTypes.bool.isRequired,
   filtersCount: PropTypes.number.isRequired,
 };
 
-const TOTAL_LIKES_OPTIONS = [
-  {
-    text: 'Is greater than',
-    value: 'gt',
-  },
-  {
-    text: 'Is equal to',
-    value: 'et',
-  },
-  {
-    text: 'Is less than',
-    value: 'lt',
-  },
-];
+function StatusesListItem({ onChange, onChangeCheckbox }) {
+  const { statuses } = options;
+  const [value, setValue] = useState(statuses[0].value);
 
-const INITIAL_FILTER = {
-  status: '',
-  submittedBy: '',
-  totalLikes: {
-    value: 0,
-    operator: TOTAL_LIKES_OPTIONS[0].value,
-  },
+  function _onChangeCheckbox(isOpen) {
+    onChange({ name: 'status', value: isOpen ? value : null });
+    onChangeCheckbox(isOpen);
+
+    if (!isOpen) {
+      setValue(statuses[0].value);
+    }
+  }
+
+  function _onChange({ target }) {
+    const { value: newValue } = target;
+    setValue(newValue);
+    onChange({ name: 'status', value: newValue });
+  }
+
+  return (
+    <CollapsibleListItem title="Status" onChangeCheckbox={_onChangeCheckbox}>
+      <FormControl margin="dense" fullWidth>
+        <Select autoFocus value={value} onChange={_onChange}>
+          {statuses.map(option => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.text}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    </CollapsibleListItem>
+  );
+}
+
+StatusesListItem.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  onChangeCheckbox: PropTypes.func.isRequired,
+};
+
+function TotalLikesItem({ onChange, onChangeCheckbox }) {
+  const { likes } = options;
+  const [count, setCount] = useState(0);
+  const [operator, setoperator] = useState(likes[0].value);
+
+  function _onChangeCheckbox(isOpen) {
+    const value = `${operator}${count}`;
+    onChange({ name: 'likes', value: isOpen ? value : null });
+    onChangeCheckbox(isOpen);
+
+    if (!isOpen) {
+      setCount(0);
+      setoperator(likes[0].value);
+    }
+  }
+
+  function onChangeSelect({ target }) {
+    const { value: newValue } = target;
+    setoperator(newValue);
+    onChange({ name: 'likes', value: `${newValue}${count}` });
+  }
+
+  function onChangeNumber({ target }) {
+    const { value: newValue } = target;
+    setCount(newValue);
+    onChange({ name: 'likes', value: `${operator}${newValue}` });
+  }
+
+  return (
+    <CollapsibleListItem
+      title="Total Likes"
+      onChangeCheckbox={_onChangeCheckbox}
+    >
+      <FormControl margin="dense" fullWidth>
+        <Select autoFocus value={operator} onChange={onChangeSelect}>
+          {likes.map(option => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.text}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+      <FormControl margin="dense" fullWidth>
+        <TextField
+          type="number"
+          defaultValue={count}
+          onChange={onChangeNumber}
+        />
+      </FormControl>
+    </CollapsibleListItem>
+  );
+}
+
+TotalLikesItem.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  onChangeCheckbox: PropTypes.func.isRequired,
+};
+
+function SubmittedByItem({ onChange, onChangeCheckbox }) {
+  const [value, setValue] = useState('');
+  const [typingTimeout, setTypingTimeout] = useState(0);
+
+  function _onChangeCheckbox(isOpen) {
+    const _value = value.trim() === '' ? null : value;
+    onChange({ name: 'submittedBy', value: isOpen ? _value : null });
+    onChangeCheckbox(isOpen);
+
+    if (!isOpen) {
+      setValue('');
+    }
+  }
+
+  function _onChange({ target }) {
+    const { value: newValue } = target;
+
+    if (typingTimeout) {
+      clearTimeout(typingTimeout);
+    }
+
+    setValue(newValue);
+    setTypingTimeout(
+      setTimeout(() => {
+        onChange({ name: 'submittedBy', value: newValue });
+      }, 1000)
+    );
+  }
+
+  return (
+    <CollapsibleListItem
+      title="Submitted By"
+      onChangeCheckbox={_onChangeCheckbox}
+    >
+      <FormControl margin="dense" fullWidth>
+        <TextField autoFocus value={value} onChange={_onChange} />
+      </FormControl>
+    </CollapsibleListItem>
+  );
+}
+
+SubmittedByItem.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  onChangeCheckbox: PropTypes.func.isRequired,
 };
 
 export function TableFilter() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [options, setOptions] = useState({
-    statuses: [],
-    totalLikes: TOTAL_LIKES_OPTIONS,
+  const items = [StatusesListItem, TotalLikesItem, SubmittedByItem];
+  const [filter, setFilter] = useState({
+    status: null,
+    likes: null,
+    submittedBy: null,
   });
 
   const [filtersCount, setfiltersCount] = useState(0);
-  const [filter, setFilter] = useState(INITIAL_FILTER);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const classes = useStyles();
 
-  useEffect(() => {
-    setIsLoading(true);
-
-    fetchQuoteStatuses().then(({ data }) => {
-      const { data: statuses } = data;
-      const defaultStatus = statuses[0].data.name;
-
-      setIsLoading(false);
-      setOptions(prevOptions => ({ ...prevOptions, statuses }));
-      setFilter(prevFilter => ({ ...prevFilter, status: defaultStatus }));
-    });
-  }, []);
-
   function handleClick(event) {
-    if (!isLoading) {
-      setAnchorEl(event.currentTarget);
-    }
+    setAnchorEl(event.currentTarget);
   }
 
   function handleClose() {
     setAnchorEl(null);
-  }
-
-  function onChange(event) {
-    const { name, value } = event.target;
-
-    if (!name.startsWith('totalLikes')) {
-      setFilter({ ...filter, [name]: value });
-      return;
-    }
-
-    const [_, key] = name.split('.');
-    const { totalLikes: prevTotalLikes } = filter;
-    const totalLikes = { ...prevTotalLikes, [key]: value };
-
-    setFilter({ ...filter, totalLikes });
   }
 
   function onChangeCheckbox(isSelected) {
@@ -203,17 +281,16 @@ export function TableFilter() {
     console.log(filter);
   }
 
-  function resetFilter() {
-    setFilter(() => ({ ...INITIAL_FILTER }));
+  function onChangeFilter({ name, value }) {
+    console.log(name, value);
+    setFilter({ ...filter, [name]: value });
   }
+
+  function onClickReset() {}
 
   return (
     <React.Fragment>
-      <FilterButton
-        onClick={handleClick}
-        disabled={isLoading}
-        filtersCount={filtersCount}
-      />
+      <FilterButton onClick={handleClick} filtersCount={filtersCount} />
 
       <Popover
         open={open}
@@ -238,67 +315,13 @@ export function TableFilter() {
             </ListSubheader>
           }
         >
-          <CollapsibleListItem
-            title="Status"
-            onChangeCheckbox={onChangeCheckbox}
-          >
-            <FormControl margin="dense" fullWidth>
-              <Select
-                autoFocus
-                name="status"
-                value={filter.status}
-                onChange={onChange}
-              >
-                {options.statuses.map(({ data: option }) => (
-                  <MenuItem key={option.id} value={option.name}>
-                    {option.display_name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </CollapsibleListItem>
-
-          <CollapsibleListItem
-            title="Total Likes"
-            onChangeCheckbox={onChangeCheckbox}
-          >
-            <FormControl margin="dense" fullWidth>
-              <Select
-                autoFocus
-                name="totalLikes.operator"
-                value={filter.totalLikes.operator}
-                onChange={onChange}
-              >
-                {options.totalLikes.map(option => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.text}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <FormControl margin="dense" fullWidth>
-              <TextField
-                name="totalLikes.value"
-                onChange={onChange}
-                defaultValue={filter.totalLikes.value}
-                type="number"
-              />
-            </FormControl>
-          </CollapsibleListItem>
-
-          <CollapsibleListItem
-            title="Submitted By"
-            onChangeCheckbox={onChangeCheckbox}
-          >
-            <FormControl margin="dense" fullWidth>
-              <TextField
-                autoFocus
-                name="submittedBy"
-                value={filter.submittedBy}
-                onChange={onChange}
-              />
-            </FormControl>
-          </CollapsibleListItem>
+          {items.map((Item, index) => (
+            <Item
+              key={index}
+              onChange={onChangeFilter}
+              onChangeCheckbox={onChangeCheckbox}
+            />
+          ))}
         </List>
 
         <div className={classes.buttonWrapper}>
@@ -306,7 +329,7 @@ export function TableFilter() {
             size="small"
             variant="contained"
             className={classes.clearButton}
-            onClick={resetFilter}
+            onClick={onClickReset}
           >
             Clear
           </Button>
