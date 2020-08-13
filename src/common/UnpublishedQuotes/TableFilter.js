@@ -171,8 +171,11 @@ function TotalLikesItem({ onChange, onChangeCheckbox }) {
 
   function onChangeNumber({ target }) {
     const { value: newValue } = target;
-    setCount(newValue);
-    onChange({ name: 'likes', value: `${operator}${newValue}` });
+
+    if (target.validity.valid) {
+      setCount(newValue);
+      onChange({ name: 'likes', value: `${operator}${newValue}` });
+    }
   }
 
   return (
@@ -191,8 +194,13 @@ function TotalLikesItem({ onChange, onChangeCheckbox }) {
       </FormControl>
       <FormControl margin="dense" fullWidth>
         <TextField
-          type="number"
-          defaultValue={count}
+          InputProps={{
+            inputProps: {
+              pattern: '[0-9]+',
+            },
+          }}
+          type="tel"
+          value={count}
           onChange={onChangeNumber}
         />
       </FormControl>
