@@ -22,4 +22,8 @@ export const statuses = [
     text: 'Pending Review',
     value: 'pending_review',
   },
+  {
+    text: 'Spam',
+    value: 'spam',
+  },
 ];
