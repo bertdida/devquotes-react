@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { statuses, likesOperators } from './options';
 
 function getInitialValue(name) {
-  if (name === 'totalLikes') {
+  if (name === 'likes') {
     return `${likesOperators[0].value}:0`;
   }
 
@@ -15,7 +15,7 @@ function getInitialValue(name) {
   return '';
 }
 
-const filterNames = ['status', 'totalLikes', 'submittedBy'];
+const filterNames = ['status', 'likes', 'submitted_by'];
 const initialFilters = filterNames.map(name => ({
   name,
   selected: false,

@@ -8,7 +8,7 @@ import { CollapsibleListItem } from './CollapsibleListItem';
 import { likesOperators } from '../options';
 import { useFilters } from '../FiltersContext';
 
-const FILTER_NAME = 'totalLikes';
+const FILTER_NAME = 'likes';
 
 export function TotalLikes() {
   const { get, setValue } = useFilters();

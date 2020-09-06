@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import { CollapsibleListItem } from './CollapsibleListItem';
 import { useFilters } from '../FiltersContext';
 
-const FILTER_NAME = 'submittedBy';
+const FILTER_NAME = 'submitted_by';
 
 export function SubmittedBy() {
   const { get, setValue } = useFilters();
