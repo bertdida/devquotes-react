@@ -5,7 +5,7 @@ import { ButtonIcon } from './ButtonIcon';
 import { Popover } from './Popover';
 import { FiltersProvider } from './FiltersContext';
 
-export function TableFilter({ onSubmit }) {
+export function TableFilter({ onSubmit, onReset }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -25,6 +25,7 @@ export function TableFilter({ onSubmit }) {
         anchorEl={anchorEl}
         onClose={onClose}
         onSubmit={onSubmit}
+        onReset={onReset}
       />
     </FiltersProvider>
   );
@@ -32,4 +33,5 @@ export function TableFilter({ onSubmit }) {
 
 TableFilter.propTypes = {
   onSubmit: PropTypes.func.isRequired,
+  onReset: PropTypes.func.isRequired,
 };

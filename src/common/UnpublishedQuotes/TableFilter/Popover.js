@@ -21,7 +21,7 @@ Button.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export function Popover({ open, onClose, anchorEl, onSubmit }) {
+export function Popover({ open, onClose, anchorEl, onSubmit, onReset }) {
   const { resetAll, filters } = useFilters();
 
   function _onSubmit() {
@@ -32,6 +32,11 @@ export function Popover({ open, onClose, anchorEl, onSubmit }) {
 
     onSubmit(_filters);
     onClose();
+  }
+
+  function onClickReset() {
+    resetAll();
+    onReset();
   }
 
   return (
@@ -65,7 +70,7 @@ export function Popover({ open, onClose, anchorEl, onSubmit }) {
 
       <Box display="flex" justifyContent="flex-end" p={2}>
         <Box marginRight={1}>
-          <Button onClick={resetAll}>Clear</Button>
+          <Button onClick={onClickReset}>Clear</Button>
         </Box>
 
         <Button color="primary" onClick={_onSubmit}>
@@ -81,4 +86,5 @@ Popover.propTypes = {
   onClose: PropTypes.func.isRequired,
   anchorEl: PropTypes.instanceOf(Element),
   onSubmit: PropTypes.func.isRequired,
+  onReset: PropTypes.func.isRequired,
 };
