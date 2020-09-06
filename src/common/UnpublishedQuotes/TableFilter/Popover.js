@@ -24,7 +24,7 @@ Button.propTypes = {
 export function Popover({ open, onClose, anchorEl, onSubmit, onReset }) {
   const { resetAll, filters } = useFilters();
 
-  function _onSubmit() {
+  function onClickSubmit() {
     const _filters = filters.reduce((carry, filter) => {
       if (!filter.selected) return carry;
       return [...carry, { [filter.name]: filter.value }];
@@ -73,7 +73,7 @@ export function Popover({ open, onClose, anchorEl, onSubmit, onReset }) {
           <Button onClick={onClickReset}>Clear</Button>
         </Box>
 
-        <Button color="primary" onClick={_onSubmit}>
+        <Button color="primary" onClick={onClickSubmit}>
           Done
         </Button>
       </Box>
