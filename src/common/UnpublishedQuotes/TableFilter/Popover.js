@@ -21,10 +21,16 @@ Button.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export function Popover({ open, onClose, anchorEl }) {
-  const { resetAll } = useFilters();
+export function Popover({ open, onClose, anchorEl, onSubmit }) {
+  const { resetAll, filters } = useFilters();
 
-  function onSumbit() {
+  function _onSubmit() {
+    const _filters = filters.reduce((carry, filter) => {
+      if (!filter.selected) return carry;
+      return [...carry, { [filter.name]: filter.value }];
+    }, []);
+
+    onSubmit(_filters);
     onClose();
   }
 
@@ -62,7 +68,7 @@ export function Popover({ open, onClose, anchorEl }) {
           <Button onClick={resetAll}>Clear</Button>
         </Box>
 
-        <Button color="primary" onClick={onSumbit}>
+        <Button color="primary" onClick={_onSubmit}>
           Done
         </Button>
       </Box>
@@ -74,4 +80,5 @@ Popover.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   anchorEl: PropTypes.instanceOf(Element),
+  onSubmit: PropTypes.func.isRequired,
 };
