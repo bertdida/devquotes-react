@@ -5,7 +5,7 @@ import { statuses, likesOperators } from './options';
 
 function getInitialValue(name) {
   if (name === 'likes') {
-    return `${likesOperators[0].value}:0`;
+    return `${likesOperators[0].value}0`;
   }
 
   if (name === 'status') {

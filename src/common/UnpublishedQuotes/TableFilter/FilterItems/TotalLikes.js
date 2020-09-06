@@ -10,18 +10,23 @@ import { useFilters } from '../FiltersContext';
 
 const FILTER_NAME = 'likes';
 
+function parseValue(value) {
+  const { groups } = /^(?<operator>[g|l|e]t)(?<value>\d*)$/.exec(value);
+  return [groups.operator, groups.value];
+}
+
 export function TotalLikes() {
   const { get, setValue } = useFilters();
   const filter = get(FILTER_NAME);
-  const [selected, value] = filter.value.split(':');
+  const [selected, value] = parseValue(filter.value);
 
   function onChangeSelect(event) {
-    setValue(FILTER_NAME, `${event.target.value}:${value}`);
+    setValue(FILTER_NAME, `${event.target.value}${value}`);
   }
 
   function onChangeInput(event) {
     if (event.target.validity.valid) {
-      setValue(FILTER_NAME, `${selected}:${event.target.value}`);
+      setValue(FILTER_NAME, `${selected}${event.target.value}`);
     }
   }
 
