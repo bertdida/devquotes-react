@@ -31,7 +31,7 @@ import { useSnackbar, Snackbar } from 'common/hooks/useSnackbar';
 import { DeleteDialog } from 'common/Quote/DeleteDialog';
 import { deleteQuote } from 'common/Quote/api-calls';
 import { QuoteDialog } from './QuoteDialog';
-import { updateQuote } from './api-calls';
+import { updateQuote, fetchQuotes } from './api-calls';
 import { TableFilter } from './TableFilter';
 
 const useStyles = makeStyles(theme => ({
@@ -215,7 +215,7 @@ TableRow.propTypes = {
 };
 
 export function Table(props) {
-  const { location, history, fetchQuotes } = props;
+  const { location, history } = props;
   const classes = useStyles();
   const [quotes, setQuotes] = useState([]);
   const { page: initialPage } = queryString.parse(location.search);
@@ -226,6 +226,7 @@ export function Table(props) {
 
   const [quoteToShow, setQuoteToShow] = useState(null);
   const [showQuoteModal, setShowQuoteModal] = useState(false);
+  const [filters, setFilters] = useState(null);
   const snackbar1 = useSnackbar(false);
   const snackbar2 = useSnackbar(false);
 
@@ -233,7 +234,7 @@ export function Table(props) {
     setIsLoading(true);
     setSelectedQuotes([]);
 
-    fetchQuotes(page || 1)
+    fetchQuotes({ page: page || 1, filters })
       .then(response => {
         const { data, ...rest } = response.data;
         setPagination(rest);
@@ -245,7 +246,9 @@ export function Table(props) {
           return history.push('/404');
         }
       });
-  }, [fetchQuotes, history, page]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, filters]);
 
   useEffect(() => {
     let isMounted = true;
@@ -318,6 +321,14 @@ export function Table(props) {
     snackbar2.show();
   }
 
+  // eslint-disable-next-line no-shadow
+  function onSubmit(filters) {
+    if (filters.length > 0) {
+      history.push({ search: null });
+      setFilters(filters);
+    }
+  }
+
   const numSelected = selectedQuotes.length;
   const numQuotes = quotes.length;
 
@@ -329,7 +340,7 @@ export function Table(props) {
             Manage Quotes
           </Typography>
 
-          <TableFilter />
+          <TableFilter onSubmit={onSubmit} onReset={() => setFilters(null)} />
         </Toolbar>
         <TableContainer className={classes.tableContainer}>
           <Backdrop open={isLoading} className={classes.backdrop}>
@@ -404,7 +415,6 @@ export function Table(props) {
 }
 
 Table.propTypes = {
-  fetchQuotes: PropTypes.func.isRequired,
   location: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
 };
