@@ -1,4 +1,5 @@
 import { axios } from 'common/axios';
+import queryString from 'query-string';
 
 export function fetchUser(userId, config = {}) {
   return axios.get(`/v1/users/${userId}`, config);
@@ -14,4 +15,13 @@ export function fetchQuoteContributor(quote, config = {}) {
 
 export function fetchQuoteStatuses() {
   return axios.get('/v1/quote-statuses');
+}
+
+export function fetchQuotes({ page, filters = null }) {
+  if (filters === null) {
+    return axios.get(`/v1/quotes?page=${page}`);
+  }
+
+  const params = filters.map(queryString.stringify).join('&');
+  return axios.get(`/v1/quotes?${params}&page=${page}`);
 }
