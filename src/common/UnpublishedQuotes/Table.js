@@ -328,6 +328,11 @@ export function Table(props) {
     }
   }
 
+  function deleteMultiple() {
+    const ids = selectedQuotes.map(({ id }) => id);
+    console.log(ids);
+  }
+
   const numSelected = selectedQuotes.length;
   const numQuotes = quotes.length;
 
@@ -335,11 +340,25 @@ export function Table(props) {
     <React.Fragment>
       <Paper>
         <Toolbar className={classes.toolbar}>
-          <Typography variant="h6" component="div">
-            Manage Quotes
-          </Typography>
+          {numSelected > 0 ? (
+            <Typography color="inherit" variant="subtitle1" component="div">
+              {numSelected} selected
+            </Typography>
+          ) : (
+            <Typography variant="h6" component="div">
+              Manage Quotes
+            </Typography>
+          )}
 
-          <TableFilter onSubmit={onSubmit} onReset={() => setFilters(null)} />
+          {numSelected > 0 ? (
+            <Tooltip title="Delete">
+              <IconButton aria-label="delete" onClick={deleteMultiple}>
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+          ) : (
+            <TableFilter onSubmit={onSubmit} onReset={() => setFilters(null)} />
+          )}
         </Toolbar>
         <TableContainer className={classes.tableContainer}>
           <Backdrop open={isLoading} className={classes.backdrop}>
