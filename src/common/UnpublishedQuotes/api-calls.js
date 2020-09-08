@@ -19,9 +19,9 @@ export function fetchQuoteStatuses() {
 
 export function fetchQuotes({ page, filters = null }) {
   if (filters === null) {
-    return axios.get(`/v1/quotes?page=${page}`);
+    return axios.get(`/v1/quotes?per_page=25&page=${page}`);
   }
 
   const params = filters.map(queryString.stringify).join('&');
-  return axios.get(`/v1/quotes?${params}&page=${page}`);
+  return axios.get(`/v1/quotes?${params}&per_page=25&page=${page}`);
 }
