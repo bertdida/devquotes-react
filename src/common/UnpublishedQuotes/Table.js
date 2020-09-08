@@ -321,11 +321,10 @@ export function Table(props) {
     snackbar2.show();
   }
 
-  // eslint-disable-next-line no-shadow
-  function onSubmit(filters) {
-    if (filters.length > 0) {
+  function onSubmit(newFilters) {
+    if (newFilters.length > 0 || filters !== null) {
       history.push({ search: null });
-      setFilters(filters);
+      setFilters(newFilters);
     }
   }
 
