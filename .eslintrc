@@ -12,7 +12,13 @@
     "camelcase": [
       2,
       {
-        "allow": ["[a-z]+_(page|token)", "is_admin", "is_liked", "is_published"]
+        "allow": [
+          "[a-z]+_(page|token)",
+          "is_admin",
+          "is_liked",
+          "is_published",
+          "is_deleted"
+        ]
       }
     ]
   }
