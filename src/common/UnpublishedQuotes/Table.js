@@ -158,38 +158,13 @@ function TableRow(props) {
               </Tooltip>
             )}
 
-            <IconButton
-              color="inherit"
-              onClick={show}
-              aria-label="open more options"
-            >
-              <MoreIcon />
-            </IconButton>
-
-            <Menu
-              open={open}
-              anchorEl={anchorEl}
-              onClose={hideMenu}
-              keepMounted
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-            >
-              {!isPublished && (
-                <MenuItem aria-label="delete quote" onClick={confirmDelete}>
-                  Delete Quote
-                </MenuItem>
-              )}
-
-              <MenuItem aria-label="mark user as spammer">
-                Mark user as spammer
-              </MenuItem>
-            </Menu>
+            {!isPublished && (
+              <Tooltip title="Delete Quote">
+                <IconButton aria-label="delete quote" onClick={confirmDelete}>
+                  <DeleteIcon />
+                </IconButton>
+              </Tooltip>
+            )}
           </TableCell>
         )}
       </MuiTableRow>
