@@ -25,3 +25,7 @@ export function fetchQuotes({ page, filters = null }) {
   const params = filters.map(queryString.stringify).join('&');
   return axios.get(`/v1/quotes?${params}&per_page=25&page=${page}`);
 }
+
+export function deleteQuotes(ids) {
+  return axios.delete(`/v1/quotes?ids=${ids.join(',')}`);
+}
