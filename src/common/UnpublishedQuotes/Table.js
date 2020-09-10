@@ -31,7 +31,7 @@ import { useSnackbar, Snackbar } from 'common/hooks/useSnackbar';
 import { DeleteDialog } from 'common/Quote/DeleteDialog';
 import { deleteQuote } from 'common/Quote/api-calls';
 import { QuoteDialog } from './QuoteDialog';
-import { updateQuote, fetchQuotes } from './api-calls';
+import { updateQuote, fetchQuotes, deleteQuotes } from './api-calls';
 import { TableFilter } from './TableFilter';
 
 const useStyles = makeStyles(theme => ({
@@ -81,7 +81,6 @@ function TableRow(props) {
   const isRowSelected = isSelected(quote);
   const isPublished = quote.status === 'published';
 
-  const [isDeleted, setIsDeleted] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
   function show(event) {
@@ -105,11 +104,10 @@ function TableRow(props) {
 
   async function erase() {
     await props.eraseQuote(quote);
-
-    setIsDeleted(true);
     setOpenDeleteDialog(false);
   }
 
+  const isDeleted = quote.is_deleted === true;
   const isPublishedLabel = isPublished ? 'Quote is published' : 'Publish Quote';
 
   return (
@@ -230,6 +228,8 @@ export function Table(props) {
   const snackbar1 = useSnackbar(false);
   const snackbar2 = useSnackbar(false);
 
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+
   useEffect(() => {
     setIsLoading(true);
     setSelectedQuotes([]);
@@ -285,7 +285,8 @@ export function Table(props) {
   };
 
   function handleSelectAllClick(event) {
-    setSelectedQuotes(event.target.checked ? quotes : []);
+    const selected = quotes.filter(({ is_deleted }) => !is_deleted);
+    setSelectedQuotes(event.target.checked ? selected : []);
   }
 
   function handleChangePage(event, newPage) {
@@ -317,7 +318,13 @@ export function Table(props) {
   }
 
   async function eraseQuote(quote) {
-    await deleteQuote(quote.id);
+    const { id } = quote;
+    await deleteQuote(id);
+
+    setSelectedQuotes([]);
+    setQuotes(prev =>
+      prev.map(currQuote => ({ ...currQuote, is_deleted: currQuote.id === id }))
+    );
     snackbar2.show();
   }
 
@@ -328,9 +335,30 @@ export function Table(props) {
     }
   }
 
-  function deleteMultiple() {
+  function confirmDelete() {
+    setOpenDeleteDialog(true);
+  }
+
+  async function eraseAll() {
     const ids = selectedQuotes.map(({ id }) => id);
-    console.log(ids);
+    const response = await deleteQuotes(ids);
+    const successIds = response.data.reduce((carry, status) => {
+      if (status.success === true) {
+        return [...carry, status.id];
+      }
+
+      return carry;
+    }, []);
+
+    setSelectedQuotes([]);
+    setQuotes(prev =>
+      prev.map(currQuote => ({
+        ...currQuote,
+        is_deleted: currQuote.is_deleted || successIds.includes(currQuote.id),
+      }))
+    );
+    snackbar2.show();
+    setOpenDeleteDialog(false);
   }
 
   const numSelected = selectedQuotes.length;
@@ -352,7 +380,7 @@ export function Table(props) {
 
           {numSelected > 0 ? (
             <Tooltip title="Delete">
-              <IconButton aria-label="delete" onClick={deleteMultiple}>
+              <IconButton aria-label="delete" onClick={confirmDelete}>
                 <DeleteIcon />
               </IconButton>
             </Tooltip>
@@ -409,6 +437,12 @@ export function Table(props) {
           />
         )}
       </Paper>
+
+      <DeleteDialog
+        open={openDeleteDialog}
+        onClose={() => setOpenDeleteDialog(false)}
+        erase={eraseAll}
+      />
 
       <QuoteDialog
         quote={quoteToShow || {}}
