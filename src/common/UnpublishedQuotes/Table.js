@@ -108,7 +108,6 @@ function TableRow(props) {
   }
 
   const isDeleted = quote.is_deleted === true;
-  const isPublishedLabel = isPublished ? 'Quote is published' : 'Publish Quote';
 
   return (
     <React.Fragment>
@@ -138,12 +137,6 @@ function TableRow(props) {
           </TableCell>
         ) : (
           <TableCell>
-            <Tooltip title={isPublishedLabel}>
-              <IconButton aria-label={isPublishedLabel} onClick={_publishQuote}>
-                {isPublished ? <DoneIcon /> : <PublishIcon />}
-              </IconButton>
-            </Tooltip>
-
             {isPublished ? (
               <Tooltip title="Delete Quote">
                 <IconButton aria-label="delete quote" onClick={confirmDelete}>
