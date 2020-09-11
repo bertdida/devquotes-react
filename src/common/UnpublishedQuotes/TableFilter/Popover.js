@@ -22,9 +22,13 @@ Button.propTypes = {
 };
 
 export function Popover({ open, onClose, anchorEl, onSubmit, onReset }) {
-  const { resetAll, filters } = useFilters();
+  const { filters, validate, resetAll } = useFilters();
 
   function onClickSubmit() {
+    if (validate() === false) {
+      return;
+    }
+
     const _filters = filters.reduce((carry, filter) => {
       if (!filter.selected) return carry;
       return [...carry, { [filter.name]: filter.value }];

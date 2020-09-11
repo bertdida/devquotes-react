@@ -15,6 +15,9 @@ export function SubmittedBy() {
     setValue(FILTER_NAME, event.target.value);
   }
 
+  const { errors } = filter;
+  const hasError = errors && errors.length > 0;
+
   return (
     <CollapsibleListItem title="Submitted By" item={filter}>
       <FormControl margin="dense" fullWidth>
@@ -23,6 +26,8 @@ export function SubmittedBy() {
           value={filter.value}
           onChange={onChange}
           placeholder="User name"
+          error={hasError}
+          helperText={hasError && errors[0]}
         />
       </FormControl>
     </CollapsibleListItem>

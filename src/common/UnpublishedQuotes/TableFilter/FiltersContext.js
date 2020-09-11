@@ -2,6 +2,7 @@ import React, { createContext, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 
 import { statuses, likesOperators } from './options';
+import { parseValue } from './FilterItems/TotalLikes';
 
 function getInitialValue(name) {
   if (name === 'likes') {
@@ -66,9 +67,41 @@ export function FiltersProvider({ children }) {
     setFilters(prev =>
       prev.map(filter => {
         if (filter.name !== name) return filter;
-        return { ...filter, value };
+        return { ...filter, value, errors: [] };
       })
     );
+  }
+
+  function validate() {
+    let isValid = true;
+
+    setFilters(prev =>
+      prev.map(filter => {
+        if (!filter.selected) return filter;
+
+        // eslint-disable-next-line no-shadow
+        const { value, name } = filter;
+
+        if (name === 'likes') {
+          // eslint-disable-next-line no-unused-vars
+          const [_, total] = parseValue(value);
+
+          if (total === '') {
+            isValid = false;
+            return { ...filter, errors: ['Please enter a value'] };
+          }
+        }
+
+        if (name === 'submitted_by' && (value.length === 0 || !value.trim())) {
+          isValid = false;
+          return { ...filter, errors: ['Please enter a value'] };
+        }
+
+        return filter;
+      })
+    );
+
+    return isValid;
   }
 
   const value = {
@@ -79,6 +112,7 @@ export function FiltersProvider({ children }) {
     resetAll,
     select,
     setValue,
+    validate,
   };
 
   return (
