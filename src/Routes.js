@@ -19,11 +19,16 @@ function _Routes() {
     <Switch>
       <Route exact path="/" component={Home} />
       <Route exact path="/quotes" component={Quotes} />
-      <Route exact path="/quotes/:id/:slug" component={Quote} />
       <Route path="/search" component={Search} />
       <Route path="/signin" component={SignIn} />
 
-      <AdminRoute path={['/quotes/:id/edit', '/create']} component={Form} />
+      <AdminRoute
+        exact
+        path={['/quotes/:id/edit', '/create']}
+        component={Form}
+      />
+      <Route path="/quotes/:id/:slug" component={Quote} />
+
       <AdminRoute path="/manage-quotes" component={UnpublishedQuotes} />
       <ProtectedRoute path="/favorites" component={Favorites} />
       <ProtectedRoute
