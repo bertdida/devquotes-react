@@ -2,6 +2,7 @@ import React, { createContext, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 
 import { statuses, likesOperators } from './options';
+// eslint-disable-next-line import/no-cycle
 import { parseValue } from './FilterItems/TotalLikes';
 
 function getInitialValue(name) {

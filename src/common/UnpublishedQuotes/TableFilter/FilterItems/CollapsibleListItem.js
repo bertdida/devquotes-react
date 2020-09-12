@@ -9,6 +9,7 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import Checkbox from '@material-ui/core/Checkbox';
 import Box from '@material-ui/core/Box';
 
+// eslint-disable-next-line import/no-cycle
 import { useFilters } from '../FiltersContext';
 
 export function CollapsibleListItem({ title, item, children }) {
