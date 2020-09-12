@@ -243,10 +243,14 @@ export function Table(props) {
   }
 
   function handleChangePage(event, newPage) {
+    const query = queryString.parse(location.search);
+    const newQuery = { ...query, page: newPage === 0 ? null : newPage + 1 };
+    const newQueryString = [newQuery].map(queryString.stringify).join('&');
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
     history.push({
       pathname: '/manage-quotes',
-      search: newPage === 0 ? null : `?page=${newPage + 1}`,
+      search: newQueryString,
     });
   }
 
