@@ -1,5 +1,7 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import queryString from 'query-string';
+import { useHistory } from 'react-router-dom';
 
 import { statuses, likesOperators } from './options';
 // eslint-disable-next-line import/no-cycle
@@ -30,6 +32,25 @@ export const useFilters = () => useContext(FiltersContext);
 export function FiltersProvider({ children }) {
   const [filters, setFilters] = useState(initialFilters);
   const totalSelected = filters.filter(({ selected }) => selected).length;
+
+  const history = useHistory();
+
+  useEffect(() => {
+    const query = queryString.parse(history.location.search);
+    setFilters(prev =>
+      prev.map(filter => {
+        // eslint-disable-next-line no-shadow
+        const value = query[filter.name];
+        const hasValue = value !== undefined;
+
+        return {
+          ...filter,
+          selected: hasValue,
+          value: hasValue ? value : filter.value,
+        };
+      })
+    );
+  }, [history.location.search]);
 
   function select(name) {
     setFilters(prev =>
