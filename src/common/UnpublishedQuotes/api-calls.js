@@ -17,13 +17,9 @@ export function fetchQuoteStatuses() {
   return axios.get('/v1/quote-statuses');
 }
 
-export function fetchQuotes({ page, filters = null }) {
-  if (filters === null) {
-    return axios.get(`/v1/quotes?per_page=25&page=${page}`);
-  }
-
-  const params = filters.map(queryString.stringify).join('&');
-  return axios.get(`/v1/quotes?${params}&per_page=25&page=${page}`);
+export function fetchQuotes(params) {
+  const _params = [params].map(queryString.stringify).join('&');
+  return axios.get(`/v1/quotes?${_params}`);
 }
 
 export function deleteQuotes(ids) {
