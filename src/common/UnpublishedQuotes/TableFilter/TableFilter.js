@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 
 import { ButtonIcon } from './ButtonIcon';
 import { Popover } from './Popover';
 import { FiltersProvider } from './FiltersContext';
 
-export function TableFilter({ onSubmit, onReset }) {
+export function TableFilter() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -20,18 +19,7 @@ export function TableFilter({ onSubmit, onReset }) {
   return (
     <FiltersProvider>
       <ButtonIcon onClick={onClick} />
-      <Popover
-        open={open}
-        anchorEl={anchorEl}
-        onClose={onClose}
-        onSubmit={onSubmit}
-        onReset={onReset}
-      />
+      <Popover open={open} anchorEl={anchorEl} onClose={onClose} />
     </FiltersProvider>
   );
 }
-
-TableFilter.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-  onReset: PropTypes.func.isRequired,
-};
