@@ -22,11 +22,13 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { red } from '@material-ui/core/colors';
 import EditIcon from '@material-ui/icons/Edit';
+import AddIcon from '@material-ui/icons/Add';
+import Box from '@material-ui/core/Box';
 
 import { useSnackbar, Snackbar } from 'common/hooks/useSnackbar';
 import { DeleteDialog } from 'common/Quote/DeleteDialog';
 import { deleteQuote } from 'common/Quote/api-calls';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link as RouterLink } from 'react-router-dom';
 import { QuoteDialog } from './QuoteDialog';
 import { updateQuote, fetchQuotes, deleteQuotes } from './api-calls';
 import { TableFilter } from './TableFilter';
@@ -348,7 +350,16 @@ export function Table(props) {
               </IconButton>
             </Tooltip>
           ) : (
-            <TableFilter />
+            <Box>
+              <IconButton
+                aria-label="add quote"
+                component={RouterLink}
+                to="/create"
+              >
+                <AddIcon />
+              </IconButton>
+              <TableFilter />
+            </Box>
           )}
         </Toolbar>
         <TableContainer className={classes.tableContainer}>
