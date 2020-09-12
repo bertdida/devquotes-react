@@ -5,6 +5,8 @@ import List from '@material-ui/core/List';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import { default as MuiButton } from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
+import queryString from 'query-string';
+import { useHistory } from 'react-router-dom';
 
 import { Status, TotalLikes, SubmittedBy } from './FilterItems';
 import { useFilters } from './FiltersContext';
@@ -21,7 +23,8 @@ Button.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export function Popover({ open, onClose, anchorEl, onSubmit, onReset }) {
+export function Popover({ open, onClose, anchorEl }) {
+  const history = useHistory();
   const { filters, validate, resetAll } = useFilters();
 
   function onClickSubmit() {
@@ -34,13 +37,15 @@ export function Popover({ open, onClose, anchorEl, onSubmit, onReset }) {
       return [...carry, { [filter.name]: filter.value }];
     }, []);
 
-    onSubmit(_filters);
+    const params = _filters.map(queryString.stringify).join('&');
+    history.push({ search: params });
     onClose();
   }
 
   function onClickReset() {
     resetAll();
-    onReset();
+    history.push({ search: null });
+    onClose();
   }
 
   return (
@@ -89,6 +94,4 @@ Popover.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   anchorEl: PropTypes.instanceOf(Element),
-  onSubmit: PropTypes.func.isRequired,
-  onReset: PropTypes.func.isRequired,
 };
