@@ -15,15 +15,10 @@ import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import NotInterestedIcon from '@material-ui/icons/NotInterested';
-import PublishIcon from '@material-ui/icons/Publish';
 import Tooltip from '@material-ui/core/Tooltip';
 import Link from '@material-ui/core/Link';
-import Menu from '@material-ui/core/Menu';
-import MoreIcon from '@material-ui/icons/MoreVert';
-import MenuItem from '@material-ui/core/MenuItem';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import DoneIcon from '@material-ui/icons/Done';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { red } from '@material-ui/core/colors';
 
@@ -74,32 +69,14 @@ const headCells = [
 function TableRow(props) {
   const { quote, isSelected, handleSelect, onClickQuotation } = props;
 
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-
   const classes = useStyles();
   const isRowSelected = isSelected(quote);
   const isPublished = quote.status === 'published';
 
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
-  function show(event) {
-    setAnchorEl(event.currentTarget);
-  }
-
-  function hideMenu() {
-    setAnchorEl(null);
-  }
-
-  async function _publishQuote() {
-    if (!isPublished) {
-      props.publishQuote(quote);
-    }
-  }
-
   function confirmDelete() {
     setOpenDeleteDialog(true);
-    hideMenu();
   }
 
   async function erase() {
@@ -176,7 +153,6 @@ TableRow.propTypes = {
   isSelected: PropTypes.func.isRequired,
   handleSelect: PropTypes.func.isRequired,
   onClickQuotation: PropTypes.func.isRequired,
-  publishQuote: PropTypes.func.isRequired,
   eraseQuote: PropTypes.func.isRequired,
 };
 
