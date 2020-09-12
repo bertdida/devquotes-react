@@ -184,25 +184,29 @@ export function Table(props) {
   const { location, history } = props;
   const classes = useStyles();
   const [quotes, setQuotes] = useState([]);
-  const { page: initialPage } = queryString.parse(location.search);
-  const [page, setPage] = useState(initialPage);
   const [pagination, setPagination] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [selectedQuotes, setSelectedQuotes] = useState([]);
 
+  const [params, setParams] = useState(null);
+
   const [quoteToShow, setQuoteToShow] = useState(null);
   const [showQuoteModal, setShowQuoteModal] = useState(false);
-  const [filters, setFilters] = useState(null);
   const snackbar1 = useSnackbar(false);
   const snackbar2 = useSnackbar(false);
 
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
   useEffect(() => {
+    if (params === null) {
+      return;
+    }
+
     setIsLoading(true);
     setSelectedQuotes([]);
 
-    fetchQuotes({ page: page || 1, filters })
+    const { page = 1, per_page = 25 } = params;
+    fetchQuotes({ ...params, page, per_page })
       .then(response => {
         const { data, ...rest } = response.data;
         setPagination(rest);
@@ -216,14 +220,19 @@ export function Table(props) {
       });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, filters]);
+  }, [params]);
+
+  useEffect(() => {
+    const query = queryString.parse(location.search);
+    setParams(query);
+  }, [location.search]);
 
   useEffect(() => {
     let isMounted = true;
     history.listen(_location => {
       const query = queryString.parse(_location.search);
       if (isMounted) {
-        setPage(query.page);
+        setParams({ ...query });
       }
     });
 
@@ -296,13 +305,6 @@ export function Table(props) {
     snackbar2.show();
   }
 
-  function onSubmit(newFilters) {
-    if (newFilters.length > 0 || filters !== null) {
-      history.push({ search: null });
-      setFilters(newFilters);
-    }
-  }
-
   function confirmDelete() {
     setOpenDeleteDialog(true);
   }
@@ -353,7 +355,7 @@ export function Table(props) {
               </IconButton>
             </Tooltip>
           ) : (
-            <TableFilter onSubmit={onSubmit} onReset={() => setFilters(null)} />
+            <TableFilter />
           )}
         </Toolbar>
         <TableContainer className={classes.tableContainer}>
