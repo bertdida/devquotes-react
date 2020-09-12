@@ -21,10 +21,12 @@ import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { red } from '@material-ui/core/colors';
+import EditIcon from '@material-ui/icons/Edit';
 
 import { useSnackbar, Snackbar } from 'common/hooks/useSnackbar';
 import { DeleteDialog } from 'common/Quote/DeleteDialog';
 import { deleteQuote } from 'common/Quote/api-calls';
+import { useHistory } from 'react-router-dom';
 import { QuoteDialog } from './QuoteDialog';
 import { updateQuote, fetchQuotes, deleteQuotes } from './api-calls';
 import { TableFilter } from './TableFilter';
@@ -68,6 +70,7 @@ const headCells = [
 
 function TableRow(props) {
   const { quote, isSelected, handleSelect, onClickQuotation } = props;
+  const history = useHistory();
 
   const classes = useStyles();
   const isRowSelected = isSelected(quote);
@@ -82,6 +85,10 @@ function TableRow(props) {
   async function erase() {
     await props.eraseQuote(quote);
     setOpenDeleteDialog(false);
+  }
+
+  function update() {
+    return history.push(`/quotes/${quote.id}/edit`);
   }
 
   const isDeleted = quote.is_deleted === true;
@@ -135,6 +142,12 @@ function TableRow(props) {
                 </IconButton>
               </Tooltip>
             )}
+
+            <Tooltip title="Edit Quote">
+              <IconButton aria-label="edit quote" onClick={update}>
+                <EditIcon />
+              </IconButton>
+            </Tooltip>
           </TableCell>
         )}
       </MuiTableRow>
