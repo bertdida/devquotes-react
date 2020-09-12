@@ -6,9 +6,7 @@ import Fab from '@material-ui/core/Fab';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { red } from '@material-ui/core/colors';
 
-import { useAuth } from 'common/hooks/useAuth';
 import { ActionsUser } from './ActionsUser';
-import { ActionsAdmin } from './ActionsAdmin';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -31,8 +29,6 @@ const useStyles = makeStyles(theme => ({
 
 export function Actions({ quote, isDeleted, toggleLike, isLiking, ...props }) {
   const classes = useStyles();
-  const { user } = useAuth();
-  const isAdmin = user && user.is_admin;
 
   function _toggleLike() {
     if (!isLiking) {
@@ -60,7 +56,7 @@ export function Actions({ quote, isDeleted, toggleLike, isLiking, ...props }) {
             {quote.total_likes}
           </Fab>
 
-          {isAdmin ? <ActionsAdmin {...props} /> : <ActionsUser {...props} />}
+          <ActionsUser {...props} />
         </React.Fragment>
       )}
     </CardActions>
