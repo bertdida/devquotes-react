@@ -32,19 +32,27 @@ export function Popover({ open, onClose, anchorEl }) {
       return;
     }
 
-    const _filters = filters.reduce((carry, filter) => {
+    const selectedFilters = filters.reduce((carry, filter) => {
       if (!filter.selected) return carry;
       return [...carry, { [filter.name]: filter.value }];
     }, []);
 
-    const params = _filters.map(queryString.stringify).join('&');
-    history.push({ search: params });
+    if (selectedFilters.length > 0) {
+      const params = selectedFilters.map(queryString.stringify).join('&');
+      history.push({ search: params });
+    }
+
     onClose();
   }
 
   function onClickReset() {
-    resetAll();
-    history.push({ search: null });
+    const selectedFilters = filters.filter(({ selected }) => selected);
+
+    if (selectedFilters.length > 0) {
+      resetAll();
+      history.push({ search: null });
+    }
+
     onClose();
   }
 
