@@ -350,13 +350,16 @@ export function Table(props) {
             </Tooltip>
           ) : (
             <Box>
-              <IconButton
-                aria-label="add quote"
-                component={RouterLink}
-                to="/create"
-              >
-                <AddIcon />
-              </IconButton>
+              <Tooltip title="Add Quote">
+                <IconButton
+                  aria-label="add quote"
+                  component={RouterLink}
+                  to="/create"
+                >
+                  <AddIcon />
+                </IconButton>
+              </Tooltip>
+
               <TableFilter />
             </Box>
           )}
