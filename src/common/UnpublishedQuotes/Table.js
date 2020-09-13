@@ -14,7 +14,6 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
-import NotInterestedIcon from '@material-ui/icons/NotInterested';
 import Tooltip from '@material-ui/core/Tooltip';
 import Link from '@material-ui/core/Link';
 import Backdrop from '@material-ui/core/Backdrop';
@@ -24,6 +23,7 @@ import { red } from '@material-ui/core/colors';
 import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
 import Box from '@material-ui/core/Box';
+import FlagIcon from '@material-ui/icons/Flag';
 
 import { useSnackbar, Snackbar } from 'common/hooks/useSnackbar';
 import { DeleteDialog } from 'common/Quote/DeleteDialog';
@@ -125,9 +125,9 @@ function TableRow(props) {
                 </IconButton>
               </Tooltip>
             ) : (
-              <Tooltip title="Mark as spam">
-                <IconButton aria-label="mark as spam">
-                  <NotInterestedIcon />
+              <Tooltip title="Flag as spam">
+                <IconButton aria-label="flag as spam">
+                  <FlagIcon />
                 </IconButton>
               </Tooltip>
             )}
