@@ -259,7 +259,7 @@ export function Table(props) {
   function handleChangePage(event, newPage) {
     const query = queryString.parse(location.search);
     const newQuery = { ...query, page: newPage === 0 ? null : newPage + 1 };
-    const newQueryString = [newQuery].map(queryString.stringify).join('&');
+    const newQueryString = queryString.stringify(newQuery, { skipNull: true });
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
     history.push({
