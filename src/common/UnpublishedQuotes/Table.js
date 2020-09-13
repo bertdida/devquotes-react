@@ -9,8 +9,6 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import { default as MuiTableRow } from '@material-ui/core/TableRow';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
@@ -21,8 +19,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { red } from '@material-ui/core/colors';
 import EditIcon from '@material-ui/icons/Edit';
-import AddIcon from '@material-ui/icons/Add';
-import Box from '@material-ui/core/Box';
 import FlagIcon from '@material-ui/icons/Flag';
 
 import { useSnackbar, Snackbar } from 'common/hooks/useSnackbar';
@@ -31,7 +27,8 @@ import { deleteQuote } from 'common/Quote/api-calls';
 import { Link as RouterLink } from 'react-router-dom';
 import { QuoteDialog } from './QuoteDialog';
 import { updateQuote, fetchQuotes, deleteQuotes } from './api-calls';
-import { TableFilter } from './TableFilter';
+
+import { Toolbar } from './Toolbar';
 
 const useStyles = makeStyles(theme => ({
   tableContainer: {
@@ -185,8 +182,6 @@ export function Table(props) {
   const snackbar1 = useSnackbar(false);
   const snackbar2 = useSnackbar(false);
 
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-
   useEffect(() => {
     if (params === null) {
       return;
@@ -299,10 +294,6 @@ export function Table(props) {
     snackbar2.show();
   }
 
-  function confirmDelete() {
-    setOpenDeleteDialog(true);
-  }
-
   async function eraseAll() {
     const ids = selectedQuotes.map(({ id }) => id);
     const response = await deleteQuotes(ids);
@@ -322,7 +313,6 @@ export function Table(props) {
       }))
     );
     snackbar2.show();
-    setOpenDeleteDialog(false);
   }
 
   const numSelected = selectedQuotes.length;
@@ -331,39 +321,8 @@ export function Table(props) {
   return (
     <React.Fragment>
       <Paper>
-        <Toolbar className={classes.toolbar}>
-          {numSelected > 0 ? (
-            <Typography color="inherit" variant="subtitle1" component="div">
-              {numSelected} selected
-            </Typography>
-          ) : (
-            <Typography variant="h6" component="div">
-              Manage Quotes
-            </Typography>
-          )}
+        <Toolbar totalSelectedQuotes={numSelected} deleteSelected={eraseAll} />
 
-          {numSelected > 0 ? (
-            <Tooltip title="Delete">
-              <IconButton aria-label="delete" onClick={confirmDelete}>
-                <DeleteIcon />
-              </IconButton>
-            </Tooltip>
-          ) : (
-            <Box>
-              <Tooltip title="Add Quote">
-                <IconButton
-                  aria-label="add quote"
-                  component={RouterLink}
-                  to="/create"
-                >
-                  <AddIcon />
-                </IconButton>
-              </Tooltip>
-
-              <TableFilter />
-            </Box>
-          )}
-        </Toolbar>
         <TableContainer className={classes.tableContainer}>
           <Backdrop open={isLoading} className={classes.backdrop}>
             <CircularProgress color="inherit" />
@@ -413,12 +372,6 @@ export function Table(props) {
           />
         )}
       </Paper>
-
-      <DeleteDialog
-        open={openDeleteDialog}
-        onClose={() => setOpenDeleteDialog(false)}
-        erase={eraseAll}
-      />
 
       <QuoteDialog
         quote={quoteToShow || {}}
