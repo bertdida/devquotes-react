@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
-import { ButtonIcon } from './ButtonIcon';
+import { FiltersProvider } from './Context';
 import { Popover } from './Popover';
-import { FiltersProvider } from './FiltersContext';
+import { Button } from './Button';
 
-export function TableFilter() {
+export function Filter() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -18,7 +18,7 @@ export function TableFilter() {
 
   return (
     <FiltersProvider>
-      <ButtonIcon onClick={onClick} />
+      <Button onClick={onClick} />
       <Popover open={open} anchorEl={anchorEl} onClose={onClose} />
     </FiltersProvider>
   );

@@ -1,22 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import Proptypes from 'prop-types';
 import IconButton from '@material-ui/core/IconButton';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import Tooltip from '@material-ui/core/Tooltip';
 import Badge from '@material-ui/core/Badge';
 
-import { useFilters } from './FiltersContext';
+import { useFilters } from './Context';
 
-export function ButtonIcon({ onClick }) {
+export function Button({ onClick }) {
   const { totalSelected } = useFilters();
+  const badgeContent = totalSelected === 0 ? null : totalSelected;
 
   return (
     <Tooltip title="Filter Quotes">
       <IconButton aria-label="filter quotes" onClick={onClick}>
-        <Badge
-          badgeContent={totalSelected === 0 ? null : totalSelected}
-          color="secondary"
-        >
+        <Badge badgeContent={badgeContent} color="secondary">
           <FilterListIcon />
         </Badge>
       </IconButton>
@@ -24,6 +22,6 @@ export function ButtonIcon({ onClick }) {
   );
 }
 
-ButtonIcon.propTypes = {
-  onClick: PropTypes.func.isRequired,
+Button.propTypes = {
+  onClick: Proptypes.func.isRequired,
 };

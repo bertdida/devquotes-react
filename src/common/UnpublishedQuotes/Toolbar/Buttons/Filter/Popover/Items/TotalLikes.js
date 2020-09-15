@@ -4,21 +4,16 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 
-import { CollapsibleListItem } from './CollapsibleListItem'; // eslint-disable-line import/no-cycle
-import { likesOperators } from '../options';
-import { useFilters } from '../FiltersContext'; // eslint-disable-line import/no-cycle
+import { Collapsible } from './Collapsible';
+import { useFilters } from '../../Context';
+import { parseLikesValue } from '../../utils';
 
 const FILTER_NAME = 'likes';
-
-export function parseValue(value) {
-  const { groups } = /^(?<operator>[g|l|e]t)(?<value>\d*)$/.exec(value);
-  return [groups.operator, groups.value];
-}
 
 export function TotalLikes() {
   const { get, setValue } = useFilters();
   const filter = get(FILTER_NAME);
-  const [selected, value] = parseValue(filter.value);
+  const [selected, value] = parseLikesValue(filter.value);
 
   function onChangeSelect(event) {
     setValue(FILTER_NAME, `${event.target.value}${value}`);
@@ -34,10 +29,10 @@ export function TotalLikes() {
   const hasError = errors && errors.length > 0;
 
   return (
-    <CollapsibleListItem title="Total Likes" item={filter}>
+    <Collapsible title="Total Likes" item={filter}>
       <FormControl margin="dense" fullWidth>
         <Select autoFocus value={selected} onChange={onChangeSelect}>
-          {likesOperators.map(option => (
+          {filter.items.map(option => (
             <MenuItem key={option.value} value={option.value}>
               {option.text}
             </MenuItem>
@@ -58,6 +53,6 @@ export function TotalLikes() {
           helperText={hasError && errors[0]}
         />
       </FormControl>
-    </CollapsibleListItem>
+    </Collapsible>
   );
 }

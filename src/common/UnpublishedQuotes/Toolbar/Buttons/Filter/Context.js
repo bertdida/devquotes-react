@@ -3,34 +3,14 @@ import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import { useHistory } from 'react-router-dom';
 
-import { statuses, likesOperators } from './options';
-// eslint-disable-next-line import/no-cycle
-import { parseValue } from './FilterItems/TotalLikes';
-
-function getInitialValue(name) {
-  if (name === 'likes') {
-    return `${likesOperators[0].value}0`;
-  }
-
-  if (name === 'status') {
-    return statuses[0].value;
-  }
-
-  return '';
-}
-
-const filterNames = ['status', 'likes', 'submitted_by'];
-const initialFilters = filterNames.map(name => ({
-  name,
-  selected: false,
-  value: getInitialValue(name),
-}));
+import options from './options';
+import { parseLikesValue } from './utils';
 
 export const FiltersContext = createContext();
 export const useFilters = () => useContext(FiltersContext);
 
 export function FiltersProvider({ children }) {
-  const [filters, setFilters] = useState(initialFilters);
+  const [filters, setFilters] = useState(options);
   const totalSelected = filters.filter(({ selected }) => selected).length;
 
   const history = useHistory();
@@ -52,7 +32,7 @@ export function FiltersProvider({ children }) {
     );
   }, [history.location.search]);
 
-  function select(name) {
+  function toggleSelect(name) {
     setFilters(prev =>
       prev.map(filter => {
         if (filter.name !== name) return filter;
@@ -62,30 +42,24 @@ export function FiltersProvider({ children }) {
   }
 
   function resetAll() {
-    setFilters(prev =>
-      prev.map(filter => ({
-        ...filter,
-        selected: false,
-        value: getInitialValue(filter.name),
-      }))
-    );
+    setFilters(options);
   }
 
-  function reset(name) {
+  function resetByName(name) {
     setFilters(prev =>
       prev.map(filter => {
         if (filter.name !== name) return filter;
-        return { ...filter, selected: false, value: getInitialValue(name) };
+        return options.find(currOption => currOption.name === name);
       })
     );
   }
 
-  function get(name) {
+  function getByName(name) {
     return filters.find(({ name: currName }) => currName === name);
   }
 
   // eslint-disable-next-line no-shadow
-  function setValue(name, value) {
+  function setValueByName(name, value) {
     setFilters(prev =>
       prev.map(filter => {
         if (filter.name !== name) return filter;
@@ -106,7 +80,7 @@ export function FiltersProvider({ children }) {
 
         if (name === 'likes') {
           // eslint-disable-next-line no-unused-vars
-          const [_, total] = parseValue(value);
+          const [_, total] = parseLikesValue(value);
 
           if (total === '') {
             isValid = false;
@@ -129,11 +103,11 @@ export function FiltersProvider({ children }) {
   const value = {
     filters,
     totalSelected,
-    get,
-    reset,
+    get: getByName,
+    reset: resetByName,
     resetAll,
-    select,
-    setValue,
+    select: toggleSelect,
+    setValue: setValueByName,
     validate,
   };
 

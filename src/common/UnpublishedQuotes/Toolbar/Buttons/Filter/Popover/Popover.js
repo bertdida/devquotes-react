@@ -8,8 +8,8 @@ import Box from '@material-ui/core/Box';
 import queryString from 'query-string';
 import { useHistory } from 'react-router-dom';
 
-import { Status, TotalLikes, SubmittedBy } from './FilterItems';
-import { useFilters } from './FiltersContext';
+import { Status, TotalLikes, SubmittedBy } from './Items';
+import { useFilters } from '../Context';
 
 function Button({ children, ...rest }) {
   return (

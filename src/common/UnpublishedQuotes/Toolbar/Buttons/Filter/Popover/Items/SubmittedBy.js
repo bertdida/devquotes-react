@@ -2,8 +2,8 @@ import React from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 
-import { CollapsibleListItem } from './CollapsibleListItem';
-import { useFilters } from '../FiltersContext';
+import { Collapsible } from './Collapsible';
+import { useFilters } from '../../Context';
 
 const FILTER_NAME = 'submitted_by';
 
@@ -19,7 +19,7 @@ export function SubmittedBy() {
   const hasError = errors && errors.length > 0;
 
   return (
-    <CollapsibleListItem title="Submitted By" item={filter}>
+    <Collapsible title="Submitted By" item={filter}>
       <FormControl margin="dense" fullWidth>
         <TextField
           autoFocus
@@ -30,6 +30,6 @@ export function SubmittedBy() {
           helperText={hasError && errors[0]}
         />
       </FormControl>
-    </CollapsibleListItem>
+    </Collapsible>
   );
 }

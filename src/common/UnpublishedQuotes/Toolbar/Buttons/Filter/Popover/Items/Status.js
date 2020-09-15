@@ -3,9 +3,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
-import { CollapsibleListItem } from './CollapsibleListItem';
-import { statuses } from '../options';
-import { useFilters } from '../FiltersContext';
+import { Collapsible } from './Collapsible';
+import { useFilters } from '../../Context';
 
 const FILTER_NAME = 'status';
 
@@ -18,16 +17,16 @@ export function Status() {
   }
 
   return (
-    <CollapsibleListItem title="Status" item={filter}>
+    <Collapsible title="Status" item={filter}>
       <FormControl margin="dense" fullWidth>
         <Select autoFocus value={filter.value} onChange={onChange}>
-          {statuses.map(option => (
+          {filter.items.map(option => (
             <MenuItem key={option.value} value={option.value}>
               {option.text}
             </MenuItem>
           ))}
         </Select>
       </FormControl>
-    </CollapsibleListItem>
+    </Collapsible>
   );
 }
