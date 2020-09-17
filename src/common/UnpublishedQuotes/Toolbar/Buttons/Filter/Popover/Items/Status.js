@@ -4,16 +4,18 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
 import { Collapsible } from './Collapsible';
-import { useFilters } from '../../Context';
+import { useFilterState, useFilterDispatch, actions } from '../../Context';
 
 const FILTER_NAME = 'status';
 
 export function Status() {
-  const { get, setValue } = useFilters();
-  const filter = get(FILTER_NAME);
+  const state = useFilterState();
+  const dispatch = useFilterDispatch();
+  const filter = state.find(({ name }) => name === FILTER_NAME);
 
   function onChange(event) {
-    setValue(FILTER_NAME, event.target.value);
+    const payload = { id: filter.id, value: event.target.value };
+    dispatch({ type: actions.SET_VALUE, payload });
   }
 
   return (

@@ -9,7 +9,7 @@ import queryString from 'query-string';
 import { useHistory } from 'react-router-dom';
 
 import { Status, TotalLikes, SubmittedBy } from './Items';
-import { useFilters } from '../Context';
+import { useFilterDispatch, useFilterState, actions } from '../Context';
 
 function Button({ children, ...rest }) {
   return (
@@ -25,31 +25,31 @@ Button.propTypes = {
 
 export function Popover({ open, onClose, anchorEl }) {
   const history = useHistory();
-  const { filters, validate, resetAll } = useFilters();
+  const state = useFilterState();
+  const dispatch = useFilterDispatch();
 
   function onClickSubmit() {
-    if (validate() === false) {
-      return;
-    }
+    dispatch({ type: actions.VALIDATE, payload: { onSuccess: submit } });
+  }
 
-    const selectedFilters = filters.reduce((carry, filter) => {
-      if (!filter.selected) return carry;
-      return [...carry, { [filter.name]: filter.value }];
+  function submit() {
+    const queries = state.reduce((carry, filter) => {
+      if (!filter.isSelected) return carry;
+      return [...carry, queryString.stringify({ [filter.name]: filter.value })];
     }, []);
 
-    if (selectedFilters.length > 0) {
-      const params = selectedFilters.map(queryString.stringify).join('&');
-      history.push({ search: params });
+    if (queries) {
+      history.push({ search: queries.join('&') });
     }
 
     onClose();
   }
 
   function onClickReset() {
-    const selectedFilters = filters.filter(({ selected }) => selected);
+    const selected = state.filter(({ isSelected }) => isSelected);
 
-    if (selectedFilters.length > 0) {
-      resetAll();
+    if (selected.length > 0) {
+      dispatch({ type: actions.RESET_ALL });
       history.push({ search: null });
     }
 

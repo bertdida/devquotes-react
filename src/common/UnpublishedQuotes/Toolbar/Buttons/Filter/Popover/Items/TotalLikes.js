@@ -1,27 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 
 import { Collapsible } from './Collapsible';
-import { useFilters } from '../../Context';
 import { parseLikesValue } from '../../utils';
+import { useFilterState, useFilterDispatch, actions } from '../../Context';
 
 const FILTER_NAME = 'likes';
 
 export function TotalLikes() {
-  const { get, setValue } = useFilters();
-  const filter = get(FILTER_NAME);
+  const state = useFilterState();
+  const dispatch = useFilterDispatch();
+  const filter = state.find(({ name }) => name === FILTER_NAME);
+
   const [selected, value] = parseLikesValue(filter.value);
+  const [newValue, setNewValue] = useState(null);
+
+  useEffect(() => {
+    if (newValue !== null) {
+      const payload = { id: filter.id, value: newValue };
+      dispatch({ type: actions.SET_VALUE, payload });
+    }
+  }, [dispatch, filter.id, newValue]);
 
   function onChangeSelect(event) {
-    setValue(FILTER_NAME, `${event.target.value}${value}`);
+    setNewValue(`${event.target.value}${value}`);
   }
 
   function onChangeInput(event) {
     if (event.target.validity.valid) {
-      setValue(FILTER_NAME, `${selected}${event.target.value}`);
+      setNewValue(`${selected}${event.target.value}`);
     }
   }
 

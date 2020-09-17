@@ -5,11 +5,12 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import Tooltip from '@material-ui/core/Tooltip';
 import Badge from '@material-ui/core/Badge';
 
-import { useFilters } from './Context';
+import { useFilterState } from './Context';
 
 export function Button({ onClick }) {
-  const { totalSelected } = useFilters();
-  const badgeContent = totalSelected === 0 ? null : totalSelected;
+  const state = useFilterState();
+  const selected = state.filter(({ isSelected }) => isSelected);
+  const badgeContent = selected.length === 0 ? null : selected.length;
 
   return (
     <Tooltip title="Filter Quotes">

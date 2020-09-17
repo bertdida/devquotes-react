@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { FiltersProvider } from './Context';
+import { FilterProvider } from './Context';
 import { Popover } from './Popover';
 import { Button } from './Button';
 
@@ -17,9 +17,9 @@ export function Filter() {
   }
 
   return (
-    <FiltersProvider>
+    <FilterProvider>
       <Button onClick={onClick} />
       <Popover open={open} anchorEl={anchorEl} onClose={onClose} />
-    </FiltersProvider>
+    </FilterProvider>
   );
 }

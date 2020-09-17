@@ -9,20 +9,20 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import Checkbox from '@material-ui/core/Checkbox';
 import Box from '@material-ui/core/Box';
 
-import { useFilters } from '../../Context';
+import { useFilterDispatch, actions } from '../../Context';
 
 export function Collapsible({ title, item, children }) {
-  const { name, selected } = item;
-  const { select, reset } = useFilters();
+  const dispatch = useFilterDispatch();
+  const { id, isSelected } = item;
 
   useEffect(() => {
-    if (!selected) reset(name);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selected]);
+    if (!isSelected) {
+      dispatch({ type: actions.RESET, payload: { id } });
+    }
+  }, [dispatch, id, isSelected]);
 
   function onClick() {
-    select(name);
+    dispatch({ type: actions.TOGGLE_SELECT, payload: { id } });
   }
 
   return (
@@ -31,17 +31,17 @@ export function Collapsible({ title, item, children }) {
         <ListItemIcon>
           <Checkbox
             edge="start"
-            checked={selected}
+            checked={isSelected}
             tabIndex={-1}
             disableRipple
           />
         </ListItemIcon>
 
         <ListItemText primary={title} />
-        {selected ? <ExpandLess /> : <ExpandMore />}
+        {isSelected ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
 
-      <Collapse in={selected} unmountOnExit>
+      <Collapse in={isSelected} unmountOnExit>
         <Box paddingX={2} paddingY={1}>
           {children}
         </Box>
