@@ -8,8 +8,27 @@ import Box from '@material-ui/core/Box';
 import queryString from 'query-string';
 import { useHistory } from 'react-router-dom';
 
-import { Status, TotalLikes, SubmittedBy } from './Items';
+import {
+  MemoizedStatus,
+  MemoizedTotalLikes,
+  MemoizedSubmittedBy,
+} from './Items';
 import { useFilterDispatch, useFilterState, actions } from '../Context';
+
+const items = [
+  {
+    name: 'status',
+    Component: MemoizedStatus,
+  },
+  {
+    name: 'likes',
+    Component: MemoizedTotalLikes,
+  },
+  {
+    name: 'submitted_by',
+    Component: MemoizedSubmittedBy,
+  },
+];
 
 function Button({ children, ...rest }) {
   return (
@@ -21,6 +40,18 @@ function Button({ children, ...rest }) {
 
 Button.propTypes = {
   children: PropTypes.node.isRequired,
+};
+
+function FilterItem({ name, Component }) {
+  const state = useFilterState();
+  const filter = state.find(({ name: currName }) => currName === name);
+
+  return <Component filter={filter} />;
+}
+
+FilterItem.propTypes = {
+  name: PropTypes.string.isRequired,
+  Component: PropTypes.object.isRequired,
 };
 
 export function Popover({ open, onClose, anchorEl }) {
@@ -80,8 +111,8 @@ export function Popover({ open, onClose, anchorEl }) {
           </ListSubheader>
         }
       >
-        {[Status, TotalLikes, SubmittedBy].map((Item, index) => (
-          <Item key={index} />
+        {items.map((item, index) => (
+          <FilterItem key={index} {...item} />
         ))}
       </List>
 

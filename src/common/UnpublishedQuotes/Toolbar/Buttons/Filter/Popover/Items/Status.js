@@ -1,17 +1,14 @@
-import React from 'react';
+import React, { memo } from 'react';
+import PropTypes from 'prop-types';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
 import { Collapsible } from './Collapsible';
-import { useFilterState, useFilterDispatch, actions } from '../../Context';
+import { useFilterDispatch, actions } from '../../Context';
 
-const FILTER_NAME = 'status';
-
-export function Status() {
-  const state = useFilterState();
+export function Status({ filter }) {
   const dispatch = useFilterDispatch();
-  const filter = state.find(({ name }) => name === FILTER_NAME);
 
   function onChange(event) {
     const payload = { id: filter.id, value: event.target.value };
@@ -32,3 +29,9 @@ export function Status() {
     </Collapsible>
   );
 }
+
+Status.propTypes = {
+  filter: PropTypes.object.isRequired,
+};
+
+export const MemoizedStatus = memo(Status);

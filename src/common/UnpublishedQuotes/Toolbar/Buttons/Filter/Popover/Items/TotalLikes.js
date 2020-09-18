@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
+import PropTypes from 'prop-types';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
@@ -6,15 +7,10 @@ import TextField from '@material-ui/core/TextField';
 
 import { Collapsible } from './Collapsible';
 import { parseLikesValue } from '../../utils';
-import { useFilterState, useFilterDispatch, actions } from '../../Context';
+import { useFilterDispatch, actions } from '../../Context';
 
-const FILTER_NAME = 'likes';
-
-export function TotalLikes() {
-  const state = useFilterState();
+export function TotalLikes({ filter }) {
   const dispatch = useFilterDispatch();
-  const filter = state.find(({ name }) => name === FILTER_NAME);
-
   const [selected, value] = parseLikesValue(filter.value);
   const [newValue, setNewValue] = useState(null);
 
@@ -66,3 +62,9 @@ export function TotalLikes() {
     </Collapsible>
   );
 }
+
+TotalLikes.propTypes = {
+  filter: PropTypes.object.isRequired,
+};
+
+export const MemoizedTotalLikes = memo(TotalLikes);

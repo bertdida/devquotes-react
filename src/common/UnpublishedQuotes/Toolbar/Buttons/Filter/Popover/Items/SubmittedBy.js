@@ -1,16 +1,13 @@
-import React from 'react';
+import React, { memo } from 'react';
+import PropTypes from 'prop-types';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 
 import { Collapsible } from './Collapsible';
-import { useFilterState, useFilterDispatch, actions } from '../../Context';
+import { useFilterDispatch, actions } from '../../Context';
 
-const FILTER_NAME = 'submitted_by';
-
-export function SubmittedBy() {
-  const state = useFilterState();
+export function SubmittedBy({ filter }) {
   const dispatch = useFilterDispatch();
-  const filter = state.find(({ name }) => name === FILTER_NAME);
 
   function onChange(event) {
     const payload = { id: filter.id, value: event.target.value };
@@ -35,3 +32,9 @@ export function SubmittedBy() {
     </Collapsible>
   );
 }
+
+SubmittedBy.propTypes = {
+  filter: PropTypes.object.isRequired,
+};
+
+export const MemoizedSubmittedBy = memo(SubmittedBy);
