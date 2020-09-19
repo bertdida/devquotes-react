@@ -92,7 +92,7 @@ function MoreOptions(props) {
             icon={DraftsIcon}
             onClick={hide}
             component={Link}
-            to="/manage-quotes"
+            to="/admin/quotes"
             text="Manage Quotes"
           />
         )}

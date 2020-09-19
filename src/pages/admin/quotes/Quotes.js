@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 
-import { Table } from 'common/UnpublishedQuotes';
+import { Table } from 'common/admin/quotes';
 import * as api from './api-calls';
 
-export function UnpublishedQuotesContainer(props) {
+export function Quotes(props) {
   function updatePage(page) {
     props.history.push({ pathname: '/quotes', search: `?page=${page}` });
   }
@@ -21,6 +21,6 @@ export function UnpublishedQuotesContainer(props) {
   );
 }
 
-UnpublishedQuotesContainer.propTypes = {
+Quotes.propTypes = {
   history: PropTypes.object.isRequired,
 };
