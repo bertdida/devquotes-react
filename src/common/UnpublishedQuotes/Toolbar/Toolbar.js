@@ -5,7 +5,9 @@ import { lighten, makeStyles } from '@material-ui/core/styles';
 import { default as MuiToolbar } from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
-import { Delete, Create, Filter } from './Buttons';
+import { Create } from './Create';
+import { Delete } from './Delete';
+import { Filter } from './Filter';
 
 const useStyles = makeStyles(theme => ({
   highlight:
