@@ -258,7 +258,7 @@ export function Table(props) {
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
     history.push({
-      pathname: '/manage-quotes',
+      pathname: '/admin/quotes',
       search: newQueryString,
     });
   }
