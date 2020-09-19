@@ -5,9 +5,9 @@ import { lighten, makeStyles } from '@material-ui/core/styles';
 import { default as MuiToolbar } from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
-import { Create } from './Create';
-import { Delete } from './Delete';
-import { Filter } from './Filter';
+import { CreateButton } from './CreateButton';
+import { DeleteButton } from './DeleteButton';
+import { FilterButton } from './FilterButton';
 
 const useStyles = makeStyles(theme => ({
   highlight:
@@ -52,7 +52,7 @@ export function Toolbar({ totalSelectedQuotes, deleteSelected }) {
             {totalSelectedQuotes} selected
           </Title>
 
-          <Delete deleteSelected={deleteSelected} />
+          <DeleteButton deleteSelected={deleteSelected} />
         </>
       ) : (
         <>
@@ -60,8 +60,8 @@ export function Toolbar({ totalSelectedQuotes, deleteSelected }) {
             Quotes
           </Title>
 
-          <Create />
-          <Filter />
+          <CreateButton />
+          <FilterButton />
         </>
       )}
     </MuiToolbar>

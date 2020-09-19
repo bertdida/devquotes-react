@@ -6,7 +6,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 import { DeleteDialog } from 'common/Quote/DeleteDialog';
 
-export function Delete({ deleteSelected }) {
+export function DeleteButton({ deleteSelected }) {
   const [open, setOpen] = useState(false);
 
   function onClick() {
@@ -30,6 +30,6 @@ export function Delete({ deleteSelected }) {
   );
 }
 
-Delete.propTypes = {
+DeleteButton.propTypes = {
   deleteSelected: Proptypes.func.isRequired,
 };
