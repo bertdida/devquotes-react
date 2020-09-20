@@ -50,7 +50,7 @@ const appTheme = {
     fontWeightLight: 500,
     fontWeightMedium: 700,
   },
-  // ...darkTheme,
+  ...darkTheme,
 };
 
 export const ThemeContext = createContext();
