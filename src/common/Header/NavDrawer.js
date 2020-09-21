@@ -119,7 +119,7 @@ export function NavDrawer(props) {
         <MenuIcon />
       </IconButton>
 
-      <Drawer anchor="right" open={isDrawerOpen} onClose={toggleDrawer(false)}>
+      <Drawer open={isDrawerOpen} onClose={toggleDrawer(false)}>
         <NavDrawerList onClose={toggleDrawer(false)} {...props} />
       </Drawer>
     </React.Fragment>
