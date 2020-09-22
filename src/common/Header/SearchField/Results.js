@@ -15,7 +15,7 @@ function ResultItem({ result }) {
       <Box display="flex" flexDirection="column">
         <small>{result.author}</small>
         <ListItemText
-          className={classes.quotation}
+          className={`${classes.results}__quotation`}
           primaryTypographyProps={{
             noWrap: true,
           }}
@@ -40,7 +40,7 @@ export function Results({ results }) {
 
   if (results.length === 0) {
     return (
-      <List className={classes.resultsWrapper}>
+      <List className={classes.results}>
         <ListItem button disableRipple>
           No matching results.
         </ListItem>
@@ -49,7 +49,7 @@ export function Results({ results }) {
   }
 
   return (
-    <List className={classes.resultsWrapper}>
+    <List className={classes.results}>
       {results.map(result => (
         <ResultItem key={result.id} result={result} />
       ))}
