@@ -4,14 +4,19 @@ import Box from '@material-ui/core/Box';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import { useHistory } from 'react-router-dom';
 
 import { useStyles } from './SearchField.style';
 
-function ResultItem({ result }) {
+function ResultItem({ result, onClick }) {
   const classes = useStyles();
 
+  function _onClick() {
+    onClick(result);
+  }
+
   return (
-    <ListItem key={result.id} button>
+    <ListItem key={result.id} button onClick={_onClick}>
       <Box display="flex" flexDirection="column">
         <small>{result.author}</small>
         <ListItemText
@@ -29,10 +34,17 @@ function ResultItem({ result }) {
 
 ResultItem.propTypes = {
   result: PropTypes.object.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
-export function Results({ results }) {
+export function Results({ results, onHide }) {
   const classes = useStyles();
+  const history = useHistory();
+
+  function onClick(result) {
+    onHide();
+    history.push(`/quotes/${result.id}/${result.slug}`);
+  }
 
   if (results === null) {
     return null;
@@ -51,7 +63,7 @@ export function Results({ results }) {
   return (
     <List className={classes.results}>
       {results.map(result => (
-        <ResultItem key={result.id} result={result} />
+        <ResultItem key={result.id} result={result} onClick={onClick} />
       ))}
     </List>
   );
@@ -59,4 +71,5 @@ export function Results({ results }) {
 
 Results.propTypes = {
   results: PropTypes.array,
+  onHide: PropTypes.func.isRequired,
 };

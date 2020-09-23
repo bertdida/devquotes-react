@@ -67,7 +67,7 @@ export function Form({ show, onHide }) {
 
   function onClickOutside() {
     if (!hasQuery) onHide();
-    setShowResults(false);
+    hideResults();
   }
 
   function onFocus() {
@@ -81,6 +81,10 @@ export function Form({ show, onHide }) {
   function reset() {
     setQuery('');
     setResults(null);
+  }
+
+  function hideResults() {
+    setShowResults(false);
   }
 
   return (
@@ -131,7 +135,7 @@ export function Form({ show, onHide }) {
         }
       />
 
-      {showResults && <Results results={results} />}
+      {showResults && <Results results={results} onHide={hideResults} />}
     </form>
   );
 }
