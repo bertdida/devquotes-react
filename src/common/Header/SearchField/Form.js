@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import InputBase from '@material-ui/core/InputBase';
@@ -28,6 +28,10 @@ export function Form({ show, onHide }) {
   const inputRef = useRef();
   const classes = useStyles();
   const hasQuery = !isEmptyString(query);
+
+  useEffect(() => {
+    focusInput(show);
+  }, [show]);
 
   function onChange(event) {
     const { value } = event.target;
@@ -87,7 +91,6 @@ export function Form({ show, onHide }) {
       })}
     >
       <InputBase
-        autoFocus
         fullWidth
         inputRef={inputRef}
         placeholder="Search"
