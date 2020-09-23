@@ -8,13 +8,17 @@ import { Quote } from './Quote';
 import * as api from './api-calls';
 
 export function QuoteContainer({ match, history, ...props }) {
-  const { id: quoteId, slug: quoteSlug } = match.params;
-  const [quote, setQuote] = useState();
+  const [params, setParams] = useState(null);
+  const [quote, setQuote] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    if (params === null) return;
+
+    setIsLoading(true);
+
     api
-      .fetchQuote(quoteId)
+      .fetchQuote(params.id)
       .then(response => {
         setQuote(response.data.data);
         setIsLoading(false);
@@ -24,13 +28,18 @@ export function QuoteContainer({ match, history, ...props }) {
           return history.push('/404');
         }
       });
-  }, [quoteId, history]);
+  }, [history, params]);
 
-  if (isLoading) {
+  useEffect(() => {
+    setQuote(null);
+    setParams(match.params);
+  }, [match]);
+
+  if (isLoading || quote === null) {
     return <Skeleton />;
   }
 
-  if (quote.slug !== quoteSlug) {
+  if (quote.slug !== params.slug) {
     return <Redirect to={`/quotes/${quote.id}/${quote.slug}`} />;
   }
 
