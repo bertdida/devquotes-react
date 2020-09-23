@@ -66,6 +66,7 @@ export function Form({ show, onHide }) {
   }
 
   function onClickOutside() {
+    if (!hasQuery) onHide();
     setShowResults(false);
   }
 
