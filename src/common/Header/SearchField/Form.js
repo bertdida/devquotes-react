@@ -30,7 +30,7 @@ export function Form({ show, onHide }) {
   const hasQuery = !isEmptyString(query);
 
   useEffect(() => {
-    focusInput(show);
+    if (show) focusInput();
   }, [show]);
 
   function onChange(event) {
