@@ -9,12 +9,11 @@ import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import Slide from '@material-ui/core/Slide';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
 
-import { useAuth } from 'common/hooks/useAuth';
-import { useTheme } from 'common/hooks/useTheme';
 import { NavDrawer } from './NavDrawer';
 import { SearchField } from './SearchField';
-import * as api from './api-calls';
 
 const useStyles = makeStyles(theme => ({
   title: {
@@ -41,13 +40,6 @@ function HideOnScroll({ children }) {
 
 export function Header() {
   const classes = useStyles();
-  const auth = useAuth();
-  const theme = useTheme();
-
-  async function signOut() {
-    await api.signOut();
-    auth.signOut();
-  }
 
   return (
     <HideOnScroll>
@@ -60,23 +52,17 @@ export function Header() {
             position="relative"
           >
             <Box display="flex" alignItems="center" marginRight="auto">
-              <Box marginRight={1}>
-                <NavDrawer
-                  user={auth.user}
-                  signOut={signOut}
-                  isDarkTheme={theme.isDarkMode}
-                  toggleTheme={theme.toggle}
-                />
+              <NavDrawer />
+              <Box marginLeft={1}>
+                <Typography
+                  to="/"
+                  component={Link}
+                  variant="h6"
+                  className={classes.title}
+                >
+                  DevQuotes
+                </Typography>
               </Box>
-
-              <Typography
-                to="/"
-                component={Link}
-                variant="h6"
-                className={classes.title}
-              >
-                DevQuotes
-              </Typography>
             </Box>
 
             <SearchField />
