@@ -115,6 +115,7 @@ export function NavDrawer(props) {
         edge="start"
         aria-label="open main navigation"
         onClick={toggleDrawer(true)}
+        color="inherit"
       >
         <MenuIcon />
       </IconButton>
