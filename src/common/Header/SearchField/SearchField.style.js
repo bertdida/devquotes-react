@@ -15,13 +15,20 @@ export const useStyles = makeStyles(theme => ({
       color: 'inherit',
     },
     '&__input': {
-      margin: `0 ${theme.spacing(1)}px !important`,
+      paddingRight: '40px !important',
     },
     '&__backIcon': {
       display: 'block',
     },
     '&__searchIcon': {
       display: 'none',
+    },
+    '&__clearIcon': {
+      position: 'absolute',
+      right: 0,
+      width: 40,
+      borderRadius: 0,
+      backgroundColor: theme.palette.background.paper,
     },
   },
 
@@ -58,6 +65,7 @@ export const useStyles = makeStyles(theme => ({
       display: 'block',
       position: 'relative',
       width: 'initial',
+      maxWidth: 250,
       '&__backIcon': {
         display: 'none',
       },

@@ -99,11 +99,11 @@ export function Form({ show, onHide }) {
         fullWidth
         inputRef={inputRef}
         placeholder="Search"
-        inputProps={{
-          'aria-label': 'search',
-          className: `${classes.form}__input`,
+        inputProps={{ 'aria-label': 'search' }}
+        classes={{
+          root: `${classes.form}__inputRoot`,
+          input: `${classes.form}__input`,
         }}
-        className={`${classes.form}__inputRoot`}
         value={query}
         onFocus={onFocus}
         onChange={onChange}
@@ -128,7 +128,11 @@ export function Form({ show, onHide }) {
         }
         endAdornment={
           hasQuery && (
-            <Button disableHoverEffect onClick={onClear}>
+            <Button
+              disableHoverEffect
+              className={`${classes.form}__clearIcon`}
+              onClick={onClear}
+            >
               <ClearIcon />
             </Button>
           )
