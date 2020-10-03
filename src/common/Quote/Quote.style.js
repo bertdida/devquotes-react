@@ -24,6 +24,23 @@ export const useStyles = makeStyles(theme => ({
     },
   },
 
+  quote: {
+    padding: theme.spacing(2),
+    margin: theme.spacing(2, 0),
+    '&:hover': {
+      boxShadow: theme.shadows[8],
+    },
+    '&__inner': {
+      display: 'flex',
+      flexDirection: 'column-reverse',
+      marginBottom: theme.spacing(2),
+    },
+    '&__author': {
+      fontStyle: 'normal',
+      marginBottom: theme.spacing(2),
+    },
+  },
+
   [theme.breakpoints.up('sm')]: {
     skeleton: {
       padding: theme.spacing(3),
@@ -31,6 +48,11 @@ export const useStyles = makeStyles(theme => ({
       '&__button': {
         height: 40,
       },
+    },
+
+    quote: {
+      padding: theme.spacing(3),
+      margin: theme.spacing(3, 0),
     },
   },
 }));
