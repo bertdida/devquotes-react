@@ -10,16 +10,18 @@ import IconButton from '@material-ui/core/IconButton';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import LinkIcon from '@material-ui/icons/Link';
+import { useHistory } from 'react-router-dom';
 
 import { useAuth } from 'common/hooks/useAuth';
 import { useSnack } from 'common/hooks/useSnack';
 import { useStyles } from './Quote.style';
 import * as api from './api-calls';
 
-export function Quote({ quote: initialQuote, ...props }) {
+export function Quote({ quote: initialQuote }) {
   const { user } = useAuth();
   const snack = useSnack();
   const classes = useStyles();
+  const history = useHistory();
 
   const [quote, setQuote] = useState(initialQuote);
   const [isLiking, setIsLiking] = useState(false);
@@ -36,7 +38,7 @@ export function Quote({ quote: initialQuote, ...props }) {
 
   async function toggleLike() {
     if (!user) {
-      return props.history.push('/signin');
+      return history.push('/signin');
     }
 
     if (isLiking) {
@@ -129,5 +131,4 @@ export function Quote({ quote: initialQuote, ...props }) {
 
 Quote.propTypes = {
   quote: PropTypes.object.isRequired,
-  history: PropTypes.object,
 };
