@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { QuoteContainer } from 'common/Quote';
+import { Quote } from 'common/Quote';
 import { Pagination } from './Pagination';
 import { EmptyResult } from './EmptyResult';
 
@@ -15,7 +15,7 @@ export function Quotes(props) {
   return (
     <React.Fragment>
       {quotes.map(quote => (
-        <QuoteContainer key={quote.id} quote={quote} {...props} />
+        <Quote key={quote.id} quote={quote} {...props} />
       ))}
 
       <Pagination pagination={pagination} updatePage={updatePage} />

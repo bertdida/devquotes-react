@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
 
-import { QuoteContainer } from 'common/Quote';
+import { Quote } from 'common/Quote';
 
 const useStyles = makeStyles(theme => ({
   footer: {
@@ -26,7 +26,7 @@ export function Home({ quote, requestQuote, ...props }) {
 
   return (
     <React.Fragment>
-      <QuoteContainer quote={quote} {...props} />
+      <Quote quote={quote} {...props} />
 
       <div className={classes.footer}>
         <Fab

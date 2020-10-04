@@ -8,7 +8,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import SearchIcon from '@material-ui/icons/Search';
 
 import { Skeleton } from 'common/Quote/Skeleton';
-import { QuoteContainer } from 'common/Quote';
+import { Quote } from 'common/Quote';
 
 const useStyles = makeStyles(theme => ({
   resultsContainer: {
@@ -40,7 +40,7 @@ function Results({ hasSearched, quotes, ...props }) {
   return (
     <React.Fragment>
       {quotes.map(quote => (
-        <QuoteContainer key={quote.id} quote={quote} {...props} />
+        <Quote key={quote.id} quote={quote} {...props} />
       ))}
     </React.Fragment>
   );

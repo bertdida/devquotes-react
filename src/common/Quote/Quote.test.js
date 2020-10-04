@@ -4,7 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 import axiosMock from 'axios';
 
 import { AuthContext } from 'common/hooks/useAuth';
-import { QuoteContainer } from './QuoteContainer';
+import { Quote } from './Quote';
 
 jest.mock('axios');
 
@@ -33,7 +33,7 @@ function expectNull(node) {
 it('renders semantic html', () => {
   const { container } = render(
     <AuthContext.Provider value={{ user: null }}>
-      <QuoteContainer quote={quote} />
+      <Quote quote={quote} />
     </AuthContext.Provider>
   );
 
@@ -48,7 +48,7 @@ it('renders semantic html', () => {
 it('renders actions for user', () => {
   const { getByRole, queryByRole } = render(
     <AuthContext.Provider value={{ user: null }}>
-      <QuoteContainer quote={quote} />
+      <Quote quote={quote} />
     </AuthContext.Provider>
   );
 
@@ -66,7 +66,7 @@ it('renders actions for user', () => {
 it('renders actions for admin', () => {
   const { getByRole, queryByRole } = render(
     <AuthContext.Provider value={{ user: { is_admin: true } }}>
-      <QuoteContainer quote={quote} />
+      <Quote quote={quote} />
     </AuthContext.Provider>
   );
 
@@ -89,7 +89,7 @@ it('renders no actions when deleted', async () => {
 
   const { getByRole, getByText } = render(
     <AuthContext.Provider value={{ user: { is_admin: true } }}>
-      <QuoteContainer quote={quote} />
+      <Quote quote={quote} />
     </AuthContext.Provider>
   );
 
