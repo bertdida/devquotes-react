@@ -2,20 +2,15 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { useAuth } from 'common/hooks/useAuth';
-import { useSnackbar, Snackbar } from 'common/hooks/useSnackbar';
+import { useSnack } from 'common/hooks/useSnack';
 import { Quote } from './Quote';
-import { DeleteDialog } from './DeleteDialog';
 import * as api from './api-calls';
 
 export function QuoteContainer({ quote: initialQuote, ...props }) {
   const { user } = useAuth();
+  const snack = useSnack();
   const [quote, setQuote] = useState(initialQuote);
-  const [isDeleted, setIsDeleted] = useState(false);
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [isLiking, setIsLiking] = useState(false);
-  const snackbar1 = useSnackbar(false); // added to favorites
-  const snackbar2 = useSnackbar(false); // copied to clipboard
-  const snackbar3 = useSnackbar(false); // deleted
 
   const baseUrl = window.location.origin.replace(/\/$/, '');
   const resourceUrl = `${baseUrl}/quotes/${quote.id}/${quote.slug}`;
@@ -25,22 +20,6 @@ export function QuoteContainer({ quote: initialQuote, ...props }) {
       setQuote({ ...quote, is_liked: false });
     }
   }, [user, quote]);
-
-  function confirmDelete() {
-    setOpenDeleteDialog(true);
-  }
-
-  async function erase() {
-    await api.deleteQuote(quote.id);
-
-    snackbar3.show();
-    setIsDeleted(true);
-    setOpenDeleteDialog(false);
-  }
-
-  async function update() {
-    return props.history.push(`/quotes/${quote.id}/edit`);
-  }
 
   async function toggleLike() {
     if (!user) {
@@ -56,13 +35,13 @@ export function QuoteContainer({ quote: initialQuote, ...props }) {
     setIsLiking(false);
 
     if (data.is_liked) {
-      snackbar1.show();
+      snack.create('Added to favorites.');
     }
   }
 
   function copyLink() {
     window.navigator.clipboard.writeText(resourceUrl);
-    snackbar2.show();
+    snack.create('Link copied to clipboard.');
   }
 
   function shareOnFacebook() {
@@ -79,43 +58,14 @@ export function QuoteContainer({ quote: initialQuote, ...props }) {
   }
 
   return (
-    <React.Fragment>
-      <Quote
-        quote={quote}
-        isDeleted={isDeleted}
-        update={update}
-        confirmDelete={confirmDelete}
-        copyLink={copyLink}
-        toggleLike={toggleLike}
-        shareOnTwitter={shareOnTwitter}
-        shareOnFacebook={shareOnFacebook}
-        isLiking={isLiking}
-      />
-
-      <Snackbar
-        open={snackbar1.isShown}
-        onClose={snackbar1.onClose}
-        message="Added to favorites."
-      />
-
-      <Snackbar
-        open={snackbar2.isShown}
-        onClose={snackbar2.onClose}
-        message="Link copied to clipboard."
-      />
-
-      <Snackbar
-        open={snackbar3.isShown}
-        onClose={snackbar3.onClose}
-        message="Quote deleted."
-      />
-
-      <DeleteDialog
-        open={openDeleteDialog}
-        onClose={() => setOpenDeleteDialog(false)}
-        erase={erase}
-      />
-    </React.Fragment>
+    <Quote
+      quote={quote}
+      copyLink={copyLink}
+      toggleLike={toggleLike}
+      shareOnTwitter={shareOnTwitter}
+      shareOnFacebook={shareOnFacebook}
+      isLiking={isLiking}
+    />
   );
 }
 
