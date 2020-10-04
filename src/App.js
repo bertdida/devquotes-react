@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { BrowserRouter } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
@@ -6,10 +6,9 @@ import { Helmet } from 'react-helmet';
 import Button from '@material-ui/core/Button';
 
 import { AuthProvider } from './common/hooks/useAuth';
-import { ThemeProvider } from './common/hooks/useTheme';
 import { useNetworkStatus } from './common/hooks/useNetworkStatus';
 import { useServiceWorker } from './common/hooks/useServiceWorker';
-import { Snackbar } from './common/hooks/useSnackbar';
+import { useSnack } from './common/hooks/useSnack';
 import { Header } from './common/Header';
 import { ErrorBoundary } from './common/ErrorBoundary';
 import { Routes } from './Routes';
@@ -37,7 +36,31 @@ const useStyles = makeStyles(theme => ({
 export function App() {
   const classes = useStyles();
   const isOnline = useNetworkStatus();
+  const snack = useSnack();
   const { isUpdateAvailable, updateAssets } = useServiceWorker();
+
+  useEffect(() => {
+    if (isUpdateAvailable) {
+      snack.create('A new version is available.', {
+        autoHideDuration: null,
+        action: function SnackActions() {
+          return (
+            <Button color="secondary" size="small" onClick={updateAssets}>
+              UPDATE
+            </Button>
+          );
+        },
+      });
+    }
+  }, [isUpdateAvailable, snack, updateAssets]);
+
+  useEffect(() => {
+    if (!isOnline) {
+      snack.create('You are offline.', {
+        autoHideDuration: null,
+      });
+    }
+  }, [isOnline, snack]);
 
   return (
     <React.Fragment>
@@ -45,41 +68,20 @@ export function App() {
         <title>DevQuotes</title>
       </Helmet>
 
-      <ThemeProvider>
-        <AuthProvider>
-          <BrowserRouter>
-            <Header />
-            <Container maxWidth="md" component="main" id="maincontent">
-              <div className={classes.wrapper}>
-                <Suspense fallback={<p>Loading...</p>}>
-                  <ErrorBoundary>
-                    <Routes />
-                  </ErrorBoundary>
-                </Suspense>
-              </div>
-            </Container>
-          </BrowserRouter>
-        </AuthProvider>
-
-        <Snackbar
-          open={isUpdateAvailable}
-          autoHideDuration={null}
-          message="A new version is available."
-          action={
-            <React.Fragment>
-              <Button color="secondary" size="small" onClick={updateAssets}>
-                UPDATE
-              </Button>
-            </React.Fragment>
-          }
-        />
-
-        <Snackbar
-          open={!isOnline}
-          autoHideDuration={null}
-          message="You are offline."
-        />
-      </ThemeProvider>
+      <AuthProvider>
+        <BrowserRouter>
+          <Header />
+          <Container maxWidth="md" component="main" id="maincontent">
+            <div className={classes.wrapper}>
+              <Suspense fallback={<p>Loading...</p>}>
+                <ErrorBoundary>
+                  <Routes />
+                </ErrorBoundary>
+              </Suspense>
+            </div>
+          </Container>
+        </BrowserRouter>
+      </AuthProvider>
     </React.Fragment>
   );
 }
