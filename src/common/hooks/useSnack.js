@@ -49,7 +49,9 @@ export function SnackProvider({ children }) {
     return id;
   }
 
-  function onClose() {
+  function onClose(_, reason) {
+    if (reason === 'clickaway') return;
+
     setState(currentState => ({
       ...currentState,
       current: { ...currentState.current, open: false },
