@@ -15,7 +15,7 @@ export function Quotes(props) {
   return (
     <React.Fragment>
       {quotes.map(quote => (
-        <Quote key={quote.id} quote={quote} {...props} />
+        <Quote key={quote.id} quote={quote} />
       ))}
 
       <Pagination pagination={pagination} updatePage={updatePage} />
