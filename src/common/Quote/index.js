@@ -1,1 +1,1 @@
-export { Quote } from './Quote';
+export { Quote, MemoizedQuote } from './Quote';
