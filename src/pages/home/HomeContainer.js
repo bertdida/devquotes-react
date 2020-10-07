@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 
 import { Skeleton } from 'common/Quote/Skeleton';
@@ -6,7 +6,7 @@ import { EmptyResult } from 'common/Quotes/EmptyResult';
 import { Home } from './Home';
 import * as api from './api-calls';
 
-export function HomeContainer(props) {
+export function HomeContainer() {
   const [quote, setQuote] = useState(undefined);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -31,13 +31,13 @@ export function HomeContainer(props) {
     requestQuote();
   }, []);
 
-  function Result() {
+  const Result = useCallback(() => {
     if (quote === null) {
       return <EmptyResult />;
     }
 
-    return <Home quote={quote} requestQuote={requestQuote} {...props} />;
-  }
+    return <Home quote={quote} requestQuote={requestQuote} />;
+  }, [quote]);
 
   return (
     <React.Fragment>
