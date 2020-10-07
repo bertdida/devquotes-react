@@ -1,0 +1,5 @@
+export default {
+  PUSH_SNACK: 'PUSH_SNACK',
+  CLOSE_CURRENT: 'CLOSE_CURRENT',
+  OPEN_NEXT: 'OPEN_NEXT',
+};
