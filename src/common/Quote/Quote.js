@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -12,14 +12,13 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import LinkIcon from '@material-ui/icons/Link';
 import { useHistory } from 'react-router-dom';
 
-import { useAuth } from 'common/hooks/useAuth';
-import { useSnack } from 'common/hooks/useSnack';
+import { actions } from 'common/hooks/useSnack';
 import { useStyles } from './Quote.style';
 import * as api from './api-calls';
 
-export function Quote({ quote: initialQuote }) {
-  const { user } = useAuth();
-  const snack = useSnack();
+export const MemoizedQuote = memo(Quote);
+
+export function Quote({ user, quote: initialQuote, snackDispatch }) {
   const classes = useStyles();
   const history = useHistory();
 
@@ -54,13 +53,19 @@ export function Quote({ quote: initialQuote }) {
     setIsLiking(false);
 
     if (data.is_liked) {
-      snack.create('Added to favorites.');
+      snackDispatch({
+        type: actions.PUSH_SNACK,
+        payload: { message: 'Added to favorites.' },
+      });
     }
   }
 
   function copyLink() {
     window.navigator.clipboard.writeText(resourceUrl);
-    snack.create('Link copied to clipboard.');
+    snackDispatch({
+      type: actions.PUSH_SNACK,
+      payload: { message: 'Link copied to clipboard.' },
+    });
   }
 
   function shareOnFacebook() {
@@ -130,5 +135,7 @@ export function Quote({ quote: initialQuote }) {
 }
 
 Quote.propTypes = {
+  user: PropTypes.object,
   quote: PropTypes.object.isRequired,
+  snackDispatch: PropTypes.func.isRequired,
 };

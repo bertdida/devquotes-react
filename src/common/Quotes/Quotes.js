@@ -1,12 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Quote } from 'common/Quote';
+import { MemoizedQuote } from 'common/Quote';
+import { useSnack } from 'common/hooks/useSnack';
+import { useAuth } from 'common/hooks/useAuth';
 import { Pagination } from './Pagination';
 import { EmptyResult } from './EmptyResult';
 
 export function Quotes(props) {
   const { quotes, pagination, updatePage } = props;
+  const { dispatch } = useSnack();
+  const { user } = useAuth();
 
   if (quotes.length === 0) {
     return <EmptyResult />;
@@ -15,7 +19,12 @@ export function Quotes(props) {
   return (
     <React.Fragment>
       {quotes.map(quote => (
-        <Quote key={quote.id} quote={quote} />
+        <MemoizedQuote
+          key={quote.id}
+          quote={quote}
+          user={user}
+          snackDispatch={dispatch}
+        />
       ))}
 
       <Pagination pagination={pagination} updatePage={updatePage} />
