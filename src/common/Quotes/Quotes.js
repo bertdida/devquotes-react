@@ -1,12 +1,61 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import queryString from 'query-string';
+import { useHistory } from 'react-router-dom';
 
+import { Skeleton } from 'common/Quote/Skeleton';
+import { EmptyResult } from 'common/EmptyResult';
 import { Quote } from 'common/Quote';
 import { Pagination } from './Pagination';
-import { EmptyResult } from './EmptyResult';
 
 export function Quotes(props) {
-  const { quotes, pagination, updatePage } = props;
+  const { updatePage, fetchQuotes } = props;
+  const history = useHistory();
+
+  const [quotes, setQuotes] = useState();
+  const [pagination, setPagination] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+  const [page, setPage] = useState();
+
+  useEffect(() => {
+    const query = queryString.parse(history.location.search);
+    setPage(query.page || 1);
+  }, [history.location.search]);
+
+  useEffect(() => {
+    if (page === undefined) return;
+
+    fetchQuotes(page)
+      .then(response => {
+        const { data, ...rest } = response.data;
+        setQuotes(data.map(quote => quote.data));
+        setPagination(rest);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        if (error.response && error.response.status === 404) {
+          return history.push('/404');
+        }
+      });
+  }, [fetchQuotes, history, page]);
+
+  useEffect(() => {
+    let isMounted = true;
+    history.listen(_location => {
+      const query = queryString.parse(_location.search);
+      if (isMounted) {
+        setPage(query.page);
+      }
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [history]);
+
+  if (isLoading) {
+    return <Skeleton />;
+  }
 
   if (quotes.length === 0) {
     return <EmptyResult />;
@@ -24,7 +73,6 @@ export function Quotes(props) {
 }
 
 Quotes.propTypes = {
-  quotes: PropTypes.array.isRequired,
-  pagination: PropTypes.object.isRequired,
+  fetchQuotes: PropTypes.func.isRequired,
   updatePage: PropTypes.func.isRequired,
 };
