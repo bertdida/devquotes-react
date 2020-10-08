@@ -9,7 +9,6 @@ const Home = lazy(() => import('./pages/home'));
 const Quote = lazy(() => import('./pages/quote'));
 const Quotes = lazy(() => import('./pages/quotes'));
 const AdminQuotes = lazy(() => import('./pages/admin/quotes'));
-const Search = lazy(() => import('./pages/search'));
 const SignIn = lazy(() => import('./pages/signin'));
 const Favorites = lazy(() => import('./pages/favorites'));
 const Form = lazy(() => import('./pages/form'));
@@ -19,7 +18,6 @@ function _Routes() {
     <Switch>
       <Route exact path="/" component={Home} />
       <Route exact path="/quotes" component={Quotes} />
-      <Route path="/search" component={Search} />
       <Route path="/signin" component={SignIn} />
 
       <AdminRoute
