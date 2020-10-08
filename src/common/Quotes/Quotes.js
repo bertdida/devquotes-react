@@ -39,20 +39,6 @@ export function Quotes(props) {
       });
   }, [fetchQuotes, history, page]);
 
-  useEffect(() => {
-    let isMounted = true;
-    history.listen(_location => {
-      const query = queryString.parse(_location.search);
-      if (isMounted) {
-        setPage(query.page);
-      }
-    });
-
-    return () => {
-      isMounted = false;
-    };
-  }, [history]);
-
   if (isLoading) {
     return <Skeleton />;
   }
