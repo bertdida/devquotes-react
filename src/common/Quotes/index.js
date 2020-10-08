@@ -1,1 +1,1 @@
-export { QuotesContainer } from './QuotesContainer';
+export { Quotes } from './Quotes';
