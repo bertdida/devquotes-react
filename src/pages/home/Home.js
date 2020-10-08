@@ -4,7 +4,7 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 
 import { Skeleton } from 'common/Quote/Skeleton';
-import { EmptyResult } from 'common/Quotes/EmptyResult';
+import { EmptyResult } from 'common/EmptyResult';
 import { Quote } from 'common/Quote';
 import * as api from './api-calls';
 
