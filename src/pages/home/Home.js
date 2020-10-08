@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
 
-import { MemoizedQuote } from 'common/Quote';
-import { useSnack } from 'common/hooks/useSnack';
-import { useAuth } from 'common/hooks/useAuth';
+import { Quote } from 'common/Quote';
 
 const useStyles = makeStyles(theme => ({
   footer: {
@@ -25,12 +23,10 @@ const useStyles = makeStyles(theme => ({
 
 export function Home({ quote, requestQuote }) {
   const classes = useStyles();
-  const { dispatch } = useSnack();
-  const { user } = useAuth();
 
   return (
     <React.Fragment>
-      <MemoizedQuote quote={quote} user={user} snackDispatch={dispatch} />
+      <Quote quote={quote} />
 
       <div className={classes.footer}>
         <Fab
