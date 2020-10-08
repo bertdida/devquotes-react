@@ -4,7 +4,7 @@ import { render, waitForElementToBeRemoved } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import { AuthContext } from 'common/hooks/useAuth';
-import { QuotesContainer } from './QuotesContainer';
+import { Quotes } from './Quotes';
 
 const updatePage = () => {};
 
@@ -33,7 +33,7 @@ const fetchQuotes = () =>
 it('renders with pagination', async () => {
   const { getByRole } = render(
     <AuthContext.Provider value={{ user: null }}>
-      <QuotesContainer
+      <Quotes
         location={createLocation()}
         history={createMemoryHistory()}
         updatePage={updatePage}
