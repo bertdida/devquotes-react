@@ -1,49 +1,69 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import Fab from '@material-ui/core/Fab';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet';
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
 
+import { Skeleton } from 'common/Quote/Skeleton';
+import { EmptyResult } from 'common/Quotes/EmptyResult';
 import { Quote } from 'common/Quote';
+import * as api from './api-calls';
 
-const useStyles = makeStyles(theme => ({
-  footer: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    paddingLeft: 0,
-    paddingRight: 0,
-  },
-  fab: {
-    boxShadow: 'none !important',
-  },
-  fabIcon: {
-    marginRight: theme.spacing(1),
-  },
-}));
+export function Home() {
+  const [quote, setQuote] = useState(undefined);
+  const [isLoading, setIsLoading] = useState(true);
 
-export function Home({ quote, requestQuote }) {
-  const classes = useStyles();
+  async function requestQuote() {
+    setIsLoading(true);
+
+    try {
+      const response = await api.fetchRandomQuote();
+      setQuote(response.data.data);
+    } catch (error) {
+      if (!error.response || error.response.status !== 404) {
+        throw error;
+      }
+
+      setQuote(null);
+    }
+
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
+    requestQuote();
+  }, []);
+
+  const Result = useCallback(() => {
+    if (quote === null) {
+      return <EmptyResult />;
+    }
+
+    return (
+      <React.Fragment>
+        <Quote quote={quote} />
+
+        <Box display="flex" justifyContent="flex-end">
+          <Button
+            disableElevation
+            color="secondary"
+            variant="contained"
+            style={{ borderRadius: 40 }}
+            onClick={requestQuote}
+            aria-label="get another quote"
+          >
+            Get Another Quote
+          </Button>
+        </Box>
+      </React.Fragment>
+    );
+  }, [quote]);
 
   return (
     <React.Fragment>
-      <Quote quote={quote} />
-
-      <div className={classes.footer}>
-        <Fab
-          size="medium"
-          color="secondary"
-          variant="extended"
-          className={classes.fab}
-          onClick={requestQuote}
-        >
-          Get Another Quote
-        </Fab>
-      </div>
+      <Helmet>
+        <title>DevQuotes | Home</title>
+      </Helmet>
+      {isLoading ? <Skeleton /> : <Result />}
     </React.Fragment>
   );
 }
-
-Home.propTypes = {
-  quote: PropTypes.object.isRequired,
-  requestQuote: PropTypes.func.isRequired,
-};
