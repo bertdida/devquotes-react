@@ -12,13 +12,21 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import LinkIcon from '@material-ui/icons/Link';
 import { useHistory } from 'react-router-dom';
 
-import { actions } from 'common/hooks/useSnack';
+import { actions, useSnack } from 'common/hooks/useSnack';
+import { useAuth } from 'common/hooks/useAuth';
 import { useStyles } from './Quote.style';
 import * as api from './api-calls';
 
-export const MemoizedQuote = memo(Quote);
+export function Quote(props) {
+  const { dispatch } = useSnack();
+  const { user } = useAuth();
 
-export function Quote({ user, quote: initialQuote, snackDispatch }) {
+  return <MemoizedQuote user={user} snackDispatch={dispatch} {...props} />;
+}
+
+const MemoizedQuote = memo(WrappedQuote);
+
+function WrappedQuote({ user, quote: initialQuote, snackDispatch }) {
   const classes = useStyles();
   const history = useHistory();
 
@@ -134,7 +142,7 @@ export function Quote({ user, quote: initialQuote, snackDispatch }) {
   );
 }
 
-Quote.propTypes = {
+WrappedQuote.propTypes = {
   user: PropTypes.object,
   quote: PropTypes.object.isRequired,
   snackDispatch: PropTypes.func.isRequired,
