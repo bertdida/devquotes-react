@@ -132,7 +132,7 @@ export function Row({ quote, toggleSelect, deleteQuote, ...rest }) {
             <IconButton
               aria-label="edit quote"
               component={Link}
-              to={`/quotes/${quote.id}/edit`}
+              to={`/admin/quotes/${quote.id}/edit`}
             >
               <EditIcon />
             </IconButton>
