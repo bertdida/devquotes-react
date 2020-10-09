@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 
-import { Table } from 'common/admin/quotes/Table';
+import { Table } from './Table';
 import * as api from './api-calls';
 
 export function Quotes(props) {
