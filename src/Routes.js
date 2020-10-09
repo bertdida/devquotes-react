@@ -31,7 +31,7 @@ function _Routes() {
       <ProtectedRoute path="/favorites" component={Favorites} />
       <ProtectedRoute
         path="/submit"
-        redirectAdminTo="/create"
+        redirectAdminTo="/admin/create"
         component={Submit}
       />
 
