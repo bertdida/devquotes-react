@@ -5,13 +5,16 @@ import { AdminRoute, ProtectedRoute } from './common/route';
 import { NotFoundPage, ForbiddenPage } from './pages/errors';
 import { withTracker } from './common/withTracker';
 
+const AdminQuotes = lazy(() => import('./pages/admin/quotes'));
+const AdminCreate = lazy(() => import('./pages/admin/create'));
+const AdminEdit = lazy(() => import('./pages/admin/edit'));
+
 const Home = lazy(() => import('./pages/home'));
 const Quote = lazy(() => import('./pages/quote'));
 const Quotes = lazy(() => import('./pages/quotes'));
-const AdminQuotes = lazy(() => import('./pages/admin/quotes'));
 const SignIn = lazy(() => import('./pages/signin'));
 const Favorites = lazy(() => import('./pages/favorites'));
-const Form = lazy(() => import('./pages/form'));
+const Submit = lazy(() => import('./pages/submit'));
 
 function _Routes() {
   return (
@@ -19,20 +22,17 @@ function _Routes() {
       <Route exact path="/" component={Home} />
       <Route exact path="/quotes" component={Quotes} />
       <Route path="/signin" component={SignIn} />
-
-      <AdminRoute
-        exact
-        path={['/quotes/:id/edit', '/create']}
-        component={Form}
-      />
       <Route path="/quotes/:id/:slug" component={Quote} />
 
+      <AdminRoute path="/admin/quotes/:id/edit" component={AdminEdit} />
+      <AdminRoute path="/admin/create" component={AdminCreate} />
       <AdminRoute path="/admin/quotes" component={AdminQuotes} />
+
       <ProtectedRoute path="/favorites" component={Favorites} />
       <ProtectedRoute
         path="/submit"
         redirectAdminTo="/create"
-        component={Form}
+        component={Submit}
       />
 
       <Route path="/404" component={NotFoundPage} />
