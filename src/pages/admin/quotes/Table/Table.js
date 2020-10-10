@@ -15,7 +15,6 @@ import { useHistory } from 'react-router-dom';
 import queryString from 'query-string';
 
 import { deleteQuote } from 'common/Quote/api-calls';
-import { useSnackbar, Snackbar } from 'common/hooks/useSnackbar';
 import { updateQuote, fetchQuotes, deleteQuotes } from './api-calls';
 import { Row } from './Row';
 import { Toolbar } from './Toolbar';
@@ -55,10 +54,6 @@ const initialState = {
 
 export function Table() {
   const [state, dispatch] = useReducer(reducer, initialState);
-
-  const deleteSnackbar = useSnackbar(false);
-  const deleteMultiSnackbar = useSnackbar(false);
-  const updateSnackbar = useSnackbar(false);
 
   const classes = useStyles();
   const history = useHistory();
@@ -113,13 +108,11 @@ export function Table() {
     }, []);
 
     dispatch({ type: actions.QUOTES_DELETED, payload: { ids: successIds } });
-    deleteMultiSnackbar.show();
   }
 
   async function eraseQuote({ id }) {
     await deleteQuote(id);
     dispatch({ type: actions.QUOTE_DELETED, payload: { id } });
-    deleteSnackbar.show();
   }
 
   async function flagAsSpam({ id }) {
@@ -133,7 +126,6 @@ export function Table() {
   async function updateQuoteStatus({ id, status }) {
     const response = await updateQuote({ id, status });
     dispatch({ type: actions.QUOTE_UPDATED, payload: { response } });
-    updateSnackbar.show();
   }
 
   function handleChangePage(_, newPage) {
@@ -203,24 +195,6 @@ export function Table() {
           />
         )}
       </TableContainer>
-
-      <Snackbar
-        open={deleteMultiSnackbar.isShown}
-        onClose={deleteMultiSnackbar.onClose}
-        message="Quotes deleted."
-      />
-
-      <Snackbar
-        open={deleteSnackbar.isShown}
-        onClose={deleteSnackbar.onClose}
-        message="Quote deleted."
-      />
-
-      <Snackbar
-        open={updateSnackbar.isShown}
-        onClose={updateSnackbar.onClose}
-        message="Quote updated."
-      />
     </Paper>
   );
 }
