@@ -25,3 +25,7 @@ export function fetchQuotes(params) {
 export function deleteQuotes(ids) {
   return axios.delete(`/v1/quotes?ids=${ids.join(',')}`);
 }
+
+export function deleteQuote(id) {
+  return axios.delete(`/v1/quotes/${id}`);
+}

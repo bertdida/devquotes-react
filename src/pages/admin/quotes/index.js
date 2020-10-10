@@ -1,3 +1,3 @@
-import { Quotes as AdminQuotes } from './Quotes';
+import { Quotes } from './Quotes';
 
-export default AdminQuotes;
+export default Quotes;
