@@ -26,11 +26,11 @@ export function Quote(props) {
 
 const MemoizedQuote = memo(WrappedQuote);
 
-function WrappedQuote({ user, quote: initialQuote, snackDispatch }) {
+function WrappedQuote({ user, quote: quoteProp, snackDispatch }) {
   const classes = useStyles();
   const history = useHistory();
 
-  const [quote, setQuote] = useState(initialQuote);
+  const [quote, setQuote] = useState(quoteProp);
   const [isLiking, setIsLiking] = useState(false);
 
   const { id, author, quotation, is_liked, total_likes, slug } = quote;
