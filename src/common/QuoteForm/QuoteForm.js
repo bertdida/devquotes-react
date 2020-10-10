@@ -18,15 +18,15 @@ const DEFAULT_FORM_VALUES = {
 
 export const QuoteForm = memo(WrappedQuoteForm);
 
-function WrappedQuoteForm({ quote, onSubmit }) {
+function WrappedQuoteForm({ quote: quoteProp, onSubmit }) {
   const classes = useStyles();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [form, setForm] = useState(DEFAULT_FORM_VALUES);
+  const [quote, setQuote] = useState(DEFAULT_FORM_VALUES);
 
   useEffect(() => {
-    setForm(quote || DEFAULT_FORM_VALUES);
-  }, [quote]);
+    setQuote(quoteProp || DEFAULT_FORM_VALUES);
+  }, [quoteProp]);
 
   useEffect(() => {
     ValidatorForm.addValidationRule('isURL', value => {
@@ -42,13 +42,13 @@ function WrappedQuoteForm({ quote, onSubmit }) {
     event.preventDefault();
     setIsSubmitting(true);
 
-    onSubmit(form).then(() => {
+    onSubmit(quote).then(() => {
       setIsSubmitting(false);
     });
   }
 
   function handleChange(event) {
-    setForm({ ...form, [event.target.name]: event.target.value });
+    setQuote({ ...quote, [event.target.name]: event.target.value });
   }
 
   return (
@@ -60,7 +60,7 @@ function WrappedQuoteForm({ quote, onSubmit }) {
           label="Author"
           margin="normal"
           color="secondary"
-          value={form.author}
+          value={quote.author}
           onChange={handleChange}
           validators={['required']}
           errorMessages={['Author is required']}
@@ -75,12 +75,12 @@ function WrappedQuoteForm({ quote, onSubmit }) {
           rows="4"
           margin="normal"
           color="secondary"
-          value={form.quotation}
+          value={quote.quotation}
           onChange={handleChange}
           validators={['required']}
           errorMessages={['Quotation is required']}
           inputProps={{ maxLength: QUOTATION_MAX_LENGTH }}
-          helperText={`${form.quotation.length}/${QUOTATION_MAX_LENGTH}`}
+          helperText={`${quote.quotation.length}/${QUOTATION_MAX_LENGTH}`}
           fullWidth
         />
 
@@ -90,7 +90,7 @@ function WrappedQuoteForm({ quote, onSubmit }) {
           label="Source"
           margin="normal"
           color="secondary"
-          value={form.source || ''}
+          value={quote.source || ''}
           onChange={handleChange}
           validators={['isURL']}
           errorMessages={['Invalid source URL']}
