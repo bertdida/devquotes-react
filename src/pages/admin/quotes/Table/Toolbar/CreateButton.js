@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 export function CreateButton() {
   return (
     <Tooltip title="Create Quote">
-      <IconButton aria-label="create quote" component={Link} to="/create">
+      <IconButton aria-label="create quote" component={Link} to="/admin/create">
         <AddIcon />
       </IconButton>
     </Tooltip>
