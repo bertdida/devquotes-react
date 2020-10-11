@@ -14,21 +14,15 @@ import { ErrorBoundary } from './common/ErrorBoundary';
 import { Routes } from './Routes';
 
 const useStyles = makeStyles(theme => ({
-  container: {
-    paddingTop: theme.spacing(7),
-    [theme.breakpoints.up('sm')]: {
-      paddingTop: theme.spacing(8),
-    },
-  },
   wrapper: {
     marginTop: theme.spacing(7),
     padding: theme.spacing(2),
+    '& > *:first-child': {
+      marginTop: 0,
+    },
     [theme.breakpoints.up('sm')]: {
       marginTop: theme.spacing(8),
       padding: theme.spacing(3),
-    },
-    '& > *:first-child': {
-      marginTop: 0,
     },
   },
 }));
