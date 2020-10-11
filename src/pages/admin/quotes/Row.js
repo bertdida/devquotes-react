@@ -13,7 +13,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { Link } from 'react-router-dom';
 
-import { DeleteDialog } from 'components/Quote/DeleteDialog';
+import { DeleteDialog } from './DeleteDialog';
 import { useQuotesDispatch, actions } from './QuotesContext';
 import { deleteQuote, updateQuote } from './api-calls';
 import { useStyles } from './Quotes.style';
