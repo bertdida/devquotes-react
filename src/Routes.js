@@ -16,7 +16,9 @@ const SignIn = lazy(() => import('./pages/signin'));
 const Favorites = lazy(() => import('./pages/favorites'));
 const Submit = lazy(() => import('./pages/submit'));
 
-function _Routes() {
+export const Routes = withRouter(withTracker(WrappedRoutes));
+
+function WrappedRoutes() {
   return (
     <Switch>
       <Route exact path="/" component={Home} />
@@ -41,6 +43,3 @@ function _Routes() {
     </Switch>
   );
 }
-
-const Routes = withRouter(withTracker(_Routes));
-export { Routes };
