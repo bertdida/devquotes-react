@@ -44,7 +44,7 @@ export function Row({ quote }) {
     setIsDeleteDialogOpen(false);
   }
 
-  function onChange() {
+  function onCheckboxChange() {
     toggleSelect(quote);
   }
 
@@ -52,7 +52,7 @@ export function Row({ quote }) {
     <>
       <TableRow className={clsx({ [`${classes.row}__disabled`]: isDeleted })}>
         <TableCell padding="checkbox">
-          <Checkbox checked={isSelected === true} onChange={onChange} />
+          <Checkbox checked={isSelected === true} onChange={onCheckboxChange} />
         </TableCell>
         <TableCell className={`${classes.row}__ellipsis`}>
           {quotation}
