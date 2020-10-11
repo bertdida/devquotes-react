@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 
-import { Skeleton } from 'components/Quote/Skeleton';
+import { QuoteSkeleton } from 'components/QuoteSkeleton';
 import { EmptyResult } from 'components/EmptyResult';
 import { Quote } from 'components/Quote';
 import * as api from './api-calls';
@@ -63,7 +63,7 @@ export function Home() {
       <Helmet>
         <title>DevQuotes | Home</title>
       </Helmet>
-      {isLoading ? <Skeleton /> : <Result />}
+      {isLoading ? <QuoteSkeleton /> : <Result />}
     </React.Fragment>
   );
 }

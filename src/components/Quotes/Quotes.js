@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 
 import { EmptyResult } from '../EmptyResult';
 import { Quote } from '../Quote';
-import { Skeleton } from '../Quote/Skeleton';
+import { QuoteSkeleton } from '../QuoteSkeleton';
 import { Pagination } from './Pagination';
 
 export function Quotes(props) {
@@ -40,7 +40,7 @@ export function Quotes(props) {
   }, [fetchQuotes, history, page]);
 
   if (isLoading) {
-    return <Skeleton />;
+    return <QuoteSkeleton />;
   }
 
   if (quotes.length === 0) {
