@@ -2,65 +2,28 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { teal, deepPurple } from '@material-ui/core/colors';
 
-const defaultTheme = createMuiTheme();
-
-const darkTheme = {
-  palette: {
-    type: 'dark',
-    primary: {
-      main: '#333',
-    },
-    secondary: {
-      main: teal.A400,
-    },
-    background: {
-      paper: '#333',
-      default: '#292929',
-    },
-  },
-};
-
-const lightTheme = {
-  palette: {
-    type: 'light',
-    primary: {
-      main: '#fff',
-    },
-    secondary: {
-      main: deepPurple.A200,
-    },
-    background: {
-      default: '#f5f5f5',
-    },
-  },
-};
-
-const appTheme = {
-  // breakpoints: {
-  //   values: {
-  //     ...defaultTheme.breakpoints.values,
-  //     md: 800,
-  //   },
-  // },
+const appTheme = createMuiTheme({
   typography: {
     fontFamily: ['Poppins', 'sans-serif'].join(','),
     fontWeightRegular: 500,
     fontWeightLight: 500,
     fontWeightMedium: 700,
   },
-  ...darkTheme,
-};
+});
+
+const darkTheme = createMuiTheme({
+  ...appTheme,
+  palette: {
+    type: 'dark',
+  },
+});
 
 export const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
   const [isDarkTheme, setIsDarkTheme] = useState();
-
-  const theme = isDarkTheme ? appTheme : { ...appTheme, ...lightTheme };
-  // const muiTheme = createMuiTheme(theme);
-  const muiTheme = createMuiTheme(appTheme);
+  const theme = isDarkTheme ? appTheme : darkTheme;
 
   useEffect(() => {
     const localTheme = window.localStorage.getItem('dq::theme');
@@ -87,8 +50,8 @@ export function ThemeProvider({ children }) {
   }
 
   return (
-    <ThemeContext.Provider value={{ isDarkMode: isDarkTheme, toggle }}>
-      <MuiThemeProvider theme={muiTheme}>
+    <ThemeContext.Provider value={{ isDarkMode: isDarkTheme, toggle, theme }}>
+      <MuiThemeProvider theme={theme}>
         <CssBaseline />
         {children}
       </MuiThemeProvider>
