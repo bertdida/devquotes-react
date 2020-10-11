@@ -23,9 +23,8 @@ export function Row({ quote, ...rest }) {
   const { quotation, author, status, isSelected, isDeleted } = quote;
   const isPublished = status === 'published';
 
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-
   const classes = useStyles();
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   function toggleSelect() {
     dispatch({ type: actions.TOGGLE_SELECT, payload: { id: quote.id } });
@@ -82,7 +81,7 @@ export function Row({ quote, ...rest }) {
       <DeleteDialog
         open={isDeleteDialogOpen}
         onClose={onCloseDeleteDialog}
-        erase={onConfirmDelete}
+        onOk={onConfirmDelete}
       />
     </>
   );

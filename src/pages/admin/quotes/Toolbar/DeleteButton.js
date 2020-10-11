@@ -25,7 +25,7 @@ export function DeleteButton({ deleteSelected }) {
         </IconButton>
       </Tooltip>
 
-      <DeleteDialog open={open} onClose={onClose} erase={deleteSelected} />
+      <DeleteDialog open={open} onClose={onClose} onOk={deleteSelected} />
     </>
   );
 }
