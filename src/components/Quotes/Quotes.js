@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import { useHistory } from 'react-router-dom';
 
-import { Skeleton } from 'common/Quote/Skeleton';
-import { EmptyResult } from 'common/EmptyResult';
-import { Quote } from 'common/Quote';
+import { EmptyResult } from '../EmptyResult';
+import { Quote } from '../Quote';
+import { Skeleton } from '../Quote/Skeleton';
 import { Pagination } from './Pagination';
 
 export function Quotes(props) {
