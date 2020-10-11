@@ -9,7 +9,7 @@ import { AuthProvider } from './common/hooks/useAuth';
 import { useNetworkStatus } from './common/hooks/useNetworkStatus';
 import { useServiceWorker } from './common/hooks/useServiceWorker';
 import { useSnack } from './common/hooks/useSnack';
-import { Header } from './common/Header';
+import { Header } from './components/Header';
 import { ErrorBoundary } from './common/ErrorBoundary';
 import { Routes } from './Routes';
 

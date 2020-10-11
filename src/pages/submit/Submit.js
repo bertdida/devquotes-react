@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 
-import { QuoteForm } from 'common/QuoteForm';
+import { QuoteForm } from 'components/QuoteForm';
 import { useSnack, actions } from 'common/hooks/useSnack';
 import { createQuote } from './api-calls';
 

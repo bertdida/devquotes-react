@@ -4,7 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-import { DeleteDialog } from 'common/Quote/DeleteDialog';
+import { DeleteDialog } from 'components/Quote/DeleteDialog';
 
 export function DeleteButton({ deleteSelected }) {
   const [open, setOpen] = useState(false);

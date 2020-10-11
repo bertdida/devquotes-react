@@ -2,7 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useHistory } from 'react-router-dom';
 
-import { Quotes as CommonQuotes } from 'common/Quotes';
+import { Quotes as CommonQuotes } from 'components/Quotes';
 import { fetchQuotes } from './api-calls';
 
 export function Quotes() {

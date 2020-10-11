@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { Redirect } from 'react-router-dom';
 
-import { Skeleton } from 'common/Quote/Skeleton';
+import { Skeleton } from 'components/Quote/Skeleton';
 import { Quote } from './Quote';
 import * as api from './api-calls';
 

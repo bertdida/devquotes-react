@@ -3,9 +3,9 @@ import { Helmet } from 'react-helmet';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 
-import { Skeleton } from 'common/Quote/Skeleton';
-import { EmptyResult } from 'common/EmptyResult';
-import { Quote } from 'common/Quote';
+import { Skeleton } from 'components/Quote/Skeleton';
+import { EmptyResult } from 'components/EmptyResult';
+import { Quote } from 'components/Quote';
 import * as api from './api-calls';
 
 export function Home() {
