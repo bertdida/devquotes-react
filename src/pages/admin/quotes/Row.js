@@ -12,84 +12,14 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { Link } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
 
 import { DeleteDialog } from 'common/Quote/DeleteDialog';
+import { useQuotesDispatch, actions } from './QuotesContext';
+import { deleteQuote, updateQuote } from './api-calls';
+import { useStyles } from './Quotes.style';
 
-const useStyles = makeStyles({
-  ellipsis: {
-    maxWidth: 200,
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    fontFamily: 'inherit',
-    fontSize: 'inherit',
-    color: 'inherit',
-  },
-  noStretch: {
-    width: '1%',
-    whiteSpace: 'nowrap',
-  },
-  disabled: {
-    opacity: 0.5,
-    pointerEvents: 'none',
-  },
-});
-
-function MoreOptions({ quote, publishQuote, flagAsSpam }) {
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  function handleClick(event) {
-    setAnchorEl(event.currentTarget);
-  }
-
-  function handleClose() {
-    setAnchorEl(null);
-  }
-
-  async function _publishQuote() {
-    await publishQuote(quote);
-  }
-
-  async function _flagAsSpam() {
-    await flagAsSpam(quote);
-  }
-
-  return (
-    <>
-      <Tooltip title="More options">
-        <IconButton aria-label="more options" onClick={handleClick}>
-          <MoreVertIcon />
-        </IconButton>
-      </Tooltip>
-
-      <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-      >
-        <MenuItem onClick={_publishQuote}>Publish Quote</MenuItem>
-        <MenuItem onClick={_flagAsSpam}>Flag as spam</MenuItem>
-      </Menu>
-    </>
-  );
-}
-
-MoreOptions.propTypes = {
-  quote: Proptypes.object.isRequired,
-  publishQuote: Proptypes.func.isRequired,
-  flagAsSpam: Proptypes.func.isRequired,
-};
-
-export function Row({ quote, toggleSelect, deleteQuote, ...rest }) {
+export function Row({ quote, ...rest }) {
+  const dispatch = useQuotesDispatch();
   const { quotation, author, status, isSelected, isDeleted } = quote;
   const isPublished = status === 'published';
 
@@ -97,12 +27,17 @@ export function Row({ quote, toggleSelect, deleteQuote, ...rest }) {
 
   const classes = useStyles();
 
+  function toggleSelect() {
+    dispatch({ type: actions.TOGGLE_SELECT, payload: { id: quote.id } });
+  }
+
   function confirmDelete() {
     setIsDeleteDialogOpen(true);
   }
 
   async function onConfirmDelete() {
-    await deleteQuote(quote);
+    await deleteQuote(quote.id);
+    dispatch({ type: actions.QUOTE_DELETED, payload: { id: quote.id } });
     setIsDeleteDialogOpen(false);
   }
 
@@ -116,13 +51,15 @@ export function Row({ quote, toggleSelect, deleteQuote, ...rest }) {
 
   return (
     <>
-      <TableRow className={clsx({ [classes.disabled]: isDeleted })}>
+      <TableRow className={clsx({ [`${classes.row}__disabled`]: isDeleted })}>
         <TableCell padding="checkbox">
           <Checkbox checked={isSelected === true} onChange={onChange} />
         </TableCell>
-        <TableCell className={classes.ellipsis}>{quotation}</TableCell>
-        <TableCell className={classes.noStretch}>{author}</TableCell>
-        <TableCell className={classes.noStretch}>
+        <TableCell className={`${classes.row}__ellipsis`}>
+          {quotation}
+        </TableCell>
+        <TableCell className={`${classes.row}__noStretch`}>{author}</TableCell>
+        <TableCell className={`${classes.row}__noStretch`}>
           <Tooltip title="Delete Quote">
             <IconButton aria-label="delete quote" onClick={confirmDelete}>
               <DeleteIcon />
@@ -153,6 +90,61 @@ export function Row({ quote, toggleSelect, deleteQuote, ...rest }) {
 
 Row.propTypes = {
   quote: Proptypes.object.isRequired,
-  toggleSelect: Proptypes.func.isRequired,
-  deleteQuote: Proptypes.func.isRequired,
+};
+
+function MoreOptions({ quote }) {
+  const dispatch = useQuotesDispatch();
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  function handleClick(event) {
+    setAnchorEl(event.currentTarget);
+  }
+
+  function handleClose() {
+    setAnchorEl(null);
+  }
+
+  async function flagAsSpam() {
+    await updateQuoteStatus('spam');
+  }
+
+  async function publishQuote() {
+    await updateQuoteStatus('published');
+  }
+
+  async function updateQuoteStatus(status) {
+    const response = await updateQuote({ id: quote.id, status });
+    dispatch({ type: actions.QUOTE_UPDATED, payload: { response } });
+  }
+
+  return (
+    <>
+      <Tooltip title="More options">
+        <IconButton aria-label="more options" onClick={handleClick}>
+          <MoreVertIcon />
+        </IconButton>
+      </Tooltip>
+
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+      >
+        <MenuItem onClick={publishQuote}>Publish Quote</MenuItem>
+        <MenuItem onClick={flagAsSpam}>Flag as spam</MenuItem>
+      </Menu>
+    </>
+  );
+}
+
+MoreOptions.propTypes = {
+  quote: Proptypes.object.isRequired,
 };

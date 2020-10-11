@@ -1,48 +1,42 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import Paper from '@material-ui/core/Paper';
 import TableContainer from '@material-ui/core/TableContainer';
 import TablePagination from '@material-ui/core/TablePagination';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import queryString from 'query-string';
 
-import { fetchQuotes, deleteQuotes } from './api-calls';
+import {
+  QuotesProvider,
+  useQuotesState,
+  useQuotesDispatch,
+  actions,
+} from './QuotesContext';
 import { Toolbar } from './Toolbar';
 import { Table } from './Table';
-import actions from './actions';
-import reducer from './reducer';
+import { fetchQuotes, deleteQuotes } from './api-calls';
+import { useStyles } from './Quotes.style';
 
 const DEFAULT_PAGE = 1;
 const DEFAULT_PER_PAGE = 25;
 
-const useStyles = makeStyles(theme => ({
-  tableContainer: {
-    position: 'relative',
-    minHeight: 400,
-  },
-  backdrop: {
-    position: 'absolute',
-    top: theme.spacing(7),
-    zIndex: 1,
-    alignItems: 'initial',
-    paddingTop: theme.spacing(5),
-    backgroundColor: 'rgb(255 255 255 / 50%)',
-  },
-}));
-
-const initialState = {
-  quotes: [],
-  pagination: {},
-  isLoading: true,
-  queryParams: null,
-};
-
 export function Quotes() {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  return (
+    <QuotesProvider>
+      <Helmet>
+        <title>DevQuotes | Manage Quotes</title>
+      </Helmet>
 
+      <WrappedQuotes />
+    </QuotesProvider>
+  );
+}
+
+function WrappedQuotes() {
+  const state = useQuotesState();
+  const dispatch = useQuotesDispatch();
   const classes = useStyles();
   const history = useHistory();
 
@@ -51,7 +45,7 @@ export function Quotes() {
 
   useEffect(() => {
     dispatch({ type: actions.PARSE_QUERY_PARAMS, payload: { params: search } });
-  }, [search]);
+  }, [dispatch, search]);
 
   useEffect(() => {
     // eslint-disable-next-line prefer-destructuring
@@ -72,7 +66,7 @@ export function Quotes() {
           return history.push('/404');
         }
       });
-  }, [history, state.queryParams]);
+  }, [dispatch, history, state.queryParams]);
 
   async function deleteSelected() {
     const ids = state.quotes.reduce((carry, quote) => {
@@ -102,36 +96,30 @@ export function Quotes() {
   const numSelected = quotes.filter(({ isSelected }) => isSelected).length;
 
   return (
-    <>
-      <Helmet>
-        <title>DevQuotes | Manage Quotes</title>
-      </Helmet>
+    <Paper>
+      <Toolbar
+        totalSelectedQuotes={numSelected}
+        deleteSelected={deleteSelected}
+      />
 
-      <Paper>
-        <Toolbar
-          totalSelectedQuotes={numSelected}
-          deleteSelected={deleteSelected}
-        />
+      <TableContainer className={classes.table}>
+        <Backdrop open={isLoading} className={`${classes.table}__backdrop`}>
+          <CircularProgress color="inherit" />
+        </Backdrop>
 
-        <TableContainer className={classes.tableContainer}>
-          <Backdrop open={isLoading} className={classes.backdrop}>
-            <CircularProgress color="inherit" />
-          </Backdrop>
+        <Table />
 
-          <Table state={state} dispatch={dispatch} />
-
-          {!isLoading && (
-            <TablePagination
-              component="div"
-              onChangePage={handleChangePage}
-              rowsPerPageOptions={[]}
-              count={pagination.total}
-              page={pagination.curr_page - 1} // zero based
-              rowsPerPage={pagination.per_page}
-            />
-          )}
-        </TableContainer>
-      </Paper>
-    </>
+        {!isLoading && (
+          <TablePagination
+            component="div"
+            onChangePage={handleChangePage}
+            rowsPerPageOptions={[]}
+            count={pagination.total}
+            page={pagination.curr_page - 1} // zero based
+            rowsPerPage={pagination.per_page}
+          />
+        )}
+      </TableContainer>
+    </Paper>
   );
 }
