@@ -7,11 +7,16 @@ import Button from '@material-ui/core/Button';
 
 import { AuthProvider } from './common/hooks/useAuth';
 import { useNetworkStatus } from './common/hooks/useNetworkStatus';
-import { useServiceWorker } from './common/hooks/useServiceWorker';
-import { useSnack } from './common/hooks/useSnack';
+import {
+  useServiceWorker,
+  ServiceWorkerProvider,
+} from './common/hooks/useServiceWorker';
+import { useSnack, SnackProvider } from './common/hooks/useSnack';
 import { Header } from './components/Header';
 import { ErrorBoundary } from './common/ErrorBoundary';
 import { Routes } from './Routes';
+
+import { ThemeProvider } from './common/hooks/useTheme';
 
 const useStyles = makeStyles(theme => ({
   wrapper: {
@@ -28,6 +33,18 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export function App() {
+  return (
+    <ServiceWorkerProvider>
+      <ThemeProvider>
+        <SnackProvider>
+          <WrappedApp />
+        </SnackProvider>
+      </ThemeProvider>
+    </ServiceWorkerProvider>
+  );
+}
+
+function WrappedApp() {
   const classes = useStyles();
   const isOnline = useNetworkStatus();
   const snack = useSnack();
