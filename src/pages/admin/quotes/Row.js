@@ -95,7 +95,7 @@ function MoreOptions({ quote }) {
   const dispatch = useQuotesDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
 
-  function handleClick(event) {
+  function handleButtonClick(event) {
     setAnchorEl(event.currentTarget);
   }
 
@@ -119,7 +119,7 @@ function MoreOptions({ quote }) {
   return (
     <>
       <Tooltip title="More options">
-        <IconButton aria-label="more options" onClick={handleClick}>
+        <IconButton aria-label="more options" onClick={handleButtonClick}>
           <MoreVertIcon />
         </IconButton>
       </Tooltip>
