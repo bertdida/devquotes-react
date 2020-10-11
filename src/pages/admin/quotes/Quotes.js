@@ -32,6 +32,7 @@ function WrappedQuotes() {
   const history = useHistory();
   const dispatch = useQuotesDispatch();
   const { quotes, queryParams } = useQuotesState();
+  const selected = quotes.filter(quote => quote.isSelected);
 
   useEffect(() => {
     const { search } = history.location;
@@ -57,11 +58,7 @@ function WrappedQuotes() {
   }, [dispatch, history, queryParams]);
 
   async function deleteSelected() {
-    const ids = quotes.reduce((carry, quote) => {
-      if (!quote.isSelected) return carry;
-      return [...carry, quote.id];
-    }, []);
-
+    const ids = selected.map(quote => quote.id);
     const response = await deleteQuotes(ids);
     const successIds = response.data.reduce((carry, status) => {
       if (status.success !== true) return carry;
@@ -74,7 +71,7 @@ function WrappedQuotes() {
   return (
     <Paper>
       <Toolbar
-        totalSelectedQuotes={quotes.filter(quote => quote.isSelected).length}
+        totalSelectedQuotes={selected.length}
         deleteSelected={deleteSelected}
       />
       <Table />
