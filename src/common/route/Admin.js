@@ -4,13 +4,13 @@ import { Route, Redirect } from 'react-router-dom';
 
 import { useAuth } from 'common/hooks/useAuth';
 
-export function AdminRoute({ component: Component, ...props }) {
+export function AdminRoute({ component: Component, ...rest }) {
   const { user } = useAuth();
 
   return (
     <Route
-      {...props}
-      render={_props => {
+      {...rest}
+      render={renderProps => {
         if (!user) {
           return <Redirect to="/signin" />;
         }
@@ -19,7 +19,7 @@ export function AdminRoute({ component: Component, ...props }) {
           return <Redirect to="/403" />;
         }
 
-        return <Component {..._props} />;
+        return <Component {...renderProps} />;
       }}
     />
   );

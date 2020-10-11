@@ -11,7 +11,7 @@ export function ProtectedRoute(props) {
   return (
     <Route
       {...rest}
-      render={_props => {
+      render={renderProps => {
         if (!user) {
           return <Redirect to="/signin" />;
         }
@@ -20,7 +20,7 @@ export function ProtectedRoute(props) {
           return <Redirect to={redirectAdminTo} />;
         }
 
-        return <Component {..._props} />;
+        return <Component {...renderProps} />;
       }}
     />
   );
