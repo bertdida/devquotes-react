@@ -10,10 +10,10 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { Link } from 'react-router-dom';
 
-import { DeleteDialog } from './DeleteDialog';
-import { useQuotesDispatch, actions } from './QuotesContext';
-import { deleteQuote } from './api-calls';
-import { useStyles } from './Quotes.style';
+import { DeleteDialog } from '../DeleteDialog';
+import { useQuotesDispatch, actions } from '../QuotesContext';
+import { deleteQuote } from '../api-calls';
+import { useStyles } from './Table.style';
 
 export function Row({ quote }) {
   const dispatch = useQuotesDispatch();
