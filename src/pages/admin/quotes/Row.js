@@ -8,20 +8,16 @@ import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 import { Link } from 'react-router-dom';
 
 import { DeleteDialog } from './DeleteDialog';
 import { useQuotesDispatch, actions } from './QuotesContext';
-import { deleteQuote, updateQuote } from './api-calls';
+import { deleteQuote } from './api-calls';
 import { useStyles } from './Quotes.style';
 
 export function Row({ quote }) {
   const dispatch = useQuotesDispatch();
-  const { id, quotation, author, status, isSelected, isDeleted } = quote;
-  const isPublished = status === 'published';
+  const { id, quotation, author, isSelected, isDeleted } = quote;
 
   const classes = useStyles();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
@@ -73,8 +69,6 @@ export function Row({ quote }) {
               <EditIcon />
             </IconButton>
           </Tooltip>
-
-          {!isPublished && <MoreOptions quote={quote} />}
         </TableCell>
       </TableRow>
 
@@ -88,62 +82,5 @@ export function Row({ quote }) {
 }
 
 Row.propTypes = {
-  quote: Proptypes.object.isRequired,
-};
-
-function MoreOptions({ quote }) {
-  const dispatch = useQuotesDispatch();
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  function handleButtonClick(event) {
-    setAnchorEl(event.currentTarget);
-  }
-
-  function handleClose() {
-    setAnchorEl(null);
-  }
-
-  async function flagAsSpam() {
-    await updateQuoteStatus('spam');
-  }
-
-  async function publishQuote() {
-    await updateQuoteStatus('published');
-  }
-
-  async function updateQuoteStatus(status) {
-    const response = await updateQuote({ id: quote.id, status });
-    dispatch({ type: actions.QUOTE_UPDATED, payload: { response } });
-  }
-
-  return (
-    <>
-      <Tooltip title="More options">
-        <IconButton aria-label="more options" onClick={handleButtonClick}>
-          <MoreVertIcon />
-        </IconButton>
-      </Tooltip>
-
-      <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-      >
-        <MenuItem onClick={publishQuote}>Publish Quote</MenuItem>
-        <MenuItem onClick={flagAsSpam}>Flag as spam</MenuItem>
-      </Menu>
-    </>
-  );
-}
-
-MoreOptions.propTypes = {
   quote: Proptypes.object.isRequired,
 };
