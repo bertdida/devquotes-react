@@ -4,7 +4,7 @@ import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 
 import { Collapsible } from './Collapsible';
-import { useFilterDispatch, actions } from '../../Context';
+import { useFilterDispatch, actions } from '../../FilterContext';
 
 export function SubmittedBy({ filter }) {
   const dispatch = useFilterDispatch();

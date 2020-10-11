@@ -5,7 +5,7 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import Tooltip from '@material-ui/core/Tooltip';
 import Badge from '@material-ui/core/Badge';
 
-import { useFilterState } from './Context';
+import { useFilterState } from './FilterContext';
 
 export function Button({ onClick }) {
   const state = useFilterState();

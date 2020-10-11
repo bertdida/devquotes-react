@@ -7,7 +7,7 @@ import TextField from '@material-ui/core/TextField';
 
 import { Collapsible } from './Collapsible';
 import { parseLikesValue } from '../../utils';
-import { useFilterDispatch, actions } from '../../Context';
+import { useFilterDispatch, actions } from '../../FilterContext';
 
 export function TotalLikes({ filter }) {
   const dispatch = useFilterDispatch();

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { FilterProvider } from './Context';
+import { FilterProvider } from './FilterContext';
 import { Popover } from './Popover';
 import { Button } from './Button';
 

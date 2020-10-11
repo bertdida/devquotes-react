@@ -5,7 +5,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
 import { Collapsible } from './Collapsible';
-import { useFilterDispatch, actions } from '../../Context';
+import { useFilterDispatch, actions } from '../../FilterContext';
 
 export function Status({ filter }) {
   const dispatch = useFilterDispatch();

@@ -13,7 +13,7 @@ import {
   MemoizedTotalLikes,
   MemoizedSubmittedBy,
 } from './Items';
-import { useFilterDispatch, useFilterState, actions } from '../Context';
+import { useFilterDispatch, useFilterState, actions } from '../FilterContext';
 
 const items = [
   {

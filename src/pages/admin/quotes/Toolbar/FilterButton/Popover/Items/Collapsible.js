@@ -9,7 +9,7 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import Checkbox from '@material-ui/core/Checkbox';
 import Box from '@material-ui/core/Box';
 
-import { useFilterDispatch, actions } from '../../Context';
+import { useFilterDispatch, actions } from '../../FilterContext';
 
 export function Collapsible({ title, item, children }) {
   const dispatch = useFilterDispatch();
