@@ -27,13 +27,13 @@ const useStyles = makeStyles({
   },
 });
 
-export function DeleteDialog({ open, onClose, ...props }) {
+export function DeleteDialog({ open, onClose, onOk }) {
   const classes = useStyles();
   const [isDeleting, setIsDeleting] = useState(false);
 
   async function erase() {
     setIsDeleting(true);
-    await props.erase();
+    await onOk();
   }
 
   return (
@@ -75,5 +75,5 @@ export function DeleteDialog({ open, onClose, ...props }) {
 DeleteDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  erase: PropTypes.func.isRequired,
+  onOk: PropTypes.func.isRequired,
 };
