@@ -18,7 +18,7 @@ import { useQuotesDispatch, actions } from './QuotesContext';
 import { deleteQuote, updateQuote } from './api-calls';
 import { useStyles } from './Quotes.style';
 
-export function Row({ quote, ...rest }) {
+export function Row({ quote }) {
   const dispatch = useQuotesDispatch();
   const { quotation, author, status, isSelected, isDeleted } = quote;
   const isPublished = status === 'published';
@@ -74,7 +74,7 @@ export function Row({ quote, ...rest }) {
             </IconButton>
           </Tooltip>
 
-          {!isPublished && <MoreOptions quote={quote} {...rest} />}
+          {!isPublished && <MoreOptions quote={quote} />}
         </TableCell>
       </TableRow>
 
