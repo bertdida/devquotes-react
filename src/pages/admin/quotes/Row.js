@@ -20,14 +20,14 @@ import { useStyles } from './Quotes.style';
 
 export function Row({ quote }) {
   const dispatch = useQuotesDispatch();
-  const { quotation, author, status, isSelected, isDeleted } = quote;
+  const { id, quotation, author, status, isSelected, isDeleted } = quote;
   const isPublished = status === 'published';
 
   const classes = useStyles();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   function toggleSelect() {
-    dispatch({ type: actions.TOGGLE_SELECT, payload: { id: quote.id } });
+    dispatch({ type: actions.TOGGLE_SELECT, payload: { id } });
   }
 
   function confirmDelete() {
@@ -36,7 +36,7 @@ export function Row({ quote }) {
 
   async function onConfirmDelete() {
     await deleteQuote(quote.id);
-    dispatch({ type: actions.QUOTE_DELETED, payload: { id: quote.id } });
+    dispatch({ type: actions.QUOTE_DELETED, payload: { id } });
     setIsDeleteDialogOpen(false);
   }
 
