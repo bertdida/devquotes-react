@@ -44,15 +44,16 @@ function WrappedQuotes() {
     dispatch({ type: actions.QUOTES_LOADING });
     const { page = DEFAULT_PAGE, per_page = DEFAULT_PER_PAGE } = queryParams;
 
-    fetchQuotes({ ...queryParams, page, per_page })
-      .then(response => {
+    (async () => {
+      try {
+        const response = await fetchQuotes({ ...queryParams, page, per_page });
         dispatch({ type: actions.QUOTES_LOADED, payload: { response } });
-      })
-      .catch(error => {
+      } catch (error) {
         if (error.response && error.response.status === 404) {
           return history.push('/404');
         }
-      });
+      }
+    })();
   }, [dispatch, history, queryParams]);
 
   async function deleteSelected() {
