@@ -63,7 +63,7 @@ function WrappedQuote({ user, quote: quoteProp, snackDispatch }) {
     if (data.is_liked) {
       snackDispatch({
         type: actions.PUSH_SNACK,
-        payload: { message: 'Added to favorites.' },
+        payload: { message: 'Added to your favorites.' },
       });
     }
   }
