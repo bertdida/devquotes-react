@@ -8,25 +8,21 @@ import Box from '@material-ui/core/Box';
 import queryString from 'query-string';
 import { useHistory } from 'react-router-dom';
 
-import {
-  MemoizedStatus,
-  MemoizedTotalLikes,
-  MemoizedSubmittedBy,
-} from './Items';
+import { Status, TotalLikes, SubmittedBy } from './Items';
 import { useFilterDispatch, useFilterState, actions } from '../FilterContext';
 
 const items = [
   {
     name: 'status',
-    Component: MemoizedStatus,
+    Component: Status,
   },
   {
     name: 'likes',
-    Component: MemoizedTotalLikes,
+    Component: TotalLikes,
   },
   {
     name: 'submitted_by',
-    Component: MemoizedSubmittedBy,
+    Component: SubmittedBy,
   },
 ];
 
