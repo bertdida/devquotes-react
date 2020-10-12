@@ -6,7 +6,9 @@ import TextField from '@material-ui/core/TextField';
 import { Collapsible } from './Collapsible';
 import { useFilterDispatch, actions } from '../../FilterContext';
 
-export function SubmittedBy({ filter }) {
+export const SubmittedBy = memo(WrappedSubmittedBy);
+
+export function WrappedSubmittedBy({ filter }) {
   const dispatch = useFilterDispatch();
 
   function onChange(event) {
@@ -33,8 +35,6 @@ export function SubmittedBy({ filter }) {
   );
 }
 
-SubmittedBy.propTypes = {
+WrappedSubmittedBy.propTypes = {
   filter: PropTypes.object.isRequired,
 };
-
-export const MemoizedSubmittedBy = memo(SubmittedBy);

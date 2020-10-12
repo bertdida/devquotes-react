@@ -9,7 +9,9 @@ import { Collapsible } from './Collapsible';
 import { parseLikesValue } from '../../utils';
 import { useFilterDispatch, actions } from '../../FilterContext';
 
-export function TotalLikes({ filter }) {
+export const TotalLikes = memo(WrappedTotalLikes);
+
+export function WrappedTotalLikes({ filter }) {
   const dispatch = useFilterDispatch();
   const [selected, value] = parseLikesValue(filter.value);
   const [newValue, setNewValue] = useState(null);
@@ -63,8 +65,6 @@ export function TotalLikes({ filter }) {
   );
 }
 
-TotalLikes.propTypes = {
+WrappedTotalLikes.propTypes = {
   filter: PropTypes.object.isRequired,
 };
-
-export const MemoizedTotalLikes = memo(TotalLikes);

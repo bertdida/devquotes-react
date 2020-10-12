@@ -1,3 +1,3 @@
-export { Status, MemoizedStatus } from './Status';
-export { TotalLikes, MemoizedTotalLikes } from './TotalLikes';
-export { SubmittedBy, MemoizedSubmittedBy } from './SubmittedBy';
+export { Status } from './Status';
+export { TotalLikes } from './TotalLikes';
+export { SubmittedBy } from './SubmittedBy';

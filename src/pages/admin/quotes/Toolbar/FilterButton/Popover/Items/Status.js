@@ -7,7 +7,9 @@ import Select from '@material-ui/core/Select';
 import { Collapsible } from './Collapsible';
 import { useFilterDispatch, actions } from '../../FilterContext';
 
-export function Status({ filter }) {
+export const Status = memo(WrappedStatus);
+
+export function WrappedStatus({ filter }) {
   const dispatch = useFilterDispatch();
 
   function onChange(event) {
@@ -30,8 +32,6 @@ export function Status({ filter }) {
   );
 }
 
-Status.propTypes = {
+WrappedStatus.propTypes = {
   filter: PropTypes.object.isRequired,
 };
-
-export const MemoizedStatus = memo(Status);
