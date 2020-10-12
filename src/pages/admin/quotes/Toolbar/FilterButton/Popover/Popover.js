@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { default as MuiPopover } from '@material-ui/core/Popover';
+import MuiPopover from '@material-ui/core/Popover';
 import List from '@material-ui/core/List';
 import ListSubheader from '@material-ui/core/ListSubheader';
-import { default as MuiButton } from '@material-ui/core/Button';
+import MuiButton from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import queryString from 'query-string';
 import { useHistory } from 'react-router-dom';

@@ -1,7 +1,7 @@
 import React from 'react';
-import { default as MuiTable } from '@material-ui/core/Table';
+import MuiTable from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
-import { default as MuiTableRow } from '@material-ui/core/TableRow';
+import MuiTableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import Checkbox from '@material-ui/core/Checkbox';
 import TableBody from '@material-ui/core/TableBody';
