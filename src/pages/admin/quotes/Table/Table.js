@@ -9,18 +9,13 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TablePagination from '@material-ui/core/TablePagination';
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Hidden from '@material-ui/core/Hidden';
 import queryString from 'query-string';
 import { useHistory } from 'react-router-dom';
 
 import { Row } from './Row';
 import { useStyles } from './Table.style';
 import { useQuotesState, useQuotesDispatch, actions } from '../QuotesContext';
-
-const headCells = [
-  { id: 'quotation', label: 'Quotation' },
-  { id: 'author', label: 'Author' },
-  { id: 'actions', label: 'Actions' },
-];
 
 export function Table() {
   const classes = useStyles();
@@ -63,9 +58,11 @@ export function Table() {
                 inputProps={{ 'aria-label': 'select all quotes' }}
               />
             </TableCell>
-            {headCells.map(headCell => (
-              <TableCell key={headCell.id}>{headCell.label}</TableCell>
-            ))}
+            <TableCell>Quotation</TableCell>
+            <Hidden mdDown>
+              <TableCell>Author</TableCell>
+            </Hidden>
+            <TableCell>Actions</TableCell>
           </MuiTableRow>
         </TableHead>
 

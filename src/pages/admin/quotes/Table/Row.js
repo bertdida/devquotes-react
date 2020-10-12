@@ -8,6 +8,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import Hidden from '@material-ui/core/Hidden';
 import { Link } from 'react-router-dom';
 
 import { useQuotesDispatch, actions } from '../QuotesContext';
@@ -50,11 +51,13 @@ export function Row({ quote }) {
         >
           {quotation}
         </TableCell>
-        <TableCell
-          className={`${classes.row}__noStretch ${classes.row}__ellipsis`}
-        >
-          {author}
-        </TableCell>
+        <Hidden mdDown>
+          <TableCell
+            className={`${classes.row}__noStretch ${classes.row}__ellipsis`}
+          >
+            {author}
+          </TableCell>
+        </Hidden>
         <TableCell className={`${classes.row}__noStretch`}>
           <Tooltip title="Delete Quote">
             <IconButton
