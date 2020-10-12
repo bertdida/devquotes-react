@@ -58,7 +58,7 @@ export function NavList({ onClose, width }) {
               <ListItemText primary="Manage Quotes" />
             </ListItem>
 
-            <ListItem button component={Link} to="/admin/create">
+            <ListItem button component={Link} to="/admin/quotes/create">
               <ListItemText primary="Create Quote" />
             </ListItem>
           </>
