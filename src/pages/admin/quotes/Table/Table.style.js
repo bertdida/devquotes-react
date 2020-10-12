@@ -15,6 +15,12 @@ export const useStyles = makeStyles(theme => ({
   },
 
   row: {
+    '&__quotation': {
+      cursor: 'pointer',
+      '&:hover': {
+        textDecoration: 'underline',
+      },
+    },
     '&__ellipsis': {
       maxWidth: 200,
       whiteSpace: 'nowrap',
