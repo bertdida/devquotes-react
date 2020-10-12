@@ -53,9 +53,15 @@ export function NavList({ onClose, width }) {
         )}
 
         {isAdmin && (
-          <ListItem button component={Link} to="/admin/quotes">
-            <ListItemText primary="Manage Quotes" />
-          </ListItem>
+          <>
+            <ListItem button component={Link} to="/admin/quotes">
+              <ListItemText primary="Manage Quotes" />
+            </ListItem>
+
+            <ListItem button component={Link} to="/admin/create">
+              <ListItemText primary="Create Quote" />
+            </ListItem>
+          </>
         )}
 
         {user && (
