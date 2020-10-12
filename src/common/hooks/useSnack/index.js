@@ -1,2 +1,2 @@
-export { SnackProvider, useSnack } from './Context';
+export { SnackProvider, useSnack } from './SnackContext';
 export { default as actions } from './actions';
