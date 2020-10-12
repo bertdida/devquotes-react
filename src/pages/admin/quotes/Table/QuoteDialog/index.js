@@ -1,0 +1,1 @@
+export { QuoteDialog } from './QuoteDialog';
