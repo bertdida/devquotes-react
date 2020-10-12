@@ -10,34 +10,28 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { Link } from 'react-router-dom';
 
-import { DeleteDialog } from '../DeleteDialog';
 import { useQuotesDispatch, actions } from '../QuotesContext';
 import { deleteQuote } from '../api-calls';
 import { useStyles } from './Table.style';
+import { DeleteDialog } from '../DeleteDialog';
+import { QuoteDialog } from './QuoteDialog';
 
 export function Row({ quote }) {
   const dispatch = useQuotesDispatch();
   const { id, quotation, author, isSelected, isDeleted } = quote;
 
   const classes = useStyles();
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [infoDialogOpen, setInfoDialogOpen] = useState(false);
 
   function toggleSelect() {
     dispatch({ type: actions.TOGGLE_SELECT, payload: { id } });
   }
 
-  function confirmDelete() {
-    setIsDeleteDialogOpen(true);
-  }
-
   async function onConfirmDelete() {
     await deleteQuote(quote.id);
     dispatch({ type: actions.QUOTE_DELETED, payload: { id } });
-    setIsDeleteDialogOpen(false);
-  }
-
-  function onCloseDeleteDialog() {
-    setIsDeleteDialogOpen(false);
+    setDeleteDialogOpen(true);
   }
 
   function onCheckboxChange() {
@@ -50,13 +44,23 @@ export function Row({ quote }) {
         <TableCell padding="checkbox">
           <Checkbox checked={isSelected === true} onChange={onCheckboxChange} />
         </TableCell>
-        <TableCell className={`${classes.row}__ellipsis`}>
+        <TableCell
+          className={`${classes.row}__quotation ${classes.row}__ellipsis`}
+          onClick={() => setInfoDialogOpen(true)}
+        >
           {quotation}
         </TableCell>
-        <TableCell className={`${classes.row}__noStretch`}>{author}</TableCell>
+        <TableCell
+          className={`${classes.row}__noStretch ${classes.row}__ellipsis`}
+        >
+          {author}
+        </TableCell>
         <TableCell className={`${classes.row}__noStretch`}>
           <Tooltip title="Delete Quote">
-            <IconButton aria-label="delete quote" onClick={confirmDelete}>
+            <IconButton
+              aria-label="delete quote"
+              onClick={() => setDeleteDialogOpen(true)}
+            >
               <DeleteIcon />
             </IconButton>
           </Tooltip>
@@ -73,9 +77,15 @@ export function Row({ quote }) {
       </TableRow>
 
       <DeleteDialog
-        open={isDeleteDialogOpen}
-        onClose={onCloseDeleteDialog}
+        open={deleteDialogOpen}
+        onClose={() => setDeleteDialogOpen(false)}
         onOk={onConfirmDelete}
+      />
+
+      <QuoteDialog
+        open={infoDialogOpen}
+        onClose={() => setInfoDialogOpen(false)}
+        quote={quote}
       />
     </>
   );
