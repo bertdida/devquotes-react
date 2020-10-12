@@ -26,14 +26,14 @@ function WrappedRoutes() {
       <Route path="/signin" component={SignIn} />
       <Route path="/quotes/:id/:slug" component={Quote} />
 
+      <AdminRoute exact path="/admin/quotes" component={AdminQuotes} />
       <AdminRoute path="/admin/quotes/:id/edit" component={AdminEdit} />
-      <AdminRoute path="/admin/create" component={AdminCreate} />
-      <AdminRoute path="/admin/quotes" component={AdminQuotes} />
+      <AdminRoute path="/admin/quotes/create" component={AdminCreate} />
 
       <ProtectedRoute path="/favorites" component={Favorites} />
       <ProtectedRoute
         path="/submit"
-        redirectAdminTo="/admin/create"
+        redirectAdminTo="/admin/quotes/create"
         component={Submit}
       />
 
