@@ -53,7 +53,11 @@ function quotesLoaded({ response }, state) {
 }
 
 function selectAll({ quotes, ...rest }) {
-  const newQuotes = quotes.map(quote => ({ ...quote, isSelected: true }));
+  const newQuotes = quotes.map(quote => {
+    if (quote.isDeleted) return quote;
+    return { ...quote, isSelected: true };
+  });
+
   return { ...rest, quotes: newQuotes };
 }
 
