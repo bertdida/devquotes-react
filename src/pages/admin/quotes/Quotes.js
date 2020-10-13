@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
+import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import Paper from '@material-ui/core/Paper';
 import { useHistory } from 'react-router-dom';
 
+import { useSnack, actions as snackActions } from 'common/hooks/useSnack';
 import {
   QuotesProvider,
   useQuotesState,
@@ -18,18 +20,22 @@ const DEFAULT_PAGE = 1;
 const DEFAULT_PER_PAGE = 25;
 
 export function Quotes() {
+  const { dispatch } = useSnack();
+
   return (
     <QuotesProvider>
       <Helmet>
         <title>DevQuotes | Manage Quotes</title>
       </Helmet>
 
-      <WrappedQuotes />
+      <MemoizedQuotes snackDispatch={dispatch} />
     </QuotesProvider>
   );
 }
 
-function WrappedQuotes() {
+const MemoizedQuotes = memo(WrappedQuotes);
+
+function WrappedQuotes({ snackDispatch }) {
   const [openDialog, setOpenDialog] = useState(false);
 
   const history = useHistory();
@@ -71,6 +77,10 @@ function WrappedQuotes() {
     }, []);
 
     dispatch({ type: actions.QUOTES_DELETED, payload: { ids: successIds } });
+    snackDispatch({
+      type: snackActions.PUSH_SNACK,
+      payload: { message: 'Selected Quotes deleted.' },
+    });
   }
 
   return (
@@ -91,3 +101,7 @@ function WrappedQuotes() {
     </>
   );
 }
+
+WrappedQuotes.propTypes = {
+  snackDispatch: PropTypes.func.isRequired,
+};
