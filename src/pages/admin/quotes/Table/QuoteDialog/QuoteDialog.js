@@ -27,7 +27,7 @@ export function QuoteDialog({ open, onClose, quote }) {
         <br />
 
         {sourceHostname && (
-          <MuiLink color="initial" target="_blank" href={quote.source}>
+          <MuiLink color="textPrimary" target="_blank" href={quote.source}>
             {sourceHostname} <LaunchIcon fontSize="inherit" />
           </MuiLink>
         )}
