@@ -34,6 +34,7 @@ export function DeleteDialog({ open, onClose, onOk }) {
   async function erase() {
     setIsDeleting(true);
     await onOk();
+    onClose();
   }
 
   return (
