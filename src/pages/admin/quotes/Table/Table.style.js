@@ -11,6 +11,8 @@ export const useStyles = makeStyles(theme => ({
       alignItems: 'initial',
       paddingTop: theme.spacing(5),
       backgroundColor: 'rgb(255 255 255 / 50%)',
+      borderBottomLeftRadius: 4,
+      borderBottomRightRadius: 4,
     },
   },
 
