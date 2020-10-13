@@ -40,7 +40,9 @@ function WrappedQuotes() {
   }, [dispatch, history.location]);
 
   useEffect(() => {
-    if (queryParams === null) return;
+    if (queryParams === null) {
+      return;
+    }
 
     dispatch({ type: actions.QUOTES_LOADING });
     const { page = DEFAULT_PAGE, per_page = DEFAULT_PER_PAGE } = queryParams;
