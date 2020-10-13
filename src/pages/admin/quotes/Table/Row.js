@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import Proptypes from 'prop-types';
+import React, { useState, memo } from 'react';
+import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
@@ -11,13 +11,22 @@ import EditIcon from '@material-ui/icons/Edit';
 import Hidden from '@material-ui/core/Hidden';
 import { Link } from 'react-router-dom';
 
+import { useSnack, actions as snackActions } from 'common/hooks/useSnack';
 import { useQuotesDispatch, actions } from '../QuotesContext';
 import { deleteQuote } from '../api-calls';
 import { useStyles } from './Table.style';
 import { DeleteDialog } from '../DeleteDialog';
 import { QuoteDialog } from './QuoteDialog';
 
-export function Row({ quote }) {
+export function Row(props) {
+  const { dispatch } = useSnack();
+
+  return <MemoizedRow snackDispatch={dispatch} {...props} />;
+}
+
+const MemoizedRow = memo(WrappedRow);
+
+function WrappedRow({ quote, snackDispatch }) {
   const dispatch = useQuotesDispatch();
   const { id, quotation, author, isSelected, isDeleted } = quote;
 
@@ -33,6 +42,10 @@ export function Row({ quote }) {
     await deleteQuote(quote.id);
     dispatch({ type: actions.QUOTE_DELETED, payload: { id } });
     setDeleteDialogOpen(true);
+    snackDispatch({
+      type: snackActions.PUSH_SNACK,
+      payload: { message: 'Quote deleted.' },
+    });
   }
 
   function onCheckboxChange() {
@@ -94,6 +107,7 @@ export function Row({ quote }) {
   );
 }
 
-Row.propTypes = {
-  quote: Proptypes.object.isRequired,
+WrappedRow.propTypes = {
+  quote: PropTypes.object.isRequired,
+  snackDispatch: PropTypes.func.isRequired,
 };
