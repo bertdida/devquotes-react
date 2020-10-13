@@ -40,7 +40,7 @@ Title.propTypes = {
   children: Proptypes.node.isRequired,
 };
 
-export function Toolbar({ totalSelectedQuotes, deleteSelected }) {
+export function Toolbar({ totalSelectedQuotes, confirmDelete }) {
   const classes = useStyles();
   const hasSelection = totalSelectedQuotes > 0;
 
@@ -52,7 +52,7 @@ export function Toolbar({ totalSelectedQuotes, deleteSelected }) {
             {totalSelectedQuotes} selected
           </Title>
 
-          <DeleteButton deleteSelected={deleteSelected} />
+          <DeleteButton onClick={confirmDelete} />
         </>
       ) : (
         <>
@@ -70,5 +70,5 @@ export function Toolbar({ totalSelectedQuotes, deleteSelected }) {
 
 Toolbar.propTypes = {
   totalSelectedQuotes: Proptypes.number.isRequired,
-  deleteSelected: Proptypes.func.isRequired,
+  confirmDelete: Proptypes.func.isRequired,
 };

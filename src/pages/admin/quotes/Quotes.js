@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import Paper from '@material-ui/core/Paper';
 import { useHistory } from 'react-router-dom';
@@ -12,6 +12,7 @@ import {
 import { Toolbar } from './Toolbar';
 import { Table } from './Table';
 import { fetchQuotes, deleteQuotes } from './api-calls';
+import { DeleteDialog } from './DeleteDialog';
 
 const DEFAULT_PAGE = 1;
 const DEFAULT_PER_PAGE = 25;
@@ -29,6 +30,8 @@ export function Quotes() {
 }
 
 function WrappedQuotes() {
+  const [openDialog, setOpenDialog] = useState(false);
+
   const history = useHistory();
   const dispatch = useQuotesDispatch();
   const { quotes, queryParams } = useQuotesState();
@@ -71,12 +74,20 @@ function WrappedQuotes() {
   }
 
   return (
-    <Paper>
-      <Toolbar
-        totalSelectedQuotes={selected.length}
-        deleteSelected={deleteSelected}
+    <>
+      <Paper>
+        <Toolbar
+          totalSelectedQuotes={selected.length}
+          confirmDelete={() => setOpenDialog(true)}
+        />
+        <Table />
+      </Paper>
+
+      <DeleteDialog
+        open={openDialog}
+        onOk={deleteSelected}
+        onClose={() => setOpenDialog(false)}
       />
-      <Table />
-    </Paper>
+    </>
   );
 }
