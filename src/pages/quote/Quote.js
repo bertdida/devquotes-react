@@ -5,7 +5,9 @@ import { Redirect, useHistory } from 'react-router-dom';
 
 import { QuoteSkeleton } from 'components/QuoteSkeleton';
 import { Quote as QuoteItem } from 'components/Quote';
-import { fetchQuote } from './api-calls';
+import api from 'common/api';
+
+const { fetchQuote } = api;
 
 export function Quote({ match }) {
   const history = useHistory();

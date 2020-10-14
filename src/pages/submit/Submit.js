@@ -2,7 +2,9 @@ import React, { useCallback } from 'react';
 
 import { QuoteForm } from 'components/QuoteForm';
 import { useSnack, actions } from 'common/hooks/useSnack';
-import { createQuote } from './api-calls';
+import api from 'common/api';
+
+const { createQuote } = api;
 
 export function Submit() {
   const { dispatch } = useSnack();

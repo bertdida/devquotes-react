@@ -9,7 +9,7 @@ import Box from '@material-ui/core/Box';
 
 import { useAuth } from 'common/hooks/useAuth';
 import { useTheme } from 'common/hooks/useTheme';
-import * as api from './api-calls';
+import api from 'common/api';
 
 export function NavList({ onClose, width }) {
   const { user, ...auth } = useAuth();

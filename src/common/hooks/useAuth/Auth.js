@@ -4,7 +4,9 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
-import * as api from './api-calls';
+import api from 'common/api';
+
+const { signIn } = api;
 
 firebase.initializeApp({
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -23,7 +25,7 @@ export function AuthProvider({ children }) {
       .onAuthStateChanged(async firebaseUser => {
         if (firebaseUser) {
           const token = await firebaseUser.getIdToken();
-          const response = await api.signIn(token);
+          const response = await signIn(token);
           setUser(response.data.data);
         } else {
           setUser(null);

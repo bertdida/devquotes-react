@@ -14,8 +14,8 @@ import { useHistory } from 'react-router-dom';
 
 import { actions, useSnack } from 'common/hooks/useSnack';
 import { useAuth } from 'common/hooks/useAuth';
+import api from 'common/api';
 import { useStyles } from './Quote.style';
-import * as api from './api-calls';
 
 export function Quote(props) {
   const { dispatch } = useSnack();

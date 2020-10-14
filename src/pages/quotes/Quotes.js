@@ -3,7 +3,9 @@ import { Helmet } from 'react-helmet';
 import { useHistory } from 'react-router-dom';
 
 import { Quotes as CommonQuotes } from 'components/Quotes';
-import { fetchQuotes } from './api-calls';
+import api from 'common/api';
+
+const { fetchQuotes } = api;
 
 export function Quotes() {
   const history = useHistory();

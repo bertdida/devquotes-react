@@ -5,6 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import { useHistory } from 'react-router-dom';
 
 import { useSnack, actions as snackActions } from 'common/hooks/useSnack';
+import api from 'common/api';
 import {
   QuotesProvider,
   useQuotesState,
@@ -13,8 +14,9 @@ import {
 } from './QuotesContext';
 import { Toolbar } from './Toolbar';
 import { Table } from './Table';
-import { fetchQuotes, deleteQuotes } from './api-calls';
 import { DeleteDialog } from './DeleteDialog';
+
+const { fetchQuotes, deleteQuotes } = api;
 
 const DEFAULT_PAGE = 1;
 const DEFAULT_PER_PAGE = 25;

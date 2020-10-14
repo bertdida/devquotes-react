@@ -12,11 +12,13 @@ import Hidden from '@material-ui/core/Hidden';
 import { Link } from 'react-router-dom';
 
 import { useSnack, actions as snackActions } from 'common/hooks/useSnack';
+import api from 'common/api';
 import { useQuotesDispatch, actions } from '../QuotesContext';
-import { deleteQuote } from '../api-calls';
 import { useStyles } from './Table.style';
 import { DeleteDialog } from '../DeleteDialog';
 import { QuoteDialog } from './QuoteDialog';
+
+const { deleteQuote } = api;
 
 export function Row(props) {
   const { dispatch } = useSnack();

@@ -6,11 +6,13 @@ import ClearIcon from '@material-ui/icons/Clear';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import SearchIcon from '@material-ui/icons/Search';
 
+import api from 'common/api';
 import { Button } from './Button';
 import { Results } from './Results';
-import { searchQuote } from './api-calls';
 import { useStyles } from './SearchField.style';
 import { useOnClickOutside } from './useOnClickOutside';
+
+const { searchQuote } = api;
 
 function isEmptyString(string) {
   return string.length === 0 && !string.trim();

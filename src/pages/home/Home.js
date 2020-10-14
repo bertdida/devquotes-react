@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import { QuoteSkeleton } from 'components/QuoteSkeleton';
 import { EmptyResult } from 'components/EmptyResult';
 import { Quote } from 'components/Quote';
-import * as api from './api-calls';
+import api from 'common/api';
 
 export function Home() {
   const [quote, setQuote] = useState(undefined);

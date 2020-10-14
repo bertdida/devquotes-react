@@ -1,7 +1,7 @@
-import { axios } from 'common/axios';
+import { axios } from './axios';
 
-export function deleteQuote(id) {
-  return axios.delete(`/v1/quotes/${id}`);
+export function fetchLikes(page) {
+  return axios.get(`/v1/likes?page=${page}`);
 }
 
 export function likeQuote(quote) {

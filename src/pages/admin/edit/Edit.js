@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 
 import { QuoteForm } from 'components/QuoteForm';
 import { useSnack, actions } from 'common/hooks/useSnack';
-import { fetchQuote, updateQuote } from './api-calls';
+import api from 'common/api';
+
+const { fetchQuote, updateQuote } = api;
 
 export function Edit({ match }) {
   const { dispatch } = useSnack();

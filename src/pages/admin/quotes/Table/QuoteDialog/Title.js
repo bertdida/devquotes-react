@@ -6,11 +6,12 @@ import CardHeader from '@material-ui/core/CardHeader';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 
-import { axios } from 'common/axios';
+import { axios } from 'common/api/axios';
+import api from 'common/api';
 import { TitleSkeleton } from './TitleSkeleton';
-import { fetchQuoteContributor } from '../../api-calls';
 import { useStyles } from './QuoteDialog.style';
 
+const { fetchQuoteContributor } = api;
 const { CancelToken } = axios;
 let cancel;
 

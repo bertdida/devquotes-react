@@ -3,7 +3,9 @@ import { Helmet } from 'react-helmet';
 import { useHistory } from 'react-router-dom';
 
 import { Quotes } from 'components/Quotes';
-import { fetchQuotes } from './api-calls';
+import api from 'common/api';
+
+const { fetchLikes } = api;
 
 export function Favorites() {
   const history = useHistory();
@@ -18,7 +20,7 @@ export function Favorites() {
         <title>DevQuotes | Favorites</title>
       </Helmet>
 
-      <Quotes fetchQuotes={fetchQuotes} updatePage={updatePage} />
+      <Quotes fetchQuotes={fetchLikes} updatePage={updatePage} />
     </React.Fragment>
   );
 }
