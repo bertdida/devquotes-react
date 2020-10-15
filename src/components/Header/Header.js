@@ -27,16 +27,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function HideOnScroll({ children }) {
-  const trigger = useScrollTrigger();
-
-  return (
-    <Slide appear={false} direction="down" in={!trigger}>
-      {children}
-    </Slide>
-  );
-}
-
 export function Header() {
   const classes = useStyles();
   const { user } = useAuth();
@@ -81,6 +71,15 @@ export function Header() {
   );
 }
 
+function HideOnScroll({ children }) {
+  const trigger = useScrollTrigger();
+
+  return (
+    <Slide appear={false} direction="down" in={!trigger}>
+      {children}
+    </Slide>
+  );
+}
 HideOnScroll.propTypes = {
   children: PropTypes.node.isRequired,
 };
