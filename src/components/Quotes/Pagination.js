@@ -52,7 +52,9 @@ export function Pagination({ updatePage, pagination }) {
 
   useEffect(() => {
     window.addEventListener('keydown', paginateUsingArrowKeys);
-    return () => window.removeEventListener('keydown', paginateUsingArrowKeys);
+    return function cleanUp() {
+      window.removeEventListener('keydown', paginateUsingArrowKeys);
+    };
   });
 
   return (
