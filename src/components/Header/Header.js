@@ -16,7 +16,6 @@ import { SearchField } from './SearchField';
 
 const useStyles = makeStyles(theme => ({
   title: {
-    color: 'inherit',
     textDecoration: 'none',
     [theme.breakpoints.down('330')]: {
       display: 'none',
@@ -48,6 +47,7 @@ export function Header() {
                   to="/"
                   component={Link}
                   variant="h6"
+                  color="inherit"
                   className={classes.title}
                 >
                   DevQuotes
