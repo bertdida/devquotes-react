@@ -8,35 +8,6 @@ import { useHistory } from 'react-router-dom';
 
 import { useStyles } from './SearchField.style';
 
-function ResultItem({ result, onClick }) {
-  const classes = useStyles();
-
-  function onClickItem() {
-    onClick(result);
-  }
-
-  return (
-    <ListItem button onClick={onClickItem}>
-      <Box display="flex" flexDirection="column">
-        <small>{result.author}</small>
-        <ListItemText
-          className={`${classes.results}__quotation`}
-          primaryTypographyProps={{
-            noWrap: true,
-          }}
-        >
-          {result.quotation}
-        </ListItemText>
-      </Box>
-    </ListItem>
-  );
-}
-
-ResultItem.propTypes = {
-  result: PropTypes.object.isRequired,
-  onClick: PropTypes.func.isRequired,
-};
-
 export function Results({ results, onHide }) {
   const classes = useStyles();
   const history = useHistory();
@@ -72,4 +43,33 @@ export function Results({ results, onHide }) {
 Results.propTypes = {
   results: PropTypes.array,
   onHide: PropTypes.func.isRequired,
+};
+
+function ResultItem({ result, onClick }) {
+  const classes = useStyles();
+
+  function onClickItem() {
+    onClick(result);
+  }
+
+  return (
+    <ListItem button onClick={onClickItem}>
+      <Box display="flex" flexDirection="column">
+        <small>{result.author}</small>
+        <ListItemText
+          className={`${classes.results}__quotation`}
+          primaryTypographyProps={{
+            noWrap: true,
+          }}
+        >
+          {result.quotation}
+        </ListItemText>
+      </Box>
+    </ListItem>
+  );
+}
+
+ResultItem.propTypes = {
+  result: PropTypes.object.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
