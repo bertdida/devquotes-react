@@ -11,10 +11,8 @@ export function NavDrawer() {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDrawer = state => event => {
-    if (
-      event.type === 'keydown' &&
-      (event.key === 'Tab' || event.key === 'Shift')
-    ) {
+    const { type, key } = event;
+    if (type === 'keydown' && (key === 'Tab' || key === 'Shift')) {
       return;
     }
 
