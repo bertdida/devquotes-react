@@ -25,7 +25,7 @@ export function Quotes(props) {
   useEffect(() => {
     if (page === undefined) return;
 
-    fetchQuotes(page)
+    fetchQuotes({ page })
       .then(response => {
         const { data, ...rest } = response.data;
         setQuotes(data.map(quote => quote.data));
