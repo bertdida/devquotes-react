@@ -11,12 +11,12 @@ import { useStyles } from './SearchField.style';
 function ResultItem({ result, onClick }) {
   const classes = useStyles();
 
-  function _onClick() {
+  function onClickItem() {
     onClick(result);
   }
 
   return (
-    <ListItem key={result.id} button onClick={_onClick}>
+    <ListItem key={result.id} button onClick={onClickItem}>
       <Box display="flex" flexDirection="column">
         <small>{result.author}</small>
         <ListItemText
