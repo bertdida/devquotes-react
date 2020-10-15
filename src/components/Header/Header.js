@@ -39,7 +39,7 @@ export function Header() {
             width="100%"
             display="flex"
             alignItems="center"
-            position="relative"
+            position="relative" // SearchField is absolute positioned on mobile
           >
             <Box display="flex" alignItems="center" marginRight="auto">
               <NavDrawer />
