@@ -16,7 +16,7 @@ function ResultItem({ result, onClick }) {
   }
 
   return (
-    <ListItem key={result.id} button onClick={onClickItem}>
+    <ListItem button onClick={onClickItem}>
       <Box display="flex" flexDirection="column">
         <small>{result.author}</small>
         <ListItemText
