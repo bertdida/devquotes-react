@@ -8,8 +8,7 @@ import { Quote } from '../Quote';
 import { QuoteSkeleton } from '../QuoteSkeleton';
 import { Pagination } from './Pagination';
 
-export function Quotes(props) {
-  const { updatePage, fetchQuotes } = props;
+export function Quotes({ fetchQuotes }) {
   const history = useHistory();
 
   const [quotes, setQuotes] = useState();
@@ -53,12 +52,11 @@ export function Quotes(props) {
         <Quote key={quote.id} quote={quote} />
       ))}
 
-      <Pagination pagination={pagination} updatePage={updatePage} />
+      <Pagination pagination={pagination} />
     </React.Fragment>
   );
 }
 
 Quotes.propTypes = {
   fetchQuotes: PropTypes.func.isRequired,
-  updatePage: PropTypes.func.isRequired,
 };
