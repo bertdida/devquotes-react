@@ -40,22 +40,22 @@ export function Pagination({ pagination }) {
   }
 
   function previousPage() {
-    updatePage(curr_page - 1);
+    if (prev_page !== null) {
+      updatePage(curr_page - 1);
+    }
   }
 
   function nextPage() {
-    updatePage(curr_page + 1);
+    if (next_page !== null) {
+      updatePage(curr_page + 1);
+    }
   }
 
   function paginateUsingArrowKeys({ key }) {
     if (key === 'ArrowLeft') {
-      if (prev_page !== null) {
-        previousPage();
-      }
+      previousPage();
     } else if (key === 'ArrowRight') {
-      if (next_page !== null) {
-        nextPage();
-      }
+      nextPage();
     }
   }
 
