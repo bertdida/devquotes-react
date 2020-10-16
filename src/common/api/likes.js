@@ -1,6 +1,6 @@
 import { axios } from './axios';
 
-export function fetchLikes(page) {
+export function fetchLikes({ page }) {
   return axios.get(`/v1/likes?page=${page}`);
 }
 
