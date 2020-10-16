@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -6,6 +6,8 @@ import IconButton from '@material-ui/core/IconButton';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import { useHistory, useLocation } from 'react-router-dom';
+
+import { useArrowKeyPagination } from './useArrowKeyPagination';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -29,15 +31,7 @@ export function Pagination({ pagination }) {
   const startCount = curr_page * per_page - (per_page - 1);
   const endCount = Math.min(startCount + per_page - 1, total);
 
-  function updatePage(page) {
-    const newLocation = {
-      pathname,
-      ...(page > 1 && { search: `?page=${page}` }),
-    };
-
-    history.push(newLocation);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
+  useArrowKeyPagination({ nextPage, previousPage });
 
   function previousPage() {
     if (prev_page !== null) {
@@ -51,20 +45,15 @@ export function Pagination({ pagination }) {
     }
   }
 
-  function paginateUsingArrowKeys({ key }) {
-    if (key === 'ArrowLeft') {
-      previousPage();
-    } else if (key === 'ArrowRight') {
-      nextPage();
-    }
-  }
-
-  useEffect(() => {
-    window.addEventListener('keydown', paginateUsingArrowKeys);
-    return function cleanUp() {
-      window.removeEventListener('keydown', paginateUsingArrowKeys);
+  function updatePage(page) {
+    const newLocation = {
+      pathname,
+      ...(page > 1 && { search: `?page=${page}` }),
     };
-  });
+
+    history.push(newLocation);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   return (
     <div
