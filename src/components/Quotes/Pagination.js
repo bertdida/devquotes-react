@@ -29,7 +29,7 @@ export function Pagination({ pagination }) {
   const startCount = curr_page * per_page - (per_page - 1);
   const endCount = Math.min(startCount + per_page - 1, total);
 
-  function handlePaginate(page) {
+  function updatePage(page) {
     const newLocation = {
       pathname,
       ...(page > 1 && { search: `?page=${page}` }),
@@ -40,11 +40,11 @@ export function Pagination({ pagination }) {
   }
 
   function previousPage() {
-    handlePaginate(curr_page - 1);
+    updatePage(curr_page - 1);
   }
 
   function nextPage() {
-    handlePaginate(curr_page + 1);
+    updatePage(curr_page + 1);
   }
 
   function paginateUsingArrowKeys({ key }) {
