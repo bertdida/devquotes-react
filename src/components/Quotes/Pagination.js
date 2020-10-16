@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
+import { useHistory, useLocation } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -19,14 +20,22 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export function Pagination({ updatePage, pagination }) {
+export function Pagination({ pagination }) {
   const classes = useStyles();
+  const history = useHistory();
+  const { pathname } = useLocation();
+
   const { curr_page, next_page, prev_page, per_page, total } = pagination;
   const startCount = curr_page * per_page - (per_page - 1);
   const endCount = Math.min(startCount + per_page - 1, total);
 
   function handlePaginate(page) {
-    updatePage(page);
+    const newLocation = {
+      pathname,
+      ...(page > 1 && { search: `?page=${page}` }),
+    };
+
+    history.push(newLocation);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -87,6 +96,5 @@ export function Pagination({ updatePage, pagination }) {
 }
 
 Pagination.propTypes = {
-  updatePage: PropTypes.func.isRequired,
   pagination: PropTypes.object.isRequired,
 };
