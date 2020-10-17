@@ -55,7 +55,7 @@ function WrappedQuote({ user, quote: quoteProp, snackDispatch }) {
     setIsLiking(true);
 
     const apiFunction = !is_liked ? api.likeQuote : api.unlikeQuote;
-    const response = await apiFunction(quote);
+    const response = await apiFunction(id);
     const { data } = response.data;
     setQuote(data);
     setIsLiking(false);
