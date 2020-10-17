@@ -11,7 +11,7 @@ import {
   useServiceWorker,
   ServiceWorkerProvider,
 } from './common/hooks/useServiceWorker';
-import { useSnack, SnackProvider } from './common/hooks/useSnack';
+import { actions, useSnack, SnackProvider } from './common/hooks/useSnack';
 import { Header } from './components/Header';
 import { ErrorBoundary } from './common/ErrorBoundary';
 import { Routes } from './Routes';
@@ -47,31 +47,34 @@ export function App() {
 function WrappedApp() {
   const classes = useStyles();
   const isOnline = useNetworkStatus();
-  const snack = useSnack();
+  const { dispatch } = useSnack();
   const { isUpdateAvailable, updateAssets } = useServiceWorker();
 
   useEffect(() => {
     if (isUpdateAvailable) {
-      snack.create('A new version is available.', {
-        autoHideDuration: null,
-        action: function SnackActions() {
-          return (
+      dispatch({
+        type: actions.PUSH_SNACK,
+        payload: {
+          message: 'A new version is available.',
+          autoHideDuration: null,
+          action: (
             <Button color="secondary" size="small" onClick={updateAssets}>
-              UPDATE
+              Update
             </Button>
-          );
+          ),
         },
       });
     }
-  }, [isUpdateAvailable, snack, updateAssets]);
+  }, [dispatch, isUpdateAvailable, updateAssets]);
 
   useEffect(() => {
     if (!isOnline) {
-      snack.create('You are offline.', {
-        autoHideDuration: null,
+      dispatch({
+        type: actions.PUSH_SNACK,
+        payload: { message: 'You are offline.', autoHideDuration: null },
       });
     }
-  }, [isOnline, snack]);
+  }, [dispatch, isOnline]);
 
   return (
     <React.Fragment>
