@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation, Link } from 'react-router-dom';
 
 import { useArrowKeyPagination } from './useArrowKeyPagination';
 
@@ -31,17 +31,20 @@ export function Pagination({ pagination }) {
   const startCount = curr_page * per_page - (per_page - 1);
   const endCount = Math.min(startCount + per_page - 1, total);
 
-  useArrowKeyPagination({ nextPage, previousPage });
+  const nextPage = curr_page + 1;
+  const previousPage = curr_page - 1;
 
-  function previousPage() {
-    if (prev_page !== null) {
-      updatePage(curr_page - 1);
+  useArrowKeyPagination({ goNextPage, goPreviousPage });
+
+  function goNextPage() {
+    if (next_page !== null) {
+      updatePage(nextPage);
     }
   }
 
-  function nextPage() {
-    if (next_page !== null) {
-      updatePage(curr_page + 1);
+  function goPreviousPage() {
+    if (prev_page !== null) {
+      updatePage(previousPage);
     }
   }
 
@@ -52,38 +55,53 @@ export function Pagination({ pagination }) {
     };
 
     history.push(newLocation);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   return (
     <div
       className={classes.container}
       role="navigation"
-      aria-label="Pagination"
+      aria-label="pagination"
     >
       <Typography component="p" className={classes.text}>
         {startCount}-{endCount} of {total}
       </Typography>
 
-      <IconButton
+      <NavLink
+        page={previousPage}
         disabled={prev_page === null}
-        onClick={previousPage}
         aria-label="previous page"
       >
         <NavigateBeforeIcon />
-      </IconButton>
+      </NavLink>
 
-      <IconButton
+      <NavLink
+        page={nextPage}
         disabled={next_page === null}
-        onClick={nextPage}
         aria-label="next page"
       >
         <NavigateNextIcon />
-      </IconButton>
+      </NavLink>
     </div>
   );
 }
 
 Pagination.propTypes = {
   pagination: PropTypes.object.isRequired,
+};
+
+function NavLink({ page, children, ...rest }) {
+  const { pathname } = useLocation();
+  const url = page === 1 ? pathname : `${pathname}?page=${page}`;
+
+  return (
+    <IconButton component={Link} to={url} {...rest}>
+      {children}
+    </IconButton>
+  );
+}
+
+NavLink.propTypes = {
+  page: PropTypes.number.isRequired,
+  children: PropTypes.node.isRequired,
 };
