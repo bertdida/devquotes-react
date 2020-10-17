@@ -3,6 +3,8 @@ name: Deploy workflow
 on:
   repository_dispatch:
   push:
+    branches:
+      - master
   pull_request:
     branches:
       - master
