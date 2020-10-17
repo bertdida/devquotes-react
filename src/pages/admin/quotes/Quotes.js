@@ -2,7 +2,7 @@ import React, { useState, useEffect, memo } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import Paper from '@material-ui/core/Paper';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import { useSnack, actions as snackActions } from 'common/hooks/useSnack';
 import api from 'common/api';
@@ -23,6 +23,12 @@ const DEFAULT_PER_PAGE = 25;
 
 export function Quotes() {
   const { dispatch } = useSnack();
+  const { search } = useLocation();
+  const [queryParams, setQueryParams] = useState();
+
+  useEffect(() => {
+    setQueryParams(search);
+  }, [search]);
 
   return (
     <QuotesProvider>
@@ -30,14 +36,14 @@ export function Quotes() {
         <title>DevQuotes | Manage Quotes</title>
       </Helmet>
 
-      <MemoizedQuotes snackDispatch={dispatch} />
+      <MemoizedQuotes queryParams={queryParams} snackDispatch={dispatch} />
     </QuotesProvider>
   );
 }
 
 const MemoizedQuotes = memo(WrappedQuotes);
 
-function WrappedQuotes({ snackDispatch }) {
+function WrappedQuotes({ snackDispatch, queryParams: queryParamsProp }) {
   const [openDialog, setOpenDialog] = useState(false);
 
   const history = useHistory();
@@ -46,9 +52,11 @@ function WrappedQuotes({ snackDispatch }) {
   const selected = quotes.filter(quote => quote.isSelected);
 
   useEffect(() => {
-    const { search } = history.location;
-    dispatch({ type: actions.PARSE_QUERY_PARAMS, payload: { params: search } });
-  }, [dispatch, history.location]);
+    dispatch({
+      type: actions.PARSE_QUERY_PARAMS,
+      payload: { params: queryParamsProp },
+    });
+  }, [dispatch, queryParamsProp]);
 
   useEffect(() => {
     if (queryParams === null) {
@@ -106,4 +114,5 @@ function WrappedQuotes({ snackDispatch }) {
 
 WrappedQuotes.propTypes = {
   snackDispatch: PropTypes.func.isRequired,
+  queryParams: PropTypes.string,
 };
