@@ -21,9 +21,11 @@ export function Title({ onClose, quote }) {
   const [dateCreated, setDateCreated] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
+  const { id, created_at } = quote;
+
   useEffect(() => {
     (async () => {
-      const response = await fetchQuoteContributor(quote.id, {
+      const response = await fetchQuoteContributor(id, {
         cancelToken: new CancelToken(c => (cancel = c)),
       });
 
@@ -36,16 +38,16 @@ export function Title({ onClose, quote }) {
         cancel();
       }
     };
-  }, [quote]);
+  }, [id]);
 
   useEffect(() => {
-    const date = new Date(quote.created_at);
+    const date = new Date(created_at);
     const month = date.toLocaleString('default', { month: 'long' });
     const day = date.getDate();
     const year = date.getFullYear();
 
     setDateCreated(`${month} ${day}, ${year}`);
-  }, [quote.created_at]);
+  }, [created_at]);
 
   return (
     <DialogTitle disableTypography className={classes.title}>
