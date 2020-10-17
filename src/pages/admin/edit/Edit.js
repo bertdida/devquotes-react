@@ -14,16 +14,18 @@ export function Edit({ match }) {
   const [quote, setQuote] = useState();
 
   useEffect(() => {
+    const quoteId = parseInt(match.params.id);
+    if (Number.isNaN(quoteId)) {
+      return;
+    }
+
     (async () => {
-      const quoteId = parseInt(match.params.id);
-      if (!Number.isNaN(quoteId)) {
-        try {
-          const response = await fetchQuote(quoteId);
-          setQuote(response.data.data);
-        } catch (error) {
-          if (error.response && error.response.status === 404) {
-            return history.push('/404');
-          }
+      try {
+        const response = await fetchQuote(quoteId);
+        setQuote(response.data.data);
+      } catch (error) {
+        if (error.response && error.response.status === 404) {
+          return history.push('/404');
         }
       }
     })();
