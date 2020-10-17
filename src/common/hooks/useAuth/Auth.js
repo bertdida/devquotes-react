@@ -34,7 +34,9 @@ export function AuthProvider({ children }) {
         setIsAuthenticating(false);
       });
 
-    return () => unsubscribe();
+    return function cleanUp() {
+      unsubscribe();
+    };
   }, []);
 
   async function signOut() {
