@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 
 import { QuoteForm } from 'components/QuoteForm';
 import { useSnack, actions } from 'common/hooks/useSnack';
@@ -8,17 +9,25 @@ import api from 'common/api';
 const { fetchQuote, updateQuote } = api;
 
 export function Edit({ match }) {
+  const history = useHistory();
   const { dispatch } = useSnack();
   const [quote, setQuote] = useState();
 
   useEffect(() => {
-    const quoteId = parseInt(match.params.id);
-    if (!Number.isNaN(quoteId)) {
-      fetchQuote(quoteId).then(response => {
-        setQuote(response.data.data);
-      });
-    }
-  }, [match.params.id]);
+    (async () => {
+      const quoteId = parseInt(match.params.id);
+      if (!Number.isNaN(quoteId)) {
+        try {
+          const response = await fetchQuote(quoteId);
+          setQuote(response.data.data);
+        } catch (error) {
+          if (error.response && error.response.status === 404) {
+            return history.push('/404');
+          }
+        }
+      }
+    })();
+  }, [history, match.params.id]);
 
   const onSubmit = useCallback(
     async newQuote => {

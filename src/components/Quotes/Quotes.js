@@ -24,18 +24,19 @@ export function Quotes({ fetchQuotes }) {
   useEffect(() => {
     if (page === undefined) return;
 
-    fetchQuotes({ page })
-      .then(response => {
+    (async () => {
+      try {
+        const response = await fetchQuotes({ page });
         const { data, ...rest } = response.data;
         setQuotes(data.map(quote => quote.data));
         setPagination(rest);
         setIsLoading(false);
-      })
-      .catch(error => {
+      } catch (error) {
         if (error.response && error.response.status === 404) {
           return history.push('/404');
         }
-      });
+      }
+    })();
   }, [fetchQuotes, history, page]);
 
   if (isLoading) {

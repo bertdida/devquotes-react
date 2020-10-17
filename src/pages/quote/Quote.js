@@ -18,18 +18,19 @@ export function Quote({ match }) {
   useEffect(() => {
     if (params === null) return;
 
-    setIsLoading(true);
+    (async () => {
+      setIsLoading(true);
 
-    fetchQuote(params.id)
-      .then(response => {
+      try {
+        const response = await fetchQuote(params.id);
         setQuote(response.data.data);
         setIsLoading(false);
-      })
-      .catch(error => {
+      } catch (error) {
         if (error.response && error.response.status === 404) {
           return history.push('/404');
         }
-      });
+      }
+    })();
   }, [history, params]);
 
   useEffect(() => {

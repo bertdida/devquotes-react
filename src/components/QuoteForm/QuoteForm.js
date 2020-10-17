@@ -61,13 +61,12 @@ function WrappedQuoteForm({ quote: quoteProp, onSubmit }) {
     });
   }, []);
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     setIsSubmitting(true);
 
-    onSubmit(quote).then(() => {
-      setIsSubmitting(false);
-    });
+    await onSubmit(quote);
+    setIsSubmitting(false);
   }
 
   function handleChange(event) {
