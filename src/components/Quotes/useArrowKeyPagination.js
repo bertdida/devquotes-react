@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 
-export function useArrowKeyPagination({ nextPage, previousPage }) {
+export function useArrowKeyPagination({ goNextPage, goPreviousPage }) {
   useEffect(() => {
     function listener({ key }) {
       if (key === 'ArrowLeft') {
-        previousPage();
+        goPreviousPage();
       } else if (key === 'ArrowRight') {
-        nextPage();
+        goNextPage();
       }
     }
 
@@ -15,5 +15,5 @@ export function useArrowKeyPagination({ nextPage, previousPage }) {
     return function cleanUp() {
       document.removeEventListener('keydown', listener);
     };
-  }, [nextPage, previousPage]);
+  }, [goNextPage, goPreviousPage]);
 }
