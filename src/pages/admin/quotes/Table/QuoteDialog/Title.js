@@ -23,7 +23,7 @@ export function Title({ onClose, quote }) {
 
   useEffect(() => {
     (async () => {
-      const response = await fetchQuoteContributor(quote, {
+      const response = await fetchQuoteContributor(quote.id, {
         cancelToken: new CancelToken(c => (cancel = c)),
       });
 
