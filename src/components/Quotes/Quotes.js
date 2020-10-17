@@ -22,7 +22,11 @@ export function Quotes({ fetchQuotes }) {
   }, [history.location.search]);
 
   useEffect(() => {
-    if (page === undefined) return;
+    if (page === undefined) {
+      return;
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 
     (async () => {
       try {
