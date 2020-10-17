@@ -8,15 +8,21 @@ import api from 'common/api';
 
 const { fetchQuote, updateQuote } = api;
 
+function isNumeric(value) {
+  return /^\d+$/.test(value);
+}
+
 export function Edit({ match }) {
   const history = useHistory();
   const { dispatch } = useSnack();
   const [quote, setQuote] = useState();
 
+  const { params } = match;
+  const { id: quoteId } = params;
+
   useEffect(() => {
-    const quoteId = parseInt(match.params.id);
-    if (Number.isNaN(quoteId)) {
-      return;
+    if (!isNumeric(quoteId)) {
+      return history.push('/404');
     }
 
     (async () => {
@@ -29,7 +35,7 @@ export function Edit({ match }) {
         }
       }
     })();
-  }, [history, match.params.id]);
+  }, [history, quoteId]);
 
   const onSubmit = useCallback(
     async newQuote => {
