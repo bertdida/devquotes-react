@@ -18,7 +18,8 @@
           "is_liked",
           "is_published",
           "is_deleted",
-          "total_likes"
+          "total_likes",
+          "created_at"
         ]
       }
     ],
