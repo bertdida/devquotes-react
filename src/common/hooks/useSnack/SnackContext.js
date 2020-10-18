@@ -6,7 +6,7 @@ import actions from './actions';
 import { Snack } from './Snack';
 
 const initialState = { current: null, queue: [] };
-const SnackContext = createContext();
+export const SnackContext = createContext();
 export const useSnack = () => useContext(SnackContext);
 
 export function SnackProvider({ children }) {
