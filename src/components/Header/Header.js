@@ -8,9 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import Slide from '@material-ui/core/Slide';
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
 
-import { useAuth } from 'common/hooks/useAuth';
 import { NavDrawer } from './NavDrawer';
 import { SearchField } from './SearchField';
 
@@ -28,7 +26,6 @@ const useStyles = makeStyles(theme => ({
 
 export function Header() {
   const classes = useStyles();
-  const { user } = useAuth();
 
   return (
     <HideOnScroll>
@@ -56,14 +53,6 @@ export function Header() {
             </Box>
 
             <SearchField />
-
-            {!user && (
-              <Box marginLeft={1}>
-                <Button component={Link} to="/signin" color="inherit">
-                  Sign In
-                </Button>
-              </Box>
-            )}
           </Box>
         </Toolbar>
       </AppBar>
