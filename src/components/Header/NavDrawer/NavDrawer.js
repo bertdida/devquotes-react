@@ -20,7 +20,7 @@ export function NavDrawer() {
   };
 
   return (
-    <React.Fragment>
+    <>
       <IconButton
         edge="start"
         aria-label="open main navigation"
@@ -33,6 +33,6 @@ export function NavDrawer() {
       <Drawer open={isOpen} onClose={toggleDrawer(false)}>
         <NavList onClose={toggleDrawer(false)} width={NAV_DRAWER_WIDTH} />
       </Drawer>
-    </React.Fragment>
+    </>
   );
 }

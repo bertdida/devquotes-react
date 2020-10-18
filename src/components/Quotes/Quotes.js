@@ -52,13 +52,13 @@ export function Quotes({ fetchQuotes }) {
   }
 
   return (
-    <React.Fragment>
+    <>
       {quotes.map(quote => (
         <Quote key={quote.id} quote={quote} />
       ))}
 
       <Pagination pagination={pagination} />
-    </React.Fragment>
+    </>
   );
 }
 

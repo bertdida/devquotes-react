@@ -39,7 +39,7 @@ export function Home() {
     }
 
     return (
-      <React.Fragment>
+      <>
         <Quote quote={quote} />
 
         <Box display="flex" justifyContent="flex-end">
@@ -54,16 +54,16 @@ export function Home() {
             Get Another Quote
           </Button>
         </Box>
-      </React.Fragment>
+      </>
     );
   }, [quote]);
 
   return (
-    <React.Fragment>
+    <>
       <Helmet>
         <title>DevQuotes | Home</title>
       </Helmet>
       {isLoading ? <QuoteSkeleton /> : <Result />}
-    </React.Fragment>
+    </>
   );
 }

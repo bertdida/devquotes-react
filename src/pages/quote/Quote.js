@@ -49,13 +49,13 @@ export function Quote({ match }) {
   }
 
   return (
-    <React.Fragment>
+    <>
       <Helmet>
         <title>DevQuotes | {`${quote.quotation} — ${quote.author}`}</title>
       </Helmet>
 
       <QuoteItem quote={quote} history={history} />
-    </React.Fragment>
+    </>
   );
 }
 

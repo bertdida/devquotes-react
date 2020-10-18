@@ -8,12 +8,12 @@ const { fetchLikes } = api;
 
 export function Favorites() {
   return (
-    <React.Fragment>
+    <>
       <Helmet>
         <title>DevQuotes | Favorites</title>
       </Helmet>
 
       <Quotes fetchQuotes={fetchLikes} />
-    </React.Fragment>
+    </>
   );
 }

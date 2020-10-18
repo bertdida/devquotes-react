@@ -8,12 +8,12 @@ const { fetchQuotes } = api;
 
 export function Quotes() {
   return (
-    <React.Fragment>
+    <>
       <Helmet>
         <title>DevQuotes | Quotes</title>
       </Helmet>
 
       <CommonQuotes fetchQuotes={fetchQuotes} />
-    </React.Fragment>
+    </>
   );
 }
