@@ -11,8 +11,10 @@ import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Hidden from '@material-ui/core/Hidden';
 import queryString from 'query-string';
+import Box from '@material-ui/core/Box';
 import { useHistory } from 'react-router-dom';
 
+import { EmptyResult } from 'components/EmptyResult';
 import { Row } from './Row';
 import { useStyles } from './Table.style';
 import { useQuotesState, useQuotesDispatch, actions } from '../QuotesContext';
@@ -39,6 +41,19 @@ export function Table() {
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
     history.push({ pathname: '/admin/quotes', search: newQueryString });
+  }
+
+  if (!isLoading && numQuotes === 0) {
+    return (
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        className={classes.table}
+      >
+        <EmptyResult />
+      </Box>
+    );
   }
 
   return (
