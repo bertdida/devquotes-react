@@ -41,6 +41,20 @@ export function NavList({ onClose, width }) {
         <ListItem button component={Link} to="/favorites">
           <ListItemText primary="Favorites" />
         </ListItem>
+
+        {user && (
+          <ListItem button onClick={signOut}>
+            <ListItemText primary="Sign Out" />
+          </ListItem>
+        )}
+      </List>
+
+      <Divider />
+
+      <List>
+        <ListItem button onClick={toggleTheme}>
+          <ListItemText primary={`Dark Theme: ${isDarkTheme ? 'On' : 'Off'}`} />
+        </ListItem>
       </List>
 
       <Divider />
@@ -63,20 +77,6 @@ export function NavList({ onClose, width }) {
             </ListItem>
           </>
         )}
-
-        {user && (
-          <ListItem button onClick={signOut}>
-            <ListItemText primary="Sign Out" />
-          </ListItem>
-        )}
-      </List>
-
-      <Divider />
-
-      <List>
-        <ListItem button onClick={toggleTheme}>
-          <ListItemText primary={`Dark Theme: ${isDarkTheme ? 'On' : 'Off'}`} />
-        </ListItem>
       </List>
     </Box>
   );
