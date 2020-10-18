@@ -20,6 +20,7 @@ const darkTheme = createMuiTheme({
 });
 
 export const ThemeContext = createContext();
+export const useTheme = () => useContext(ThemeContext);
 
 export function ThemeProvider({ children }) {
   const [isDarkTheme, setIsDarkTheme] = useState();
@@ -62,5 +63,3 @@ export function ThemeProvider({ children }) {
 ThemeProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
-
-export const useTheme = () => useContext(ThemeContext);

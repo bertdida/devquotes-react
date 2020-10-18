@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { register } from './register-service-worker';
 
 const ServiceWorkerContext = createContext();
+export const useServiceWorker = () => useContext(ServiceWorkerContext);
 
 export function ServiceWorkerProvider({ children }) {
   const [waitingServiceWorker, setWaitingServiceWorker] = useState(null);
@@ -46,5 +47,3 @@ export function ServiceWorkerProvider({ children }) {
 ServiceWorkerProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
-
-export const useServiceWorker = () => useContext(ServiceWorkerContext);
