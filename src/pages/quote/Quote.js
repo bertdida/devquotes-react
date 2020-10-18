@@ -16,7 +16,9 @@ export function Quote({ match }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (params === null) return;
+    if (params === null) {
+      return;
+    }
 
     (async () => {
       setIsLoading(true);
