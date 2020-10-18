@@ -1,4 +1,6 @@
 import React, { useCallback } from 'react';
+import Button from '@material-ui/core/Button';
+import { useHistory } from 'react-router-dom';
 
 import { QuoteForm } from 'components/QuoteForm';
 import { useSnack, actions } from 'common/hooks/useSnack';
@@ -8,18 +10,33 @@ const { createQuote } = api;
 
 export function Create() {
   const { dispatch } = useSnack();
+  const history = useHistory();
 
   const onSubmit = useCallback(
     async newQuote => {
       const response = await createQuote(newQuote);
+      const { data: quote } = response.data;
+
+      const goToQuote = () => {
+        history.push(`/quotes/${quote.id}/${quote.slug}`);
+        dispatch({ type: actions.CLOSE_CURRENT });
+      };
+
       dispatch({
         type: actions.PUSH_SNACK,
-        payload: { message: 'Quote created.' },
+        payload: {
+          message: 'Quote created.',
+          action: (
+            <Button color="secondary" size="small" onClick={goToQuote}>
+              View
+            </Button>
+          ),
+        },
       });
 
       return response;
     },
-    [dispatch]
+    [dispatch, history]
   );
 
   return <QuoteForm onSubmit={onSubmit} />;
