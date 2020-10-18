@@ -10,7 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import LinkIcon from '@material-ui/icons/Link';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import { actions, useSnack } from 'common/hooks/useSnack';
 import { useAuth } from 'common/hooks/useAuth';
@@ -29,6 +29,7 @@ const MemoizedQuote = memo(WrappedQuote);
 function WrappedQuote({ user, quote: quoteProp, snackDispatch }) {
   const classes = useStyles();
   const history = useHistory();
+  const { pathname } = useLocation();
 
   const [quote, setQuote] = useState(quoteProp);
   const [isLiking, setIsLiking] = useState(false);
@@ -36,6 +37,7 @@ function WrappedQuote({ user, quote: quoteProp, snackDispatch }) {
   const { id, author, quotation, is_liked, total_likes, slug } = quote;
   const baseUrl = window.location.origin.replace(/\/$/, '');
   const resourceUrl = `${baseUrl}/quotes/${id}/${slug}`;
+  const inFavorites = pathname === '/favorites';
 
   useEffect(() => {
     if (!user && is_liked === true) {
@@ -63,9 +65,21 @@ function WrappedQuote({ user, quote: quoteProp, snackDispatch }) {
     if (data.is_liked) {
       snackDispatch({
         type: actions.PUSH_SNACK,
-        payload: { message: 'Added to your favorites.' },
+        payload: {
+          message: 'Added to your favorites.',
+          action: inFavorites ? null : (
+            <Button color="secondary" size="small" onClick={goToFavorites}>
+              View
+            </Button>
+          ),
+        },
       });
     }
+  }
+
+  function goToFavorites() {
+    history.push('/favorites');
+    snackDispatch({ type: actions.CLOSE_CURRENT });
   }
 
   function copyLink() {
