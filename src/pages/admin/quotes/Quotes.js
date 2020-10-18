@@ -52,6 +52,10 @@ function WrappedQuotes({ snackDispatch, queryParams: queryParamsProp }) {
   const selected = quotes.filter(quote => quote.isSelected);
 
   useEffect(() => {
+    if (queryParamsProp === undefined) {
+      return;
+    }
+
     dispatch({
       type: actions.PARSE_QUERY_PARAMS,
       payload: { params: queryParamsProp },
