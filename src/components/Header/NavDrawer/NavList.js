@@ -42,9 +42,13 @@ export function NavList({ onClose, width }) {
           <ListItemText primary="Favorites" />
         </ListItem>
 
-        {user && (
+        {user ? (
           <ListItem button onClick={signOut}>
             <ListItemText primary="Sign Out" />
+          </ListItem>
+        ) : (
+          <ListItem button component={Link} to="/signin">
+            <ListItemText primary="Sign In" />
           </ListItem>
         )}
       </List>
