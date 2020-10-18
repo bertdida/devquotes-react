@@ -1,12 +1,11 @@
 import React from 'react';
-import { createMemoryHistory, createLocation } from 'history'; // eslint-disable-line import/no-extraneous-dependencies
+import { BrowserRouter } from 'react-router-dom';
 import { render, waitForElementToBeRemoved } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import { AuthContext } from 'common/hooks/useAuth';
+import { SnackContext } from 'common/hooks/useSnack';
 import { Quotes } from './Quotes';
-
-const updatePage = () => {};
 
 const fetchQuotes = () =>
   Promise.resolve({
@@ -30,16 +29,17 @@ const fetchQuotes = () =>
     },
   });
 
-it('renders with pagination', async () => {
+it('renders quotes', async () => {
+  window.scrollTo = jest.fn();
+
   const { getByRole } = render(
-    <AuthContext.Provider value={{ user: null }}>
-      <Quotes
-        location={createLocation()}
-        history={createMemoryHistory()}
-        updatePage={updatePage}
-        fetchQuotes={fetchQuotes}
-      />
-    </AuthContext.Provider>
+    <BrowserRouter>
+      <SnackContext.Provider value={{ dispatch: () => {} }}>
+        <AuthContext.Provider value={{ user: null }}>
+          <Quotes fetchQuotes={fetchQuotes} />
+        </AuthContext.Provider>
+      </SnackContext.Provider>
+    </BrowserRouter>
   );
 
   await waitForElementToBeRemoved(() =>
