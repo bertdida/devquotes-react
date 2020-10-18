@@ -15,7 +15,6 @@ import { actions, useSnack, SnackProvider } from './common/hooks/useSnack';
 import { Header } from './components/Header';
 import { ErrorBoundary } from './common/ErrorBoundary';
 import { Routes } from './Routes';
-
 import { ThemeProvider } from './common/hooks/useTheme';
 
 const useStyles = makeStyles(theme => ({
@@ -36,9 +35,13 @@ export function App() {
   return (
     <ServiceWorkerProvider>
       <ThemeProvider>
-        <SnackProvider>
-          <WrappedApp />
-        </SnackProvider>
+        <AuthProvider>
+          <BrowserRouter>
+            <SnackProvider>
+              <WrappedApp />
+            </SnackProvider>
+          </BrowserRouter>
+        </AuthProvider>
       </ThemeProvider>
     </ServiceWorkerProvider>
   );
@@ -77,25 +80,21 @@ function WrappedApp() {
   }, [dispatch, isOnline]);
 
   return (
-    <React.Fragment>
+    <>
       <Helmet>
         <title>DevQuotes</title>
       </Helmet>
 
-      <AuthProvider>
-        <BrowserRouter>
-          <Header />
-          <Container maxWidth="md" component="main" id="maincontent">
-            <div className={classes.wrapper}>
-              <Suspense fallback={<p>Loading...</p>}>
-                <ErrorBoundary>
-                  <Routes />
-                </ErrorBoundary>
-              </Suspense>
-            </div>
-          </Container>
-        </BrowserRouter>
-      </AuthProvider>
-    </React.Fragment>
+      <Header />
+      <Container maxWidth="md" component="main" id="maincontent">
+        <div className={classes.wrapper}>
+          <Suspense fallback={<p>Loading...</p>}>
+            <ErrorBoundary>
+              <Routes />
+            </ErrorBoundary>
+          </Suspense>
+        </div>
+      </Container>
+    </>
   );
 }
