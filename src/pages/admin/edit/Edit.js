@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 
@@ -37,18 +37,15 @@ export function Edit({ match }) {
     })();
   }, [history, quoteId]);
 
-  const onSubmit = useCallback(
-    async newQuote => {
-      const response = await updateQuote(newQuote);
-      dispatch({
-        type: actions.PUSH_SNACK,
-        payload: { message: 'Quote edited.' },
-      });
+  async function onSubmit(newQuote) {
+    const response = await updateQuote(newQuote);
+    dispatch({
+      type: actions.PUSH_SNACK,
+      payload: { message: 'Quote edited.' },
+    });
 
-      return response;
-    },
-    [dispatch]
-  );
+    return response;
+  }
 
   return <QuoteForm quote={quote} onSubmit={onSubmit} />;
 }

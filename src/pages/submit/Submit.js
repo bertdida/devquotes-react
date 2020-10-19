@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 
 import { QuoteForm } from 'components/QuoteForm';
 import { useSnack, actions } from 'common/hooks/useSnack';
@@ -9,18 +9,15 @@ const { createQuote } = api;
 export function Submit() {
   const { dispatch } = useSnack();
 
-  const onSubmit = useCallback(
-    async newQuote => {
-      const response = await createQuote(newQuote);
-      dispatch({
-        type: actions.PUSH_SNACK,
-        payload: { message: 'Quote submitted.' },
-      });
+  async function onSubmit(newQuote) {
+    const response = await createQuote(newQuote);
+    dispatch({
+      type: actions.PUSH_SNACK,
+      payload: { message: 'Quote submitted.' },
+    });
 
-      return response;
-    },
-    [dispatch]
-  );
+    return response;
+  }
 
   return <QuoteForm onSubmit={onSubmit} />;
 }
