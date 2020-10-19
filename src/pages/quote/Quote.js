@@ -39,7 +39,7 @@ export function Quote() {
   useEffect(() => {
     setQuote(null);
     setParams(match.params);
-  }, [match]);
+  }, [match.params]);
 
   if (isLoading || quote === null) {
     return <QuoteSkeleton />;
