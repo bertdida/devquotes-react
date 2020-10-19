@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Redirect, useHistory, useRouteMatch } from 'react-router-dom';
 
 import { QuoteSkeleton } from 'components/QuoteSkeleton';
 import { Quote as QuoteItem } from 'components/Quote';
@@ -9,8 +8,10 @@ import api from 'common/api';
 
 const { fetchQuote } = api;
 
-export function Quote({ match }) {
+export function Quote() {
   const history = useHistory();
+  const match = useRouteMatch();
+
   const [params, setParams] = useState(null);
   const [quote, setQuote] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -58,7 +59,3 @@ export function Quote({ match }) {
     </>
   );
 }
-
-Quote.propTypes = {
-  match: PropTypes.object.isRequired,
-};

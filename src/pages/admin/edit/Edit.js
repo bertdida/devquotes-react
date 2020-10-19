@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 
 import { QuoteForm } from 'components/QuoteForm';
 import { useSnack, actions } from 'common/hooks/useSnack';
@@ -12,7 +11,8 @@ function isNumeric(value) {
   return /^\d+$/.test(value);
 }
 
-export function Edit({ match }) {
+export function Edit() {
+  const match = useRouteMatch();
   const history = useHistory();
   const { dispatch } = useSnack();
   const [quote, setQuote] = useState();
@@ -49,7 +49,3 @@ export function Edit({ match }) {
 
   return <QuoteForm quote={quote} onSubmit={onSubmit} />;
 }
-
-Edit.propTypes = {
-  match: PropTypes.object.isRequired,
-};
