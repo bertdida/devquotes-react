@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useReducer } from 'react';
 import PropTypes from 'prop-types';
 
 import reducer from './reducer';
@@ -10,7 +10,7 @@ export const SnackContext = createContext();
 export const useSnack = () => useContext(SnackContext);
 
 export function SnackProvider({ children }) {
-  const [{ current }, dispatch] = React.useReducer(reducer, initialState);
+  const [{ current }, dispatch] = useReducer(reducer, initialState);
 
   function onClose(_, reason) {
     if (reason !== 'clickaway') {
