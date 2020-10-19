@@ -4,7 +4,7 @@ import { render, waitForElementToBeRemoved } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import { AuthContext } from 'common/hooks/useAuth';
-import { SnackContext } from 'common/hooks/useSnack';
+import { SnackProvider } from 'common/hooks/useSnack';
 import { Quotes } from './Quotes';
 
 const fetchQuotes = () =>
@@ -34,11 +34,11 @@ it('renders quotes', async () => {
 
   const { getByRole } = render(
     <BrowserRouter>
-      <SnackContext.Provider value={{ dispatch: () => {} }}>
+      <SnackProvider>
         <AuthContext.Provider value={{ user: null }}>
           <Quotes fetchQuotes={fetchQuotes} />
         </AuthContext.Provider>
-      </SnackContext.Provider>
+      </SnackProvider>
     </BrowserRouter>
   );
 

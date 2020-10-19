@@ -3,7 +3,7 @@ import { render, within } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 import { AuthContext } from 'common/hooks/useAuth';
-import { SnackContext } from 'common/hooks/useSnack';
+import { SnackProvider } from 'common/hooks/useSnack';
 import { Quote } from './Quote';
 
 const quote = {
@@ -14,11 +14,11 @@ const quote = {
 
 it('renders quote', () => {
   const { getByRole, container } = render(
-    <SnackContext.Provider value={{ dispatch: () => {} }}>
+    <SnackProvider>
       <AuthContext.Provider value={{ user: null }}>
         <Quote quote={quote} />
       </AuthContext.Provider>
-    </SnackContext.Provider>
+    </SnackProvider>
   );
 
   const root = container.querySelector('blockquote');
