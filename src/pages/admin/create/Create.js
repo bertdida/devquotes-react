@@ -24,7 +24,7 @@ export function Create() {
     dispatch({
       type: actions.PUSH_SNACK,
       payload: {
-        message: 'Quote created.',
+        message: 'Quote created',
         action: (
           <Button color="secondary" size="small" onClick={goToQuote}>
             View

@@ -41,7 +41,7 @@ export function Edit() {
     const response = await updateQuote(newQuote);
     dispatch({
       type: actions.PUSH_SNACK,
-      payload: { message: 'Quote edited.' },
+      payload: { message: 'Quote edited' },
     });
 
     return response;

@@ -13,7 +13,7 @@ export function Submit() {
     const response = await createQuote(newQuote);
     dispatch({
       type: actions.PUSH_SNACK,
-      payload: { message: 'Quote submitted.' },
+      payload: { message: 'Quote submitted' },
     });
 
     return response;

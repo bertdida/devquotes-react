@@ -58,7 +58,7 @@ function WrappedApp() {
       dispatch({
         type: actions.PUSH_SNACK,
         payload: {
-          message: 'A new version is available.',
+          message: 'A new version is available',
           autoHideDuration: null,
           action: (
             <Button color="secondary" size="small" onClick={updateAssets}>
@@ -74,7 +74,7 @@ function WrappedApp() {
     if (!isOnline) {
       dispatch({
         type: actions.PUSH_SNACK,
-        payload: { message: 'You are offline.', autoHideDuration: null },
+        payload: { message: 'You are offline', autoHideDuration: null },
       });
     }
   }, [dispatch, isOnline]);

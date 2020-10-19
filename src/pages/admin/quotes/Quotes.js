@@ -93,7 +93,7 @@ function WrappedQuotes({ snackDispatch, queryParams: queryParamsProp }) {
     dispatch({ type: actions.QUOTES_DELETED, payload: { ids: successIds } });
     snackDispatch({
       type: snackActions.PUSH_SNACK,
-      payload: { message: 'Selected Quotes deleted.' },
+      payload: { message: 'Selected Quotes deleted' },
     });
   }
 

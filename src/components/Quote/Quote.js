@@ -64,7 +64,7 @@ function WrappedQuote({ quote: quoteProp, snackDispatch }) {
       snackDispatch({
         type: actions.PUSH_SNACK,
         payload: {
-          message: 'Added to your favorites.',
+          message: 'Added to your favorites',
           action: inFavorites ? null : (
             <Button color="secondary" size="small" onClick={goToFavorites}>
               View
@@ -84,7 +84,7 @@ function WrappedQuote({ quote: quoteProp, snackDispatch }) {
     window.navigator.clipboard.writeText(resourceUrl);
     snackDispatch({
       type: actions.PUSH_SNACK,
-      payload: { message: 'Link copied to clipboard.' },
+      payload: { message: 'Link copied to clipboard' },
     });
   }
 

@@ -46,7 +46,7 @@ function WrappedRow({ quote, snackDispatch }) {
     setDeleteDialogOpen(true);
     snackDispatch({
       type: snackActions.PUSH_SNACK,
-      payload: { message: 'Quote deleted.' },
+      payload: { message: 'Quote deleted' },
     });
   }
 
