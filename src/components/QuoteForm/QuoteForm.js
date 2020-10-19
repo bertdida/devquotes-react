@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -37,9 +37,7 @@ const DEFAULT_FORM_VALUES = {
   status: STATUS_OPTIONS[0].value,
 };
 
-export const QuoteForm = memo(WrappedQuoteForm);
-
-function WrappedQuoteForm({ quote: quoteProp, onSubmit }) {
+export function QuoteForm({ quote: quoteProp, onSubmit }) {
   const { user } = useAuth();
   const classes = useStyles();
 
@@ -170,7 +168,7 @@ function WrappedQuoteForm({ quote: quoteProp, onSubmit }) {
   );
 }
 
-WrappedQuoteForm.propTypes = {
+QuoteForm.propTypes = {
   quote: PropTypes.object,
   onSubmit: PropTypes.func.isRequired,
 };
