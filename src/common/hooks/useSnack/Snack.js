@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Snackbar from '@material-ui/core/Snackbar';
 import Slide from '@material-ui/core/Slide';
 
-export function Snack({ id, message, autoHideDuration = 3000, ...rest }) {
+export function Snack({ id, message, autoHideDuration = 2000, ...rest }) {
   const messageId = `message-${id}`;
 
   return (
