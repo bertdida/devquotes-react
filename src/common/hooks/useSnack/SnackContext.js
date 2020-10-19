@@ -1,16 +1,26 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import React, { useReducer } from 'react';
 import PropTypes from 'prop-types';
+import { createContainer } from 'react-tracked';
 
 import reducer from './reducer';
 import actions from './actions';
 import { Snack } from './Snack';
 
 const initialState = { current: null, queue: [] };
-export const SnackContext = createContext();
-export const useSnack = () => useContext(SnackContext);
 
-export function SnackProvider({ children }) {
-  const [{ current }, dispatch] = useReducer(reducer, initialState);
+const useValue = props => useReducer(props.reducer, props.initialState);
+const { Provider, useTracked } = createContainer(useValue);
+
+export function SnackProvider(props) {
+  return (
+    <Provider reducer={reducer} initialState={initialState}>
+      <WrappedSnackProvider {...props} />
+    </Provider>
+  );
+}
+
+function WrappedSnackProvider({ children }) {
+  const [{ current }, dispatch] = useTracked();
 
   function onClose(_, reason) {
     if (reason !== 'clickaway') {
@@ -23,7 +33,7 @@ export function SnackProvider({ children }) {
   }
 
   return (
-    <SnackContext.Provider value={{ dispatch }}>
+    <>
       {children}
       {current && (
         <Snack
@@ -33,10 +43,15 @@ export function SnackProvider({ children }) {
           {...current}
         />
       )}
-    </SnackContext.Provider>
+    </>
   );
 }
 
-SnackProvider.propTypes = {
+WrappedSnackProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
+
+export function useSnack() {
+  const [, dispatch] = useTracked();
+  return { dispatch };
+}
