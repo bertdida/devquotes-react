@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -19,14 +19,12 @@ import { useStyles } from './Quote.style';
 
 export function Quote(props) {
   const { dispatch } = useSnack();
-  const { user } = useAuth();
 
-  return <MemoizedQuote user={user} snackDispatch={dispatch} {...props} />;
+  return <WrappedQuote snackDispatch={dispatch} {...props} />;
 }
 
-const MemoizedQuote = memo(WrappedQuote);
-
-function WrappedQuote({ user, quote: quoteProp, snackDispatch }) {
+function WrappedQuote({ quote: quoteProp, snackDispatch }) {
+  const { user } = useAuth();
   const classes = useStyles();
   const history = useHistory();
   const { pathname } = useLocation();
@@ -157,7 +155,6 @@ function WrappedQuote({ user, quote: quoteProp, snackDispatch }) {
 }
 
 WrappedQuote.propTypes = {
-  user: PropTypes.object,
   quote: PropTypes.object.isRequired,
   snackDispatch: PropTypes.func.isRequired,
 };
