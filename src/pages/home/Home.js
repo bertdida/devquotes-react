@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
@@ -33,37 +34,52 @@ export function Home() {
     requestQuote();
   }, []);
 
-  const Result = useCallback(() => {
-    if (quote === null) {
-      return <EmptyResult />;
-    }
-
-    return (
-      <>
-        <Quote quote={quote} />
-
-        <Box display="flex" justifyContent="flex-end">
-          <Button
-            disableElevation
-            color="secondary"
-            variant="contained"
-            style={{ borderRadius: 40 }}
-            onClick={requestQuote}
-            aria-label="get another quote"
-          >
-            Get Another Quote
-          </Button>
-        </Box>
-      </>
-    );
-  }, [quote]);
-
   return (
     <>
       <Helmet>
         <title>DevQuotes | Home</title>
       </Helmet>
-      {isLoading ? <QuoteSkeleton /> : <Result />}
+
+      <WrappedHome
+        quote={quote}
+        isLoading={isLoading}
+        requestQuote={requestQuote}
+      />
     </>
   );
 }
+
+function WrappedHome({ quote, isLoading, requestQuote }) {
+  if (isLoading) {
+    return <QuoteSkeleton />;
+  }
+
+  if (quote === null) {
+    return <EmptyResult />;
+  }
+
+  return (
+    <>
+      <Quote quote={quote} />
+
+      <Box display="flex" justifyContent="flex-end">
+        <Button
+          disableElevation
+          color="secondary"
+          variant="contained"
+          style={{ borderRadius: 40 }}
+          onClick={requestQuote}
+          aria-label="get another quote"
+        >
+          Get Another Quote
+        </Button>
+      </Box>
+    </>
+  );
+}
+
+WrappedHome.propTypes = {
+  quote: PropTypes.object,
+  isLoading: PropTypes.bool.isRequired,
+  requestQuote: PropTypes.func.isRequired,
+};
