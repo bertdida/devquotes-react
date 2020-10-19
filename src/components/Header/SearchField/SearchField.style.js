@@ -28,7 +28,7 @@ export const useStyles = makeStyles(theme => ({
       right: 0,
       width: 40,
       borderRadius: 0,
-      backgroundColor: theme.palette.background.paper,
+      backgroundColor: 'transparent',
     },
   },
 
