@@ -12,9 +12,9 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import LinkIcon from '@material-ui/icons/Link';
 import { useHistory, useLocation } from 'react-router-dom';
 
+import api from 'common/api';
 import { actions, useSnack } from 'common/hooks/useSnack';
 import { useAuth } from 'common/hooks/useAuth';
-import api from 'common/api';
 import { useStyles } from './Quote.style';
 
 export function Quote(props) {
