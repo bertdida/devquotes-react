@@ -19,7 +19,8 @@
           "is_published",
           "is_deleted",
           "total_likes",
-          "created_at"
+          "created_at",
+          "picture_url"
         ]
       }
     ],
