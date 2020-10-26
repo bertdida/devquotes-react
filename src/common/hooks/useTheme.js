@@ -24,7 +24,7 @@ export const useTheme = () => useContext(ThemeContext);
 
 export function ThemeProvider({ children }) {
   const [isDarkTheme, setIsDarkTheme] = useState();
-  const theme = isDarkTheme ? appTheme : darkTheme;
+  const theme = isDarkTheme ? darkTheme : appTheme;
 
   useEffect(() => {
     const localTheme = window.localStorage.getItem('dq::theme');
