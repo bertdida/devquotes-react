@@ -5,15 +5,25 @@ import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import HomeIcon from '@material-ui/icons/Home';
+import FormatQuoteIcon from '@material-ui/icons/FormatQuote';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import SettingsIcon from '@material-ui/icons/Settings';
+import AddIcon from '@material-ui/icons/Add';
+import SendIcon from '@material-ui/icons/Send';
+import Brightness4Icon from '@material-ui/icons/Brightness4';
+import Brightness7Icon from '@material-ui/icons/Brightness7';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Box from '@material-ui/core/Box';
 
 import { useAuth } from 'common/hooks/useAuth';
 import { useTheme } from 'common/hooks/useTheme';
 import api from 'common/api';
 
-export function NavList({ onClose, width }) {
+export function NavList({ onClose }) {
   const { user, ...auth } = useAuth();
-  const { toggle: toggleTheme, isDarkTheme } = useTheme();
+  const { toggle: toggleTheme, isDarkMode } = useTheme();
 
   const isAdmin = user && user.is_admin;
 
@@ -23,63 +33,74 @@ export function NavList({ onClose, width }) {
   }
 
   return (
-    <Box
-      width={width}
-      onClick={onClose}
-      onKeyDown={onClose}
-      role="presentation"
-    >
+    <Box onClick={onClose} onKeyDown={onClose} role="presentation">
       <List>
         <ListItem button component={Link} to="/">
+          <ListItemIcon>
+            <HomeIcon />
+          </ListItemIcon>
           <ListItemText primary="Home" />
         </ListItem>
 
         <ListItem button component={Link} to="/quotes">
+          <ListItemIcon>
+            <FormatQuoteIcon />
+          </ListItemIcon>
           <ListItemText primary="Quotes" />
         </ListItem>
 
         <ListItem button component={Link} to="/favorites">
-          <ListItemText primary="Favorites" />
+          <ListItemIcon>
+            <FavoriteIcon />
+          </ListItemIcon>
+          <ListItemText primary="My Favorites" />
         </ListItem>
-
-        {user ? (
-          <ListItem button onClick={signOut}>
-            <ListItemText primary="Sign Out" />
-          </ListItem>
-        ) : (
-          <ListItem button component={Link} to="/signin">
-            <ListItemText primary="Sign In" />
-          </ListItem>
-        )}
       </List>
+
+      {!isAdmin && (
+        <ListItem button component={Link} to="/submit">
+          <ListItemIcon>
+            <SendIcon />
+          </ListItemIcon>
+          <ListItemText primary="Submit Quote" />
+        </ListItem>
+      )}
+
+      {isAdmin && (
+        <>
+          <ListItem button component={Link} to="/admin/quotes">
+            <ListItemIcon>
+              <SettingsIcon />
+            </ListItemIcon>
+            <ListItemText primary="Manage Quotes" />
+          </ListItem>
+
+          <ListItem button component={Link} to="/admin/quotes/create">
+            <ListItemIcon>
+              <AddIcon />
+            </ListItemIcon>
+            <ListItemText primary="Create Quote" />
+          </ListItem>
+        </>
+      )}
 
       <Divider />
 
       <List>
         <ListItem button onClick={toggleTheme}>
-          <ListItemText primary={`Dark Theme: ${isDarkTheme ? 'On' : 'Off'}`} />
+          <ListItemIcon>
+            {isDarkMode ? <Brightness7Icon /> : <Brightness4Icon />}
+          </ListItemIcon>
+          <ListItemText primary={`Dark Theme: ${isDarkMode ? 'On' : 'Off'}`} />
         </ListItem>
-      </List>
 
-      <Divider />
-
-      <List>
-        {!isAdmin && (
-          <ListItem button component={Link} to="/submit">
-            <ListItemText primary="Submit Quote" />
+        {user && (
+          <ListItem button onClick={signOut}>
+            <ListItemIcon>
+              <ExitToAppIcon />
+            </ListItemIcon>
+            <ListItemText primary="Sign Out" />
           </ListItem>
-        )}
-
-        {isAdmin && (
-          <>
-            <ListItem button component={Link} to="/admin/quotes">
-              <ListItemText primary="Manage Quotes" />
-            </ListItem>
-
-            <ListItem button component={Link} to="/admin/quotes/create">
-              <ListItemText primary="Create Quote" />
-            </ListItem>
-          </>
         )}
       </List>
     </Box>
@@ -88,5 +109,4 @@ export function NavList({ onClose, width }) {
 
 NavList.propTypes = {
   onClose: PropTypes.func.isRequired,
-  width: PropTypes.number,
 };
