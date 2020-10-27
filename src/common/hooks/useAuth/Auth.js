@@ -49,8 +49,18 @@ export function AuthProvider({ children }) {
     return <LinearProgress color="secondary" />;
   }
 
+  function incrementTotalLikes() {
+    setUser({ ...user, total_likes: user.total_likes + 1 });
+  }
+
+  function decrementTotalLikes() {
+    setUser({ ...user, total_likes: user.total_likes - 1 });
+  }
+
   return (
-    <AuthContext.Provider value={{ user, signOut }}>
+    <AuthContext.Provider
+      value={{ user, signOut, incrementTotalLikes, decrementTotalLikes }}
+    >
       {children}
     </AuthContext.Provider>
   );

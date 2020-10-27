@@ -24,7 +24,7 @@ export function Quote(props) {
 }
 
 function WrappedQuote({ quote: quoteProp, snackDispatch }) {
-  const { user } = useAuth();
+  const { user, incrementTotalLikes, decrementTotalLikes } = useAuth();
   const classes = useStyles();
   const history = useHistory();
   const { pathname } = useLocation();
@@ -61,6 +61,7 @@ function WrappedQuote({ quote: quoteProp, snackDispatch }) {
     setIsLiking(false);
 
     if (data.is_liked) {
+      incrementTotalLikes();
       snackDispatch({
         type: actions.PUSH_SNACK,
         payload: {
@@ -72,6 +73,8 @@ function WrappedQuote({ quote: quoteProp, snackDispatch }) {
           ),
         },
       });
+    } else {
+      decrementTotalLikes();
     }
   }
 

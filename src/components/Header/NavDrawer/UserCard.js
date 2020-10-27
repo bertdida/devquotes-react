@@ -19,6 +19,9 @@ const useStyles = makeStyles(theme => ({
       height: theme.spacing(6),
       marginBottom: theme.spacing(2),
     },
+    '&__stat': {
+      fontWeight: 400,
+    },
   },
 }));
 
@@ -57,7 +60,7 @@ Anonymous.propTypes = {
 
 function Authenticated({ user }) {
   const classes = useStyles();
-  const { picture_url, name } = user;
+  const { picture_url, name, total_likes, total_submitted } = user;
 
   return (
     <div className={classes.userCard}>
@@ -66,11 +69,32 @@ function Authenticated({ user }) {
         src={picture_url}
         className={`${classes.userCard}__avatar`}
       />
-      <Typography>{name}</Typography>
+      <Typography gutterBottom>{name}</Typography>
+
+      <StatTypography>{total_likes} Favorites</StatTypography>
+      <StatTypography>{total_submitted} Submitted Quotes</StatTypography>
     </div>
   );
 }
 
 Authenticated.propTypes = {
   user: PropTypes.object.isRequired,
+};
+
+function StatTypography({ children }) {
+  const classes = useStyles();
+
+  return (
+    <Typography
+      variant="subtitle2"
+      color="textSecondary"
+      className={`${classes.userCard}__stat`}
+    >
+      {children}
+    </Typography>
+  );
+}
+
+StatTypography.propTypes = {
+  children: PropTypes.node,
 };

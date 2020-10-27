@@ -20,7 +20,8 @@
           "is_deleted",
           "total_likes",
           "created_at",
-          "picture_url"
+          "picture_url",
+          "total_submitted"
         ]
       }
     ],
