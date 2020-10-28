@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import Box from '@material-ui/core/Box';
 import { useHistory } from 'react-router-dom';
 
 import { useUserState } from 'common/hooks/useUser';
@@ -21,6 +22,7 @@ const useStyles = makeStyles(theme => ({
     },
     '&__stat': {
       fontWeight: 400,
+      display: 'inline-block',
     },
   },
 }));
@@ -84,8 +86,10 @@ function UserStats({ stats }) {
 
   return (
     <>
-      <StatTypography count={total_likes} label="Favorite" />
-      <StatTypography count={total_submitted} label="Submitted Quote" />
+      <Box marginRight={2} display="inline-block">
+        <StatTypography count={total_likes} label="Favorite" />
+      </Box>
+      <StatTypography count={total_submitted} label="Published Quote" />
     </>
   );
 }
@@ -99,6 +103,7 @@ function StatTypography({ count, label }) {
 
   return (
     <Typography
+      component="span"
       variant="subtitle2"
       color="textSecondary"
       className={`${classes.userCard}__stat`}

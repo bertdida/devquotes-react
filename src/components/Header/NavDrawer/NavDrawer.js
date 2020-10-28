@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
 
   [theme.breakpoints.up('sm')]: {
     drawer: {
-      maxWidth: 280,
+      maxWidth: 300,
     },
   },
 }));
