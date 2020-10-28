@@ -28,7 +28,7 @@ export function Table() {
 
   const { location } = history;
   const numSelected = quotes.filter(({ isSelected }) => isSelected).length;
-  const numQuotes = quotes.length;
+  const numQuotes = quotes.filter(({ isDeleted }) => !isDeleted).length;
 
   function toggleSelectAll(event) {
     const { checked } = event.target;
