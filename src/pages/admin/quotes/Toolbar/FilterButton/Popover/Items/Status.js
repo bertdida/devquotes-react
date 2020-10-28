@@ -22,8 +22,8 @@ export function WrappedStatus({ filter }) {
       <FormControl margin="dense" fullWidth>
         <Select autoFocus value={filter.value} onChange={onChange}>
           {filter.items.map(option => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.text}
+            <MenuItem key={option.id} value={option.name}>
+              {option.display_name}
             </MenuItem>
           ))}
         </Select>

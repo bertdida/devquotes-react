@@ -8,21 +8,38 @@ import Badge from '@material-ui/core/Badge';
 import { useFilterState } from './FilterContext';
 
 export function Button({ onClick }) {
-  const state = useFilterState();
-  const selected = state.filter(({ isSelected }) => isSelected);
+  const { isLoading, options } = useFilterState();
+  const selected = options.filter(({ isSelected }) => isSelected);
   const badgeContent = selected.length === 0 ? null : selected.length;
 
   return (
-    <Tooltip title="Filter Quotes">
-      <IconButton aria-label="filter quotes" onClick={onClick}>
+    <ButtonWrapper isLoading={isLoading}>
+      <IconButton
+        onClick={onClick}
+        disabled={isLoading}
+        aria-label="filter quotes"
+      >
         <Badge badgeContent={badgeContent} color="secondary">
           <FilterListIcon />
         </Badge>
       </IconButton>
-    </Tooltip>
+    </ButtonWrapper>
   );
 }
 
 Button.propTypes = {
   onClick: Proptypes.func.isRequired,
+};
+
+function ButtonWrapper({ isLoading, children }) {
+  if (isLoading) {
+    return <div>{children}</div>;
+  }
+
+  return <Tooltip title="Filter Quotes">{children}</Tooltip>;
+}
+
+ButtonWrapper.propTypes = {
+  isLoading: Proptypes.bool.isRequired,
+  children: Proptypes.node.isRequired,
 };

@@ -39,8 +39,8 @@ Button.propTypes = {
 };
 
 function FilterItem({ name, Component }) {
-  const state = useFilterState();
-  const filter = state.find(({ name: currName }) => currName === name);
+  const { options } = useFilterState();
+  const filter = options.find(({ name: currName }) => currName === name);
 
   return <Component filter={filter} />;
 }
@@ -52,7 +52,7 @@ FilterItem.propTypes = {
 
 export function Popover({ open, onClose, anchorEl }) {
   const history = useHistory();
-  const state = useFilterState();
+  const { options } = useFilterState();
   const dispatch = useFilterDispatch();
 
   function onClickSubmit() {
@@ -60,7 +60,7 @@ export function Popover({ open, onClose, anchorEl }) {
   }
 
   function submit() {
-    const queries = state.reduce((carry, filter) => {
+    const queries = options.reduce((carry, filter) => {
       if (!filter.isSelected) return carry;
       return [...carry, queryString.stringify({ [filter.name]: filter.value })];
     }, []);
@@ -73,7 +73,7 @@ export function Popover({ open, onClose, anchorEl }) {
   }
 
   function onClickReset() {
-    const selected = state.filter(({ isSelected }) => isSelected);
+    const selected = options.filter(({ isSelected }) => isSelected);
 
     if (selected.length > 0) {
       dispatch({ type: actions.RESET_ALL });

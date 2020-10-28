@@ -12,7 +12,7 @@ export default function reducer(state, action) {
       return reset(payload, state);
 
     case actions.RESET_ALL:
-      return initialState;
+      return resetAll(state);
 
     case actions.SET_VALUE:
       return setValue(payload, state);
@@ -26,66 +26,104 @@ export default function reducer(state, action) {
     case actions.PARSE_QUERY_PARAMS:
       return parseQueryParams(payload, state);
 
+    case actions.QUOTE_STATUSES_LOADED:
+      return quoteStatusesLoaded(payload, state);
+
     default:
       throw new Error(`Unhandled action type: ${type}`);
   }
 }
 
 function reset({ id }, state) {
-  return state.map(item => {
-    if (item.id !== id) return item;
-    return initialState.find(initialFilter => initialFilter.id === id);
+  const options = state.options.map(option => {
+    if (option.id !== id || option.name === 'status') return option;
+    return initialState.options.find(initialFilter => initialFilter.id === id);
   });
+
+  return { ...state, options };
+}
+
+function resetAll(state) {
+  const options = state.options.map(option => {
+    if (option.name === 'status') {
+      return { ...option, errors: [], isSelected: false };
+    }
+
+    return initialState.options.find(
+      initialFilter => initialFilter.id === option.id
+    );
+  });
+
+  return { ...state, options };
 }
 
 function setValue({ id, value }, state) {
-  return state.map(item => {
-    if (item.id !== id) return item;
-    return { ...item, value, errors: [] };
+  const options = state.options.map(option => {
+    if (option.id !== id) return option;
+    return { ...option, value, errors: [] };
   });
+
+  return { ...state, options };
 }
 
 function toggleSelect({ id }, state) {
-  return state.map(item => {
-    if (item.id !== id) return item;
-    return { ...item, isSelected: !item.isSelected };
+  const options = state.options.map(option => {
+    if (option.id !== id) return option;
+    return { ...option, isSelected: !option.isSelected };
   });
+
+  return { ...state, options };
 }
 
 function validate({ onSuccess }, state) {
   let hasError = false;
-  const newState = state.map(filter => {
-    if (!filter.isSelected) return filter;
+  const options = state.options.map(option => {
+    if (!option.isSelected) return option;
 
-    const { value, name } = filter;
+    const { value, name } = option;
 
     if (name === 'likes' && !parseLikesValue(value)[1]) {
       hasError = true;
-      return { ...filter, errors: ['Please enter a value'] };
+      return { ...option, errors: ['Please enter a value'] };
     }
 
     if (name === 'submitted_by' && !value.trim()) {
       hasError = true;
-      return { ...filter, errors: ['Please enter a value'] };
+      return { ...option, errors: ['Please enter a value'] };
     }
 
-    return filter;
+    return option;
   });
 
-  if (!hasError && typeof onSuccess === 'function') onSuccess();
-  return newState;
+  if (!hasError && typeof onSuccess === 'function') {
+    onSuccess();
+  }
+
+  return { ...state, options };
 }
 
 function parseQueryParams({ params }, state) {
   const query = queryString.parse(params);
-  return state.map(filter => {
-    const value = query[filter.name];
+  const options = state.options.map(option => {
+    const value = query[option.name];
     const hasValue = value !== undefined;
 
     return {
-      ...filter,
+      ...option,
       isSelected: hasValue,
-      value: hasValue ? value : filter.value,
+      value: hasValue ? value : option.value,
     };
   });
+
+  return { ...state, options };
+}
+
+function quoteStatusesLoaded({ response }, state) {
+  const statuses = response.data.data.map(({ data }) => data);
+  const options = state.options.map(option => {
+    if (option.name !== 'status') return option;
+    return { ...option, items: statuses };
+  });
+
+  return { ...state, options, isLoading: false };
 }
