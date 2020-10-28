@@ -15,6 +15,7 @@ import { SnackProvider, useSnack, actions } from './common/hooks/useSnack';
 import { useNetworkStatus } from './common/hooks/useNetworkStatus';
 import { ErrorBoundary } from './common/ErrorBoundary';
 import { Header } from './components/Header';
+import { Spinner } from './components/Spinner';
 import { Routes } from './Routes';
 
 const useStyles = makeStyles(theme => ({
@@ -88,7 +89,7 @@ function WrappedApp() {
       <Header />
       <Container maxWidth="md" component="main" id="maincontent">
         <div className={classes.wrapper}>
-          <Suspense fallback={<p>Loading...</p>}>
+          <Suspense fallback={<Spinner message="Lazy loading..." />}>
             <ErrorBoundary>
               <Routes />
             </ErrorBoundary>
