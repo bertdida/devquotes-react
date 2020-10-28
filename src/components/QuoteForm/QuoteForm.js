@@ -11,23 +11,11 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import { isWebUri } from 'valid-url';
 
+import api from 'common/api';
 import { useUserDispatch, useUserState, actions } from 'common/hooks/useUser';
 import { useStyles } from './QuoteForm.style';
 
-const STATUS_OPTIONS = [
-  {
-    text: 'Published',
-    value: 'published',
-  },
-  {
-    text: 'Pending Review',
-    value: 'pending_review',
-  },
-  {
-    text: 'Spam',
-    value: 'spam',
-  },
-];
+const { fetchQuoteStatuses } = api;
 
 const QUOTATION_MAX_LENGTH = 200;
 const DEFAULT_FORM_VALUES = {
@@ -42,15 +30,34 @@ export function QuoteForm({ quote: quoteProp, onSubmit }) {
   const user = useUserState();
   const dispatch = useUserDispatch();
 
+  const [statuses, setStatuses] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [quote, setQuote] = useState(DEFAULT_FORM_VALUES);
 
   const isAdmin = user.is_admin;
-  const isCreating = quote.id === undefined;
+  const isCreating = quoteProp === undefined;
 
   useEffect(() => {
-    setQuote(quoteProp || DEFAULT_FORM_VALUES);
-  }, [quoteProp]);
+    if (!isAdmin) {
+      setQuote(DEFAULT_FORM_VALUES);
+      setIsLoading(false);
+      return;
+    }
+
+    if (isCreating) {
+      setQuote({ ...DEFAULT_FORM_VALUES, status: 'published' });
+      setIsLoading(false);
+      return;
+    }
+
+    (async () => {
+      const response = await fetchQuoteStatuses();
+      setStatuses(response.data.data.map(({ data }) => data));
+      setQuote(quoteProp);
+      setIsLoading(false);
+    })();
+  }, [isAdmin, isCreating, quoteProp]);
 
   useEffect(() => {
     ValidatorForm.addValidationRule('isURL', value => {
@@ -78,6 +85,10 @@ export function QuoteForm({ quote: quoteProp, onSubmit }) {
 
   function handleChange(event) {
     setQuote({ ...quote, [event.target.name]: event.target.value });
+  }
+
+  if (isLoading) {
+    return null;
   }
 
   return (
@@ -138,9 +149,9 @@ export function QuoteForm({ quote: quoteProp, onSubmit }) {
                 id: 'quote-status',
               }}
             >
-              {STATUS_OPTIONS.map((option, index) => (
-                <MenuItem key={index} value={option.value}>
-                  {option.text}
+              {statuses.map(status => (
+                <MenuItem key={status.id} value={status.name}>
+                  {status.display_name}
                 </MenuItem>
               ))}
             </Select>

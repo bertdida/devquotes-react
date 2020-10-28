@@ -1,5 +1,6 @@
-import * as quotes from './quotes.js';
-import * as likes from './likes.js';
-import * as auth from './auth.js';
+import * as quotes from './quotes';
+import * as likes from './likes';
+import * as auth from './auth';
+import * as quoteStatuses from './quote-statuses';
 
-export default { ...quotes, ...likes, ...auth };
+export default { ...quotes, ...likes, ...auth, ...quoteStatuses };
