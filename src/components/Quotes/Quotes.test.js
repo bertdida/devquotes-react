@@ -3,7 +3,10 @@ import { BrowserRouter } from 'react-router-dom';
 import { render, waitForElementToBeRemoved } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
-import { AuthContext } from 'common/hooks/useAuth';
+import {
+  StateContext as UserContext,
+  DispatchContext as UserDispatch,
+} from 'common/hooks/useUser';
 import { SnackProvider } from 'common/hooks/useSnack';
 import { Quotes } from './Quotes';
 
@@ -32,12 +35,15 @@ const fetchQuotes = () =>
 it('renders quotes', async () => {
   window.scrollTo = jest.fn();
 
+  const user = null;
   const { getByRole } = render(
     <BrowserRouter>
       <SnackProvider>
-        <AuthContext.Provider value={{ user: null }}>
-          <Quotes fetchQuotes={fetchQuotes} />
-        </AuthContext.Provider>
+        <UserDispatch.Provider value={() => {}}>
+          <UserContext.Provider value={user}>
+            <Quotes fetchQuotes={fetchQuotes} />
+          </UserContext.Provider>
+        </UserDispatch.Provider>
       </SnackProvider>
     </BrowserRouter>
   );

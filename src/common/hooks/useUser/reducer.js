@@ -43,42 +43,39 @@ function authenticationComplete(state) {
 }
 
 function incrementLike(state) {
-  return {
-    ...state,
-    user: {
-      ...state.user,
-      total_likes: state.user.total_likes + 1,
-    },
-  };
+  const { user } = state;
+  const { stats: prevStats } = user;
+  const stats = { ...prevStats, total_likes: prevStats.total_likes + 1 };
+
+  return { ...state, user: { ...user, stats } };
 }
 
 function decrementLike(state) {
-  return {
-    ...state,
-    user: {
-      ...state.user,
-      total_likes: state.user.total_likes - 1,
-    },
-  };
+  const { user } = state;
+  const { stats: prevStats } = user;
+  const stats = { ...prevStats, total_likes: prevStats.total_likes - 1 };
+
+  return { ...state, user: { ...user, stats } };
 }
 
 function incrementSubmitted(state) {
-  return {
-    ...state,
-    user: {
-      ...state.user,
-      total_submitted: state.user.total_submitted + 1,
-    },
+  const { user } = state;
+  const { stats: prevStats } = user;
+  const stats = {
+    ...prevStats,
+    total_submitted: prevStats.total_submitted + 1,
   };
+
+  return { ...state, user: { ...user, stats } };
 }
 
-function decrementSubmitted(payload, state) {
-  return {
-    ...state,
-    user: {
-      ...state.user,
-      total_submitted:
-        state.user.total_submitted - (payload ? payload.count : 1),
-    },
+function decrementSubmitted(payload = {}, state) {
+  const { user } = state;
+  const { stats: prevStats } = user;
+  const stats = {
+    ...prevStats,
+    total_submitted: prevStats.total_submitted - (payload.count || 1),
   };
+
+  return { ...state, user: { ...user, stats } };
 }

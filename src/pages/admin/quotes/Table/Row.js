@@ -11,9 +11,10 @@ import EditIcon from '@material-ui/icons/Edit';
 import Hidden from '@material-ui/core/Hidden';
 import { Link } from 'react-router-dom';
 
-import { useSnack, actions as snackActions } from 'common/hooks/useSnack';
 import api from 'common/api';
-import { useQuotesDispatch, actions } from '../QuotesContext';
+import { useSnack, actions as snackActions } from 'common/hooks/useSnack';
+import { useUserDispatch, actions as userActions } from 'common/hooks/useUser';
+import { useQuotesDispatch, actions as quotesActions } from '../QuotesContext';
 import { useStyles } from './Table.style';
 import { DeleteDialog } from '../DeleteDialog';
 import { QuoteDialog } from './QuoteDialog';
@@ -21,15 +22,15 @@ import { QuoteDialog } from './QuoteDialog';
 const { deleteQuote } = api;
 
 export function Row(props) {
-  const { dispatch } = useSnack();
-
-  return <MemoizedRow snackDispatch={dispatch} {...props} />;
+  const { dispatch: snackDispatch } = useSnack();
+  return <MemoizedRow snackDispatch={snackDispatch} {...props} />;
 }
 
 const MemoizedRow = memo(WrappedRow);
 
 function WrappedRow({ quote, snackDispatch }) {
-  const dispatch = useQuotesDispatch();
+  const userDispatch = useUserDispatch();
+  const quotesDispatch = useQuotesDispatch();
   const { id, quotation, author, isSelected, isDeleted } = quote;
 
   const classes = useStyles();
@@ -37,16 +38,25 @@ function WrappedRow({ quote, snackDispatch }) {
   const [infoDialogOpen, setInfoDialogOpen] = useState(false);
 
   function toggleSelect() {
-    dispatch({ type: actions.TOGGLE_SELECT, payload: { id } });
+    quotesDispatch({ type: quotesActions.TOGGLE_SELECT, payload: { id } });
   }
 
   async function onConfirmDelete() {
     await deleteQuote(quote.id);
-    dispatch({ type: actions.QUOTE_DELETED, payload: { id } });
     setDeleteDialogOpen(true);
+
+    quotesDispatch({
+      type: quotesActions.QUOTE_DELETED,
+      payload: { id },
+    });
+
     snackDispatch({
       type: snackActions.PUSH_SNACK,
       payload: { message: 'Quote deleted' },
+    });
+
+    userDispatch({
+      type: userActions.DECREMENT_SUBMITTED,
     });
   }
 

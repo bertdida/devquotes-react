@@ -5,17 +5,17 @@ import Container from '@material-ui/core/Container';
 import { Helmet } from 'react-helmet';
 import Button from '@material-ui/core/Button';
 
-import { AuthProvider } from './common/hooks/useAuth';
-import { useNetworkStatus } from './common/hooks/useNetworkStatus';
 import {
-  useServiceWorker,
   ServiceWorkerProvider,
+  useServiceWorker,
 } from './common/hooks/useServiceWorker';
-import { actions, useSnack, SnackProvider } from './common/hooks/useSnack';
-import { Header } from './components/Header';
-import { ErrorBoundary } from './common/ErrorBoundary';
-import { Routes } from './Routes';
 import { ThemeProvider } from './common/hooks/useTheme';
+import { UserProvider } from './common/hooks/useUser';
+import { SnackProvider, useSnack, actions } from './common/hooks/useSnack';
+import { useNetworkStatus } from './common/hooks/useNetworkStatus';
+import { ErrorBoundary } from './common/ErrorBoundary';
+import { Header } from './components/Header';
+import { Routes } from './Routes';
 
 const useStyles = makeStyles(theme => ({
   wrapper: {
@@ -35,13 +35,13 @@ export function App() {
   return (
     <ServiceWorkerProvider>
       <ThemeProvider>
-        <AuthProvider>
+        <UserProvider>
           <BrowserRouter>
             <SnackProvider>
               <WrappedApp />
             </SnackProvider>
           </BrowserRouter>
-        </AuthProvider>
+        </UserProvider>
       </ThemeProvider>
     </ServiceWorkerProvider>
   );

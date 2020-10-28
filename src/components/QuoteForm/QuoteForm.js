@@ -11,7 +11,7 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import { isWebUri } from 'valid-url';
 
-import { useAuth } from 'common/hooks/useAuth';
+import { useUserDispatch, useUserState, actions } from 'common/hooks/useUser';
 import { useStyles } from './QuoteForm.style';
 
 const STATUS_OPTIONS = [
@@ -34,16 +34,19 @@ const DEFAULT_FORM_VALUES = {
   author: '',
   quotation: '',
   source: null,
-  status: STATUS_OPTIONS[0].value,
+  status: undefined,
 };
 
 export function QuoteForm({ quote: quoteProp, onSubmit }) {
-  const { user } = useAuth();
   const classes = useStyles();
+  const user = useUserState();
+  const dispatch = useUserDispatch();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [quote, setQuote] = useState(DEFAULT_FORM_VALUES);
-  const isCreating = quote.id;
+
+  const isAdmin = user.is_admin;
+  const isCreating = quote.id === undefined;
 
   useEffect(() => {
     setQuote(quoteProp || DEFAULT_FORM_VALUES);
@@ -63,8 +66,14 @@ export function QuoteForm({ quote: quoteProp, onSubmit }) {
     event.preventDefault();
     setIsSubmitting(true);
 
-    await onSubmit(quote);
+    const response = await onSubmit(quote);
     setIsSubmitting(false);
+
+    if (isCreating) {
+      if (response.data.data.status === 'published') {
+        dispatch({ type: actions.INCREMENT_SUBMITTED });
+      }
+    }
   }
 
   function handleChange(event) {
@@ -118,7 +127,7 @@ export function QuoteForm({ quote: quoteProp, onSubmit }) {
           fullWidth
         />
 
-        {user.is_admin && isCreating && (
+        {isAdmin && !isCreating && (
           <FormControl margin="normal" fullWidth>
             <InputLabel htmlFor="quote-status">Status</InputLabel>
             <Select

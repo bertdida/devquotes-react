@@ -3,7 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 export const useStyles = makeStyles(theme => ({
   table: {
     position: 'relative',
-    minHeight: 400,
+    '&--withMinHeight': {
+      minHeight: 400,
+    },
     '&__backdrop': {
       position: 'absolute',
       top: theme.spacing(7),

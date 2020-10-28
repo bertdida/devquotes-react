@@ -4,7 +4,7 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { Helmet } from 'react-helmet';
 import firebase from 'firebase/app';
 
-import { useAuth } from 'common/hooks/useAuth';
+import { useUserState } from 'common/hooks/useUser';
 import { useTheme } from 'common/hooks/useTheme';
 import './SignIn.scss';
 
@@ -22,7 +22,7 @@ const uiConfig = {
 };
 
 export function SignIn() {
-  const { user } = useAuth();
+  const user = useUserState();
   const { theme } = useTheme();
   const root = useRef();
 

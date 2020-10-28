@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 
-import { useAuth } from 'common/hooks/useAuth';
+import { useUserState } from 'common/hooks/useUser';
 
 export function ProtectedRoute(props) {
-  const { user } = useAuth();
+  const user = useUserState();
   const { redirectAdminTo = null, component: Component, ...rest } = props;
 
   return (

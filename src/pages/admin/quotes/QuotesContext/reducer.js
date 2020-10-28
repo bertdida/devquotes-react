@@ -34,7 +34,7 @@ export default function reducer(state, action) {
       return quoteUpdated(payload, state);
 
     default:
-      throw new Error(`Unhandled action type: ${action.type}`);
+      throw new Error(`Unhandled action type: ${type}`);
   }
 }
 

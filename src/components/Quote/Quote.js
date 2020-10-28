@@ -13,18 +13,30 @@ import LinkIcon from '@material-ui/icons/Link';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import api from 'common/api';
-import { actions, useSnack } from 'common/hooks/useSnack';
-import { useAuth } from 'common/hooks/useAuth';
+import { useSnack, actions as snackActions } from 'common/hooks/useSnack';
+import {
+  useUserState,
+  useUserDispatch,
+  actions as userActions,
+} from 'common/hooks/useUser';
 import { useStyles } from './Quote.style';
 
 export function Quote(props) {
-  const { dispatch } = useSnack();
+  const user = useUserState();
+  const userDispatch = useUserDispatch();
+  const { dispatch: snackDispatch } = useSnack();
 
-  return <WrappedQuote snackDispatch={dispatch} {...props} />;
+  return (
+    <WrappedQuote
+      user={user}
+      userDispatch={userDispatch}
+      snackDispatch={snackDispatch}
+      {...props}
+    />
+  );
 }
 
-function WrappedQuote({ quote: quoteProp, snackDispatch }) {
-  const { user, incrementTotalLikes, decrementTotalLikes } = useAuth();
+function WrappedQuote({ user, quote: quoteProp, snackDispatch, userDispatch }) {
   const classes = useStyles();
   const history = useHistory();
   const { pathname } = useLocation();
@@ -41,7 +53,7 @@ function WrappedQuote({ quote: quoteProp, snackDispatch }) {
     if (!user && is_liked === true) {
       setQuote({ ...quote, is_liked: false });
     }
-  }, [user, quote, is_liked]);
+  }, [quote, is_liked, user]);
 
   async function toggleLike() {
     if (!user) {
@@ -60,33 +72,34 @@ function WrappedQuote({ quote: quoteProp, snackDispatch }) {
     setQuote(data);
     setIsLiking(false);
 
-    if (data.is_liked) {
-      incrementTotalLikes();
-      snackDispatch({
-        type: actions.PUSH_SNACK,
-        payload: {
-          message: 'Added to your favorites',
-          action: inFavorites ? null : (
-            <Button color="secondary" size="small" onClick={goToFavorites}>
-              View
-            </Button>
-          ),
-        },
-      });
-    } else {
-      decrementTotalLikes();
+    if (!data.is_liked) {
+      userDispatch({ type: userActions.DECREMENT_LIKE });
+      return;
     }
+
+    userDispatch({ type: userActions.INCREMENT_LIKE });
+    snackDispatch({
+      type: snackActions.PUSH_SNACK,
+      payload: {
+        message: 'Added to your favorites',
+        action: inFavorites ? null : (
+          <Button color="secondary" size="small" onClick={goToFavorites}>
+            View
+          </Button>
+        ),
+      },
+    });
   }
 
   function goToFavorites() {
     history.push('/favorites');
-    snackDispatch({ type: actions.CLOSE_CURRENT });
+    snackDispatch({ type: snackActions.CLOSE_CURRENT });
   }
 
   function copyLink() {
     window.navigator.clipboard.writeText(resourceUrl);
     snackDispatch({
-      type: actions.PUSH_SNACK,
+      type: snackActions.PUSH_SNACK,
       payload: { message: 'Link copied to clipboard' },
     });
   }
@@ -158,6 +171,8 @@ function WrappedQuote({ quote: quoteProp, snackDispatch }) {
 }
 
 WrappedQuote.propTypes = {
+  user: PropTypes.object,
   quote: PropTypes.object.isRequired,
+  userDispatch: PropTypes.func.isRequired,
   snackDispatch: PropTypes.func.isRequired,
 };

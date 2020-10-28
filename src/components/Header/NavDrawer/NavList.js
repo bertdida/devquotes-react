@@ -16,20 +16,22 @@ import Brightness4Icon from '@material-ui/icons/Brightness4';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Box from '@material-ui/core/Box';
+import firebase from 'firebase/app';
 
-import { useAuth } from 'common/hooks/useAuth';
-import { useTheme } from 'common/hooks/useTheme';
 import api from 'common/api';
+import { useTheme } from 'common/hooks/useTheme';
+import { useUserState, useUserDispatch, actions } from 'common/hooks/useUser';
 
 export function NavList({ onClose }) {
-  const { user, ...auth } = useAuth();
+  const user = useUserState();
+  const dispatch = useUserDispatch();
   const { toggle: toggleTheme, isDarkMode } = useTheme();
-
   const isAdmin = user && user.is_admin;
 
   async function signOut() {
     await api.signOut();
-    auth.signOut();
+    await firebase.auth().signOut();
+    dispatch({ type: actions.SIGN_OUT });
   }
 
   return (

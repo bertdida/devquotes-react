@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { useHistory } from 'react-router-dom';
 
-import { useAuth } from 'common/hooks/useAuth';
+import { useUserState } from 'common/hooks/useUser';
 
 const useStyles = makeStyles(theme => ({
   userCard: {
@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export function UserCard(props) {
-  const { user } = useAuth();
+  const user = useUserState();
   return user ? <Authenticated user={user} /> : <Anonymous {...props} />;
 }
 
@@ -60,7 +60,7 @@ Anonymous.propTypes = {
 
 function Authenticated({ user }) {
   const classes = useStyles();
-  const { picture_url, name, total_likes, total_submitted } = user;
+  const { picture_url, name, stats } = user;
 
   return (
     <div className={classes.userCard}>
@@ -70,9 +70,7 @@ function Authenticated({ user }) {
         className={`${classes.userCard}__avatar`}
       />
       <Typography gutterBottom>{name}</Typography>
-
-      <StatTypography>{total_likes} Favorites</StatTypography>
-      <StatTypography>{total_submitted} Submitted Quotes</StatTypography>
+      {stats && <UserStats stats={stats} />}
     </div>
   );
 }
@@ -81,7 +79,22 @@ Authenticated.propTypes = {
   user: PropTypes.object.isRequired,
 };
 
-function StatTypography({ children }) {
+function UserStats({ stats }) {
+  const { total_likes, total_submitted } = stats;
+
+  return (
+    <>
+      <StatTypography count={total_likes} label="Favorite" />
+      <StatTypography count={total_submitted} label="Submitted Quote" />
+    </>
+  );
+}
+
+UserStats.propTypes = {
+  stats: PropTypes.object.isRequired,
+};
+
+function StatTypography({ count, label }) {
   const classes = useStyles();
 
   return (
@@ -90,11 +103,12 @@ function StatTypography({ children }) {
       color="textSecondary"
       className={`${classes.userCard}__stat`}
     >
-      {children}
+      {`${count} ${label}${count > 1 ? 's' : ''}`}
     </Typography>
   );
 }
 
 StatTypography.propTypes = {
-  children: PropTypes.node,
+  count: PropTypes.number.isRequired,
+  label: PropTypes.string.isRequired,
 };

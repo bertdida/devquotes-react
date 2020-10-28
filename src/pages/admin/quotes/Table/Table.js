@@ -1,4 +1,5 @@
 import React from 'react';
+import clsx from 'clsx';
 import MuiTable from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
 import MuiTableRow from '@material-ui/core/TableRow';
@@ -49,7 +50,7 @@ export function Table() {
         display="flex"
         alignItems="center"
         justifyContent="center"
-        className={classes.table}
+        className={clsx(classes.table, `${classes.table}--withMinHeight`)}
       >
         <EmptyResult />
       </Box>
@@ -57,7 +58,12 @@ export function Table() {
   }
 
   return (
-    <TableContainer className={classes.table}>
+    <TableContainer
+      className={clsx({
+        [classes.table]: true,
+        [`${classes.table}--withMinHeight`]: isLoading,
+      })}
+    >
       <Backdrop open={isLoading} className={`${classes.table}__backdrop`}>
         <CircularProgress color="inherit" />
       </Backdrop>

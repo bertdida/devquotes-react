@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
-import { AuthContext } from 'common/hooks/useAuth';
+import { StateContext as UserContext } from 'common/hooks/useUser';
 import { ThemeContext } from 'common/hooks/useTheme';
 import { Header } from './Header';
 
@@ -23,11 +23,11 @@ const RE_PATTERN = {
 function renderHeader(user) {
   return render(
     <BrowserRouter>
-      <AuthContext.Provider value={{ user }}>
+      <UserContext.Provider value={user}>
         <ThemeContext.Provider value={{ isDarkMode: false, toggle: () => {} }}>
           <Header />
         </ThemeContext.Provider>
-      </AuthContext.Provider>
+      </UserContext.Provider>
     </BrowserRouter>
   );
 }

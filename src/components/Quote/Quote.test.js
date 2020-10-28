@@ -2,7 +2,10 @@ import React from 'react';
 import { render, within } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
-import { AuthContext } from 'common/hooks/useAuth';
+import {
+  StateContext as UserContext,
+  DispatchContext as UserDispatch,
+} from 'common/hooks/useUser';
 import { SnackProvider } from 'common/hooks/useSnack';
 import { Quote } from './Quote';
 
@@ -13,11 +16,14 @@ const quote = {
 };
 
 it('renders quote', () => {
+  const user = null;
   const { getByRole, container } = render(
     <SnackProvider>
-      <AuthContext.Provider value={{ user: null }}>
-        <Quote quote={quote} />
-      </AuthContext.Provider>
+      <UserDispatch.Provider value={() => {}}>
+        <UserContext.Provider value={user}>
+          <Quote quote={quote} />
+        </UserContext.Provider>
+      </UserDispatch.Provider>
     </SnackProvider>
   );
 
