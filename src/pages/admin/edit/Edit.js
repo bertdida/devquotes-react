@@ -16,6 +16,7 @@ export function Edit() {
   const history = useHistory();
   const { dispatch } = useSnack();
   const [quote, setQuote] = useState();
+  const [isLoading, setIsLoading] = useState(true);
 
   const { params } = match;
   const { id: quoteId } = params;
@@ -29,6 +30,7 @@ export function Edit() {
       try {
         const response = await fetchQuote(quoteId);
         setQuote(response.data.data);
+        setIsLoading(false);
       } catch (error) {
         if (error.response && error.response.status === 404) {
           return history.push('/404');
@@ -45,6 +47,10 @@ export function Edit() {
     });
 
     return response;
+  }
+
+  if (isLoading) {
+    return null;
   }
 
   return <QuoteForm quote={quote} onSubmit={onSubmit} />;
