@@ -3,6 +3,7 @@ import { useHistory, useRouteMatch } from 'react-router-dom';
 
 import { QuoteForm } from 'components/QuoteForm';
 import { useSnack, actions } from 'common/hooks/useSnack';
+import { Spinner } from 'components/Spinner';
 import api from 'common/api';
 
 const { fetchQuote, updateQuote } = api;
@@ -50,7 +51,7 @@ export function Edit() {
   }
 
   if (isLoading) {
-    return null;
+    return <Spinner message="Loading Quote..." />;
   }
 
   return <QuoteForm quote={quote} onSubmit={onSubmit} />;

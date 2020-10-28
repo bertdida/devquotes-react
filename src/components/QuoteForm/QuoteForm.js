@@ -13,6 +13,7 @@ import { isWebUri } from 'valid-url';
 
 import api from 'common/api';
 import { useUserDispatch, useUserState, actions } from 'common/hooks/useUser';
+import { Spinner } from 'components/Spinner';
 import { useStyles } from './QuoteForm.style';
 
 const { fetchQuoteStatuses } = api;
@@ -88,7 +89,7 @@ export function QuoteForm({ quote: quoteProp, onSubmit }) {
   }
 
   if (isLoading) {
-    return null;
+    return <Spinner message="Loading form..." />;
   }
 
   return (
