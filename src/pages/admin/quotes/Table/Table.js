@@ -65,7 +65,7 @@ export function Table() {
       })}
     >
       <Backdrop open={isLoading} className={`${classes.table}__backdrop`}>
-        <CircularProgress color="inherit" />
+        <CircularProgress color="secondary" />
       </Backdrop>
 
       <MuiTable>

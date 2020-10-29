@@ -16,7 +16,7 @@ export function Spinner({ message = null }) {
 
   return (
     <Box display="flex" alignItems="center" justifyContent="center">
-      <CircularProgress size={20} />
+      <CircularProgress size={20} color="secondary" />
       {message && (
         <Typography className={classes.message}>{message}</Typography>
       )}
