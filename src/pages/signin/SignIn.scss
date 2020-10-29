@@ -9,6 +9,7 @@
 
   .firebaseui-button {
     border-radius: 4px;
+    font-weight: 700;
   }
 
   .mdl-button,
@@ -18,18 +19,18 @@
     font-family: inherit;
   }
 
-  .mdl-button--primary.mdl-button--primary,
   .mdl-textfield--floating-label.has-placeholder .mdl-textfield__label,
   .mdl-textfield--floating-label.is-focused .mdl-textfield__label {
     color: var(--color-primary);
   }
 
-  .mdl-button--raised.mdl-button--colored {
-    background: var(--color-primary);
+  .mdl-button--primary.mdl-button--primary {
+    color: var(--color-text-button-text);
   }
 
   .mdl-button--raised.mdl-button--colored {
-    color: var(--color-button-text);
+    color: var(--color-contained-button-text);
+    background: var(--color-primary);
   }
 
   .mdl-button--raised.mdl-button--colored:active,

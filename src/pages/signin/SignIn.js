@@ -42,8 +42,12 @@ export function SignIn() {
         value: palette.error.main,
       },
       {
-        name: '--color-button-text',
-        value: palette.primary.contrastText,
+        name: '--color-text-button-text',
+        value: palette.text.primary,
+      },
+      {
+        name: '--color-contained-button-text',
+        value: palette.secondary.contrastText,
       },
     ];
 
