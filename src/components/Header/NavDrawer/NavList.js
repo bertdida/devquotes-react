@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -15,6 +16,7 @@ import SendIcon from '@material-ui/icons/Send';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 import Brightness7Icon from '@material-ui/icons/Brightness7';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import GitHubIcon from '@material-ui/icons/GitHub';
 import Box from '@material-ui/core/Box';
 import firebase from 'firebase/app';
 
@@ -22,7 +24,20 @@ import api from 'common/api';
 import { useTheme } from 'common/hooks/useTheme';
 import { useUserState, useUserDispatch, actions } from 'common/hooks/useUser';
 
+const useStyles = makeStyles({
+  footer: {
+    display: 'none',
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    '@media screen and (min-height:700px)': {
+      display: 'block',
+    },
+  },
+});
+
 export function NavList({ onClose }) {
+  const classes = useStyles();
   const user = useUserState();
   const dispatch = useUserDispatch();
   const { toggle: toggleTheme, isDarkMode } = useTheme();
@@ -105,6 +120,21 @@ export function NavList({ onClose }) {
           </ListItem>
         )}
       </List>
+
+      <div className={classes.footer}>
+        <List disablePadding>
+          <ListItem
+            button
+            component="a"
+            href="https://github.com/bertdida/devquotes-react"
+          >
+            <ListItemIcon>
+              <GitHubIcon />
+            </ListItemIcon>
+            <ListItemText primary="GitHub Repo" />
+          </ListItem>
+        </List>
+      </div>
     </Box>
   );
 }
