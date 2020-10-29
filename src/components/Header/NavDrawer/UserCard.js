@@ -43,10 +43,13 @@ function Anonymous({ onClose }) {
 
   return (
     <div className={classes.userCard}>
-      <Typography paragraph>Sign in to like and submit quotes.</Typography>
+      <Typography paragraph>
+        Sign in to like and submit software development quotes.
+      </Typography>
       <Button
         color="secondary"
-        variant="outlined"
+        variant="contained"
+        disableElevation
         onClick={onButtonClick}
         startIcon={<AccountCircleIcon />}
       >
