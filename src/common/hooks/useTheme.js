@@ -16,6 +16,9 @@ const darkTheme = createMuiTheme({
   ...appTheme,
   palette: {
     type: 'dark',
+    primary: {
+      main: '#333',
+    },
   },
 });
 
