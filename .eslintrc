@@ -8,9 +8,10 @@
     }
   },
   "rules": {
-    "import/no-named-default": 0,
+    "import/no-named-default": "off",
+    "no-use-before-define": ["error", { "functions": false }],
     "camelcase": [
-      2,
+      "error",
       {
         "allow": [
           "[a-z]+_(page|token)",
@@ -24,7 +25,6 @@
           "total_submitted"
         ]
       }
-    ],
-    "no-use-before-define": ["error", { "functions": false }]
+    ]
   }
 }
