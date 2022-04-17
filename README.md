@@ -1,6 +1,6 @@
 # devquotes-react
 
-Frontend source code for [devquotes.netlify.com](https://devquotes-react.vercel.app/); this React app consumes the [REST API](https://github.com/bertdida/devquotes-flask) built on Flask.
+Frontend source code for [devquotes-react.vercel.app](https://devquotes-react.vercel.app/); this React app consumes the [REST API](https://github.com/bertdida/devquotes-flask) built on Flask.
 
 ## Built With
 
