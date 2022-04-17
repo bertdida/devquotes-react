@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/v1/:match*",
+      "destination": "https://api-devquotes.herokuapp.com/v1/:match*"
+    }
+  ]
+}
